@@ -11,13 +11,14 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "mongoose": "^5.9.16",
     "morgan": "~1.9.1"
   },
-  "husky": { 
+  "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged" 
-      } 
-    },
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "devDependencies": {
     "husky": "^4.2.5",
     "pretty-quick": "^2.0.1"
