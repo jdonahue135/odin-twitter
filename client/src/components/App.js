@@ -1,12 +1,12 @@
 import React from "react";
 import logo from "../images/Twitter_Logo_Blue.png";
 import "../styles/App.css";
-import Menu from "./Menu";
+import Sidebar from "./Sidebar";
 
 function App() {
   return (
     <div className="App">
-      <Menu text="Menu" />
+      <Sidebar />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
