@@ -1,14 +1,17 @@
 .App {
   text-align: center;
+  font-family: Helvetica;
+  display: inline-block;
+}
+
+p {
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
-
-.logo {
-  height: 3rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -18,7 +21,6 @@
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -41,6 +43,139 @@
   }
 }
 
+.Sidebar {
+  text-align: left;
+  position: fixed;
+  height: 100vh;
+  width: 20vw;
+  z-index: 1;
+  top: 0;
+  left: 6vw;
+}
+
+.logo {
+  height: 3rem;
+  margin-left: 10px;
+  border-radius: 25px;
+  margin-bottom: 5px;
+}
+
+.logo:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+}
+
+.sidebar-item {
+  display: block;
+  padding: 10px;
+  width: fit-content;
+  border-radius: 25px;
+  margin: 0px 10px 10px 10px;
+}
+
+.sidebar-item:hover {
+  color: rgba(29, 161, 242, 1);
+  fill: rgba(29, 161, 242, 1);
+  background-color: rgba(29, 161, 242, 0.1);
+}
+
 .sidebar-icon {
   height: 1.75rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.sidebar-label {
+  display: inline-block;
+  font-size: 19px;
+  font-weight: 800;
+  padding: 0 20px;
+  vertical-align: middle;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.tweet-button {
+  font-weight: 800;
+  background-color: rgba(29, 161, 242, 1);
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+  width: 220px;
+  padding: 15px 0px;
+}
+
+.tweet-button:hover {
+  background-color: rgb(26, 145, 218);
+}
+
+.profile {
+  position: absolute;
+  bottom: 20px;
+  margin-left: 1vw;
+  font-size: 15px;
+}
+
+.pic-container {
+  display: inline-block;
+  width: 38px;
+  height: 38px;
+  border-radius: 25px;
+  background-color: grey;
+  margin-right: 10px;
+  vertical-align: bottom;
+}
+
+.id-container {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.profile-graphic {
+  display: inline-block;
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 10px;
+  padding-left: 10px;
+}
+
+.profile-name {
+  font-weight: 800;
+}
+
+.profile-handle {
+  opacity: 0.6;
+  font-weight: 400;
+}
+
+.Home {
+  text-align: left;
+  position: fixed;
+  height: 100vh;
+  width: 40vw;
+  top: 0;
+  left: 26vw;
+}
+
+.title-container {
+  height: 50px;
+  border: 1px solid rgb(230, 236, 240);
+  border-top: 3px solid rgb(230, 236, 240);
+}
+
+.sort-icon {
+  fill: rgba(29, 161, 242, 1);
+  height: 1.5rem;
+  padding: 0px 10px;
+  float: right;
+  position: relative;
+  top: 12px;
+}
+
+.title {
+  display: inline-block;
+  font-size: 19px;
+  font-weight: 900;
+  position: relative;
+  top: 15px;
+  padding-left: 10px;
 }
