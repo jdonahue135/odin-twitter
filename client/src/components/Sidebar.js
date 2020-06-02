@@ -5,11 +5,11 @@ import logo from "../images/Twitter_Logo_Blue.png";
 
 const Sidebar = (props) => {
   //to change icons to blue change the svg style to include "fill: rgba(29,161,242,1.00)", height: 1.75rem
-  const makeSidebarIcon = (title) => {
+  const makeSidebarItem = (title) => {
     if (title === "Home" || title === "More") {
       return (
-        <div className="sidebar-item">
-          <svg className="sidebar-icon" viewBox="0 0 24 24">
+        <div className="sidebar-item-container">
+          <svg className="sidebar-graphic" viewBox="0 0 24 24">
             <g>
               <path d={svgDimensions[title.toUpperCase() + 1]}></path>
               <path d={svgDimensions[title.toUpperCase() + 2]}></path>
@@ -20,8 +20,8 @@ const Sidebar = (props) => {
       );
     }
     return (
-      <div className="sidebar-item">
-        <svg className="sidebar-icon" viewBox="0 0 24 24">
+      <div className="sidebar-item-container">
+        <svg className="sidebar-graphic" viewBox="0 0 24 24">
           <g>
             <path d={svgDimensions[title.toUpperCase()]}></path>
           </g>
@@ -34,12 +34,12 @@ const Sidebar = (props) => {
   return (
     <div className="Sidebar">
       <img className="logo" src={logo} alt="logo" />
-      {makeSidebarIcon("Home")}
-      {makeSidebarIcon("Notifications")}
-      {makeSidebarIcon("Messages")}
-      {makeSidebarIcon("Profile")}
-      {makeSidebarIcon("More")}
-      <div className="tweet-button">
+      {makeSidebarItem("Home")}
+      {makeSidebarItem("Notifications")}
+      {makeSidebarItem("Messages")}
+      {makeSidebarItem("Profile")}
+      {makeSidebarItem("More")}
+      <div className="tweet-button tweet-button-lg">
         <p>Tweet</p>
       </div>
       <div className="profile">
