@@ -17,7 +17,8 @@ const CharacterCounter = (props) => {
     viewBox = "0 0 20 20";
     circleSize = "1.5rem";
   } else {
-    strokeDashoffset = 0.314159 * (280 - props.charCount);
+    strokeDashoffset =
+      props.charcount < 280 ? 0.314159 * (280 - props.charCount) : 0;
     strokeDasharray = 87.9646;
     r = 14;
     stroke = props.charCount < 280 ? "rgb(255, 173, 31)" : "rgb(224, 36, 94)";
