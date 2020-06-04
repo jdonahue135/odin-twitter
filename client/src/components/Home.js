@@ -43,9 +43,13 @@ class Home extends React.Component {
               <p className="visibility-message">Everyone can reply</p>
             </div>
           ) : (
-            <div />
+            <div style={{ display: "none" }} />
           )}
-          {this.state.focused ? <div className="break" /> : <div />}
+          {this.state.focused ? (
+            <div className="break" />
+          ) : (
+            <div style={{ display: "none" }} />
+          )}
 
           <div className="tweet-compose-footer">
             <div className="tweet-compose-graphic-container">
@@ -62,18 +66,16 @@ class Home extends React.Component {
                 </g>
               </svg>
             </div>
-            {this.props.charCount > 0 ? (
-              <CharacterCounter charCount={this.props.charCount} />
-            ) : (
-              <div />
-            )}
-
             <div className="tweet-button tweet-button-sm">
               <p>Tweet</p>
             </div>
+            {this.props.charCount > 0 ? (
+              <CharacterCounter charCount={this.props.charCount} />
+            ) : (
+              <div style={{ display: "none" }} />
+            )}
           </div>
         </div>
-        <div className="break" />
         <div className="main">
           <div className="tweets-container" />
         </div>

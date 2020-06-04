@@ -75,6 +75,8 @@ textarea::placeholder {
   width: 80px;
   padding: 10px 0px;
   float: right;
+  position: relative;
+  left: 5px;
 }
 
 .tweet-button:hover {
@@ -262,9 +264,12 @@ textarea::placeholder {
 }
 
 .character-display-container {
-  display: inline-block;
   vertical-align: middle;
   align-items: center;
+  float: right;
+  position: relative;
+  right: 20px;
+  top: 8px;
 }
 
 .character-display-graphic {
