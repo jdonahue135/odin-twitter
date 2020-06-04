@@ -2,7 +2,8 @@ import React from "react";
 import TweetForm from "./TweetForm";
 import CharacterCounter from "./CharacterCounter";
 
-import { svgDimensions } from "../constants";
+import { graphics } from "../constants";
+import { renderGraphic } from "../helpers";
 
 class Home extends React.Component {
   constructor(props) {
@@ -27,11 +28,7 @@ class Home extends React.Component {
       <div className="Home">
         <div className="title-container">
           <p className="title">Home</p>
-          <svg className="sort-graphic" viewBox="0 0 24 24">
-            <g>
-              <path d={svgDimensions.SORT}></path>
-            </g>
-          </svg>
+          {renderGraphic(graphics.SORT)}
         </div>
         <div className="tweet-compose-container">
           <div className="pic-container pic-container-lg" />
@@ -41,11 +38,7 @@ class Home extends React.Component {
           />
           {this.state.focused ? (
             <div className="visibility-container">
-              <svg className="visibility-graphic" viewBox="0 0 24 24">
-                <g>
-                  <path d={svgDimensions.GLOBE} />
-                </g>
-              </svg>
+              {renderGraphic(graphics.GLOBE)}
               <p className="visibility-message">Everyone can reply</p>
             </div>
           ) : (
@@ -59,18 +52,8 @@ class Home extends React.Component {
 
           <div className="tweet-compose-footer">
             <div className="tweet-compose-graphic-container">
-              <svg className="tweet-compose-graphic" viewBox="0 0 24 24">
-                <g>
-                  <path d={svgDimensions.PHOTO_UPLOAD} />
-                  <circle cx="8.868" cy="8.309" r="1.542" />
-                </g>
-              </svg>
-              <svg className="tweet-compose-graphic" viewBox="0 0 24 24">
-                <g>
-                  <path d={svgDimensions.GIF1} />
-                  <path d={svgDimensions.GIF2} />
-                </g>
-              </svg>
+              {renderGraphic(graphics.PHOTO_UPLOAD)}
+              {renderGraphic(graphics.GIF)}
             </div>
             <div
               style={tweetButtonStyle}
