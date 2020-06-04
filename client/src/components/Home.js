@@ -17,6 +17,12 @@ class Home extends React.Component {
     this.setState({ focused: true });
   }
   render() {
+    let tweetButtonStyle;
+    if (this.props.charCount === 0 || this.props.charCount > 280) {
+      tweetButtonStyle = { backgroundColor: "rgb(29, 161, 242, 0.5)" };
+    } else {
+      tweetButtonStyle = { backgroundColor: "rgba(29, 161, 242, 1)" };
+    }
     return (
       <div className="Home">
         <div className="title-container">
@@ -66,7 +72,10 @@ class Home extends React.Component {
                 </g>
               </svg>
             </div>
-            <div className="tweet-button tweet-button-sm">
+            <div
+              style={tweetButtonStyle}
+              className="tweet-button tweet-button-sm"
+            >
               <p>Tweet</p>
             </div>
             {this.props.charCount > 0 ? (
