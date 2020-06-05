@@ -1,6 +1,9 @@
 import React from "react";
+
 import TweetForm from "./TweetForm";
 import CharacterCounter from "./CharacterCounter";
+import TweetList from "./TweetList";
+import ProfilePic from "./ProfilePic";
 
 import { graphics } from "../constants";
 import { renderGraphic } from "../helpers";
@@ -11,7 +14,19 @@ class Home extends React.Component {
 
     this.state = {
       focused: false,
+      tweets: null,
     };
+  }
+
+  componentDidMount() {
+    //fetch tweets
+    fetch("/tweets")
+      .then((res) => res.json())
+      .then((tweets) => this.setState({ tweets }))
+      .catch((err) => console.log(err));
+  }
+  componentDidUpdate() {
+    console.log(this.state.tweets);
   }
 
   handleFocus() {
@@ -31,7 +46,7 @@ class Home extends React.Component {
           {renderGraphic(graphics.SORT)}
         </div>
         <div className="tweet-compose-container">
-          <div className="pic-container pic-container-lg" />
+          <ProfilePic />
           <TweetForm
             onChange={this.props.onChange}
             onFocus={this.handleFocus.bind(this)}
@@ -66,7 +81,11 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="main">
-          <div className="tweets-container" />
+          {this.state.tweets ? (
+            <TweetList tweets={this.state.tweets} />
+          ) : (
+            <div style={{ display: "none" }} />
+          )}
         </div>
       </div>
     );
