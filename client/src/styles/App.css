@@ -66,6 +66,14 @@ textarea::placeholder {
   color: white;
 }
 
+.tweet-button-disabled {
+  font-weight: 800;
+  background-color: rgb(29, 161, 242, 0.5);
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+}
+
 .tweet-button-lg {
   width: 220px;
   padding: 15px 0px;
@@ -149,12 +157,13 @@ textarea::placeholder {
 
 .tweet-compose-container {
   padding: 10px;
+  padding-bottom: 8px;
   border: 1px solid rgb(230, 236, 240);
   border-top-width: 0;
 }
 
 .tweet-compose-footer {
-  padding: 15px 10px 25px 40px;
+  padding: 15px 10px 0px 40px;
   left: 10%;
 }
 
@@ -201,22 +210,25 @@ textarea::placeholder {
   display: initial;
 }
 
-.tweet-compose-graphic {
+.tweet-compose-graphics {
   display: inline-block;
+}
+
+.tweet-compose-graphic {
+  fill: rgba(29, 161, 242, 1);
   height: 1.5rem;
   width: 1.5rem;
-  margin-right: 10px;
-  padding-left: 10px;
-  fill: rgba(29, 161, 242, 1);
-}
-.tweet-compose-graphic:hover {
-  background-color: rgba(29, 161, 242, 0.1);
 }
 
 .tweet-compose-graphic-container {
-  width: fit-content;
   display: inline-block;
-  padding-top: 10px;
+  border-radius: 25px;
+  height: 1.5rem;
+  padding: 8px;
+}
+
+.tweet-compose-graphic-container:hover {
+  background-color: rgba(29, 161, 242, 0.1);
 }
 
 .break {
@@ -228,7 +240,7 @@ textarea::placeholder {
 .main {
   border: 1px solid rgb(230, 236, 240);
   height: 100%;
-  border-top-width: 0;
+  border-top-width: 9px;
   border-bottom-width: 0;
 }
 .break {
