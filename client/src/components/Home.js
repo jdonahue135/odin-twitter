@@ -18,11 +18,11 @@ class Home extends React.Component {
     this.setState({ focused: true });
   }
   render() {
-    let tweetButtonStyle;
+    let tweetButtonClassList;
     if (this.props.charCount === 0 || this.props.charCount > 280) {
-      tweetButtonStyle = { backgroundColor: "rgb(29, 161, 242, 0.5)" };
+      tweetButtonClassList = "tweet-button-disabled tweet-button-sm";
     } else {
-      tweetButtonStyle = { backgroundColor: "rgba(29, 161, 242, 1)" };
+      tweetButtonClassList = "tweet-button tweet-button-sm";
     }
     return (
       <div className="Home">
@@ -51,14 +51,11 @@ class Home extends React.Component {
           )}
 
           <div className="tweet-compose-footer">
-            <div className="tweet-compose-graphic-container">
+            <div className="tweet-compose-graphics">
               {renderGraphic(graphics.PHOTO_UPLOAD)}
               {renderGraphic(graphics.GIF)}
             </div>
-            <div
-              style={tweetButtonStyle}
-              className="tweet-button tweet-button-sm"
-            >
+            <div className={tweetButtonClassList}>
               <p>Tweet</p>
             </div>
             {this.props.charCount > 0 ? (
