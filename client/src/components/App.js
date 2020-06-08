@@ -13,6 +13,9 @@ class App extends React.Component {
     this.state = {
       tweetInput: "",
       user: null,
+      usernameInput: "",
+      passwordInput: "",
+      jwt: null,
     };
   }
 
@@ -21,6 +24,59 @@ class App extends React.Component {
       .then((res) => res.json())
       .then((res) => this.setState({ user: res[0] }));
   }*/
+
+  handleLoginInputChange(e) {
+    this.setState({
+      [e.target.name + "Input"]: e.target.value,
+    });
+  }
+
+  handleSignUp() {
+    if (!this.state.usernameInput || !this.state.passwordInput) return;
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: this.state.usernameInput,
+        password: this.state.passwordInput,
+        name: this.state.usernameInput,
+      }),
+    };
+
+    fetch("/users/signup", requestOptions)
+      .then((res) => res.json())
+      .then((res) =>
+        this.setState({
+          jwt: res.token,
+          user: res.user,
+        })
+      )
+      .catch((err) => console.log(err));
+  }
+
+  handleLogIn() {
+    if (!this.state.usernameInput || !this.state.passwordInput) return;
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: this.state.usernameInput,
+        password: this.state.passwordInput,
+      }),
+    };
+
+    fetch("/users/login", requestOptions)
+      .then((res) => res.json())
+      .then((res) =>
+        this.setState({
+          jwt: res.token,
+          user: res.user,
+        })
+      )
+      .catch((err) => console.log(err));
+  }
 
   handleTweetInputChange(e) {
     this.setState({
@@ -44,10 +100,19 @@ class App extends React.Component {
   }
 
   render() {
+    let buttonStatus = false;
+    if (this.state.usernameInput && this.state.passwordInput) {
+      buttonStatus = true;
+    }
     return (
       <div className="App">
         {!this.state.user ? (
-          <LogIn />
+          <LogIn
+            onChange={this.handleLoginInputChange.bind(this)}
+            buttonStatus={buttonStatus}
+            handleSignUp={this.handleSignUp.bind(this)}
+            handleLogIn={this.handleLogIn.bind(this)}
+          />
         ) : (
           <div>
             <Sidebar />
