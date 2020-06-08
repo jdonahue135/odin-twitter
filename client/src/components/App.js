@@ -2,6 +2,9 @@ import React from "react";
 import "../styles/App.css";
 import Sidebar from "./Sidebar";
 import Home from "./Home";
+import LogIn from "./LogIn";
+
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 class App extends React.Component {
   constructor(props) {
@@ -13,11 +16,11 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
+  /*componentDidMount() {
     fetch("/users")
       .then((res) => res.json())
       .then((res) => this.setState({ user: res[0] }));
-  }
+  }*/
 
   handleTweetInputChange(e) {
     this.setState({
@@ -43,12 +46,28 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Sidebar />
-        <Home
-          charCount={this.state.tweetInput.length}
-          onChange={this.handleTweetInputChange.bind(this)}
-          onClick={this.handleSubmit.bind(this)}
-        />
+        {!this.state.user ? (
+          <LogIn />
+        ) : (
+          <div>
+            <Sidebar />
+            <Router>
+              <Switch>
+                <Route
+                  path="/home"
+                  render={(props) => (
+                    <Home
+                      {...props}
+                      charCount={this.state.tweetInput.length}
+                      onChange={this.handleTweetInputChange.bind(this)}
+                      onClick={this.handleSubmit.bind(this)}
+                    />
+                  )}
+                />
+              </Switch>
+            </Router>
+          </div>
+        )}
       </div>
     );
   }
