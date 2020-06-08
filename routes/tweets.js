@@ -14,4 +14,17 @@ router.get("/", function (req, res, next) {
   //res.send('respond with a resource');
 });
 
+router.post("/", function (req, res, next) {
+  //Simple route for testing, need to add validation
+  const newTweet = new Tweet({
+    //user is going to be written in for now
+    user: req.body.user,
+    text: req.body.text,
+  });
+
+  newTweet.save((err) => {
+    if (err) return next(err);
+  });
+});
+
 module.exports = router;
