@@ -14,7 +14,6 @@ class LogIn extends React.Component {
 
   handleFocus(e) {
     //change class of parent element
-    console.log(e.target.name);
     this.setState({
       isFocused: e.target.name,
     });
@@ -34,6 +33,7 @@ class LogIn extends React.Component {
       this.state.isFocused === "password"
         ? "input-overlay input-overlay-focused"
         : "input-overlay";
+    let buttonClass = !this.props.buttonStatus ? "btn-disabled" : "";
     return (
       <div className="login-container">
         <img className="static-logo" src={logo} alt="logo" />
@@ -43,6 +43,7 @@ class LogIn extends React.Component {
           <input
             onFocus={this.handleFocus.bind(this)}
             onBlur={this.handleBlur.bind(this)}
+            onChange={this.props.onChange}
             type="text"
             name="username"
             className="login-input"
@@ -53,13 +54,24 @@ class LogIn extends React.Component {
           <input
             onFocus={this.handleFocus.bind(this)}
             onBlur={this.handleBlur.bind(this)}
+            onChange={this.props.onChange}
             type="password"
             name="password"
             className="login-input"
           />
         </div>
-        <Button size="lg" textContent="Log In" />
-        <Button size="lg" textContent="Sign Up" />
+        <Button
+          size="lg"
+          textContent="Log In"
+          class={buttonClass}
+          onClick={this.props.handleLogIn}
+        />
+        <Button
+          size="lg"
+          textContent="Sign Up"
+          class={buttonClass}
+          onClick={this.props.handleSignUp}
+        />
         <button className="forgot-password">Forgot password?</button>
       </div>
     );
