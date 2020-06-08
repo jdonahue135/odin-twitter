@@ -3,6 +3,56 @@ p {
   margin-block-end: 0;
 }
 
+button {
+  display: block;
+  border: 0;
+  background-color: white;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: 0;
+}
+
+h1 {
+  font-family: Helvetica;
+  font-size: 25px;
+  font-weight: 800;
+  margin: 25px;
+}
+
+.input-overlay {
+  padding-left: 10px;
+  border-bottom: 2px solid rgb(118, 118, 118);
+  width: fit-content;
+  margin: 10px 15px;
+  height: 50px;
+  background-color: rgb(245, 248, 250);
+  text-align: left;
+  color: rgb(101, 119, 134);
+  font-size: 15px;
+  padding-top: 5px;
+}
+.input-overlay-focused {
+  color: rgba(29, 161, 242);
+  border-bottom: 2px solid rgba(29, 161, 242);
+}
+
+.login-input {
+  border: 0;
+  display: block;
+  width: 540px;
+  padding: 0;
+  background-color: rgb(245, 248, 250);
+  position: relative;
+  top: 5px;
+  font-size: 19px;
+}
+
+.login-input:focus {
+  outline: 0;
+}
+
 textarea {
   border-width: 0;
   font-family: Helvetica;
@@ -37,6 +87,21 @@ textarea::placeholder {
   left: 5vw;
 }
 
+.login-container {
+  width: 100vw;
+  text-align: -webkit-center;
+}
+
+.static-logo {
+  height: 4rem;
+  display: block;
+  margin: 25px 0px;
+}
+
+.forgot-password {
+  color: rgb(27, 149, 224);
+}
+
 .logo {
   height: 3rem;
   margin-left: 10px;
@@ -58,7 +123,7 @@ textarea::placeholder {
   margin-block-end: 0;
 }
 
-.tweet-button {
+.btn {
   font-weight: 800;
   background-color: rgba(29, 161, 242, 1);
   border-radius: 25px;
@@ -66,7 +131,18 @@ textarea::placeholder {
   color: white;
 }
 
-.tweet-button-disabled {
+.tweet-compose-footer .btn {
+  float: right;
+  position: relative;
+  left: 5px;
+}
+
+.login-container .btn {
+  display: inline-block;
+  margin: 15px;
+}
+
+.btn-disabled {
   font-weight: 800;
   background-color: rgb(29, 161, 242, 0.5);
   border-radius: 25px;
@@ -74,20 +150,17 @@ textarea::placeholder {
   color: white;
 }
 
-.tweet-button-lg {
+.btn-lg {
   width: 220px;
   padding: 15px 0px;
 }
 
-.tweet-button-sm {
+.btn-sm {
   width: 80px;
   padding: 10px 0px;
-  float: right;
-  position: relative;
-  left: 5px;
 }
 
-.tweet-button:hover {
+.btn:hover {
   background-color: rgb(26, 145, 218);
 }
 
@@ -96,25 +169,6 @@ textarea::placeholder {
   bottom: 20px;
   margin-left: 1vw;
   font-size: 15px;
-}
-
-.pic-container {
-  display: inline-block;
-  border-radius: 25px;
-  background-color: grey;
-  margin-right: 10px;
-  vertical-align: bottom;
-  position: absolute;
-}
-
-.pic-container-sm {
-  width: 38px;
-  height: 38px;
-}
-
-.pic-container-lg {
-  width: 47px;
-  height: 47px;
 }
 
 .id-container {
@@ -351,9 +405,14 @@ textarea::placeholder {
   margin-top: 5px;
   vertical-align: top;
 }
-.profile-pic-med {
+.profile-pic {
   border-radius: 25px;
+}
+.profile-pic-med {
   height: 49px;
+}
+.profile-pic-sm {
+  height: 38px;
 }
 .tweet-main {
   display: inline-block;
@@ -382,4 +441,21 @@ textarea::placeholder {
 .tweet-text {
   padding-left: 3px;
   padding-top: 3px;
+}
+.tweet-header-graphic-container {
+  border-radius: 25px;
+  height: 1rem;
+  width: 1rem;
+  padding: 6px !important;
+  float: right;
+}
+.tweet-header-graphic-container:hover {
+  fill: rgba(29, 161, 242, 1);
+  background-color: rgba(29, 161, 242, 0.1);
+}
+.tweet-header-graphic {
+  height: 1rem;
+  width: 1rem;
+  opacity: 0.5;
+  margin-right: 10px;
 }
