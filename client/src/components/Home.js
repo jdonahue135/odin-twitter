@@ -1,7 +1,6 @@
 import React from "react";
 
 import TweetForm from "./TweetForm";
-import CharacterCounter from "./CharacterCounter";
 import TweetList from "./TweetList";
 import ProfilePic from "./ProfilePic";
 
@@ -13,7 +12,6 @@ class Home extends React.Component {
     super(props);
 
     this.state = {
-      focused: false,
       tweets: null,
     };
   }
@@ -25,20 +23,8 @@ class Home extends React.Component {
       .then((tweets) => this.setState({ tweets }))
       .catch((err) => console.log(err));
   }
-  componentDidUpdate() {
-    console.log(this.state.tweets);
-  }
 
-  handleFocus() {
-    this.setState({ focused: true });
-  }
   render() {
-    let tweetButtonClassList;
-    if (this.props.charCount === 0 || this.props.charCount > 280) {
-      tweetButtonClassList = "tweet-button-disabled tweet-button-sm";
-    } else {
-      tweetButtonClassList = "tweet-button tweet-button-sm";
-    }
     return (
       <div className="Home">
         <div className="title-container">
@@ -46,39 +32,15 @@ class Home extends React.Component {
           {renderGraphic(graphics.SORT)}
         </div>
         <div className="tweet-compose-container">
-          <ProfilePic />
-          <TweetForm
-            onChange={this.props.onChange}
-            onFocus={this.handleFocus.bind(this)}
+          <ProfilePic
+            photo={this.props.user ? this.props.user.profilePicture : null}
+            size="med"
           />
-          {this.state.focused ? (
-            <div className="visibility-container">
-              {renderGraphic(graphics.GLOBE)}
-              <p className="visibility-message">Everyone can reply</p>
-            </div>
-          ) : (
-            <div style={{ display: "none" }} />
-          )}
-          {this.state.focused ? (
-            <div className="break" />
-          ) : (
-            <div style={{ display: "none" }} />
-          )}
-
-          <div className="tweet-compose-footer">
-            <div className="tweet-compose-graphics">
-              {renderGraphic(graphics.PHOTO_UPLOAD)}
-              {renderGraphic(graphics.GIF)}
-            </div>
-            <div className={tweetButtonClassList}>
-              <p>Tweet</p>
-            </div>
-            {this.props.charCount > 0 ? (
-              <CharacterCounter charCount={this.props.charCount} />
-            ) : (
-              <div style={{ display: "none" }} />
-            )}
-          </div>
+          <TweetForm
+            charCount={this.props.charCount}
+            onChange={this.props.onChange}
+            onClick={this.props.onClick}
+          />
         </div>
         <div className="main">
           {this.state.tweets ? (
