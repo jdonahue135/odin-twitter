@@ -1,5 +1,8 @@
 import React from "react";
 
+import ProfilePic from "./ProfilePic";
+import TweetButton from "./TweetButton";
+
 import { graphics } from "../constants";
 import { renderGraphic } from "../helpers";
 import logo from "../images/Twitter_Logo_Blue.png";
@@ -23,11 +26,12 @@ const Sidebar = (props) => {
       {renderSidebarItem("Messages")}
       {renderSidebarItem("Profile")}
       {renderSidebarItem("More")}
-      <div className="tweet-button tweet-button-lg">
-        <p>Tweet</p>
-      </div>
+      <TweetButton size="lg" />
       <div className="profile">
-        <div className="pic-container pic-container-sm"></div>
+        <ProfilePic
+          size="sm"
+          photo={props.user ? props.user.profilePicture : null}
+        />
         <div className="id-container">
           <p className="profile-name">Your 14 char N...</p>
           <p className="profile-handle">@yourHandle</p>
