@@ -1,7 +1,7 @@
 import React from "react";
 
 import TextareaAutosize from "react-autosize-textarea";
-import TweetButton from "./TweetButton";
+import Button from "./Button";
 import CharacterCounter from "./CharacterCounter";
 
 import { graphics } from "../constants";
@@ -21,11 +21,11 @@ class TweetForm extends React.Component {
   }
 
   render() {
-    let tweetButtonClass;
+    let ButtonClass;
     if (this.props.charCount === 0 || this.props.charCount > 280) {
-      tweetButtonClass = "tweet-button-disabled";
+      ButtonClass = "btn-disabled";
     } else {
-      tweetButtonClass = "";
+      ButtonClass = "";
     }
 
     return (
@@ -55,11 +55,7 @@ class TweetForm extends React.Component {
             {renderGraphic(graphics.PHOTO_UPLOAD)}
             {renderGraphic(graphics.GIF)}
           </div>
-          <TweetButton
-            class={tweetButtonClass}
-            size="sm"
-            onClick={this.props.onClick}
-          />
+          <Button class={ButtonClass} size="sm" onClick={this.props.onClick} />
           {this.props.charCount > 0 ? (
             <CharacterCounter charCount={this.props.charCount} />
           ) : (

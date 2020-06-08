@@ -1,7 +1,7 @@
 import React from "react";
 
 import ProfilePic from "./ProfilePic";
-import TweetButton from "./TweetButton";
+import Button from "./Button";
 
 import { graphics } from "../constants";
 import { renderGraphic } from "../helpers";
@@ -26,7 +26,7 @@ const Sidebar = (props) => {
       {renderSidebarItem("Messages")}
       {renderSidebarItem("Profile")}
       {renderSidebarItem("More")}
-      <TweetButton size="lg" />
+      <Button size="lg" />
       <div className="profile">
         <ProfilePic
           size="sm"
