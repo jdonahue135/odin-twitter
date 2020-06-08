@@ -13,6 +13,7 @@ const Tweet = (props) => {
             ? props.tweet.user.profilePicture
             : null
         }
+        size="med"
       />
       <div className="tweet-main">
         <div className="tweet-header">
@@ -22,6 +23,7 @@ const Tweet = (props) => {
           </div>
           <div className="divider">.</div>
           <div className="tweet-date">{props.tweet.date}</div>
+          {renderGraphic(graphics.TWEET_OPTIONS)}
         </div>
         <div className="tweet-text">{props.tweet.text}</div>
         <div className="tweet-footer">
