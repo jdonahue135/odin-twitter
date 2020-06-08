@@ -3,11 +3,16 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var dotenv = require("dotenv");
 var cors = require("cors");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var tweetsRouter = require("./routes/tweets");
+
+const auth = require("./config/auth");
+
+dotenv.config();
 
 var app = express();
 
@@ -31,6 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(auth.getToken);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
