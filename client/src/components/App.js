@@ -128,7 +128,7 @@ class App extends React.Component {
       .then((res) => res.json())
       .then((res) => {
         if (res.tweets) {
-          this.setState({ tweets: res.tweets });
+          this.setState({ tweets: res.tweets, tweetInput: "" });
         }
       })
       .catch((err) => console.log(err));
@@ -163,6 +163,7 @@ class App extends React.Component {
                       onChange={this.handleTweetInputChange.bind(this)}
                       onClick={this.handleTweetSubmit.bind(this)}
                       tweets={this.state.tweets}
+                      tweetInput={this.state.tweetInput}
                     />
                   )}
                 />
