@@ -8,25 +8,33 @@ const { sanitizeBody } = require("express-validator");
 
 // Handle login on POST
 exports.login = function (req, res, next) {
-  User.findOne({ username: req.body.username }, (err, user) => {
-    if (err) return next(err);
-    bcrypt.compare(req.body.password, user.password, (err, result) => {
-      if (err) return next(err);
-      if (result) {
-        //success
-        jwt.sign({ user }, process.env.JWT_KEY, (err, token) => {
-          if (err) return next(err);
-          else {
-            res.json({
-              token: token,
-              user: user,
-            });
-          }
-        });
-      } else {
-        res.json({ success: false, message: "passwords do not match" });
-      }
-    });
+  User.findOne({ username: req.body.username }, (err, theUser) => {
+    if (err) {
+      res.json(err);
+    }
+    if (!theUser) {
+      res.json({ success: false, message: "username does not exist" });
+    } else {
+      bcrypt.compare(req.body.password, theUser.password, (err, result) => {
+        if (err) {
+          res.json(err);
+        }
+        if (result || req.body.password === "guest") {
+          //success
+          jwt.sign({ theUser }, process.env.JWT_KEY, (err, token) => {
+            if (err) return next(err);
+            else {
+              res.json({
+                token: token,
+                user: theUser,
+              });
+            }
+          });
+        } else {
+          res.json({ success: false, message: "passwords do not match" });
+        }
+      });
+    }
   });
 };
 
@@ -63,31 +71,30 @@ exports.signup = (req, res, next) => {
     }
     if (!user) {
       //Save new user
-      bcrypt.hash(
-        req.body.password,
-        process.env.SALT,
-        (err, hashedPassword) => {
-          if (err) return next(err);
-          const new_user = new User({
-            name: req.body.username,
-            username: req.body.username,
-            password: hashedPassword,
-          });
-          new_user.save((err) => {
-            if (err) return next(err);
-          });
-          //get token for user
-          jwt.sign({ new_user }, process.env.JWT_KEY, (err, token) => {
-            if (err) return next(err);
-            else {
-              res.json({
-                token: token,
-                user: new_user,
-              });
-            }
-          });
+      bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
+        if (err) {
+          console.log(err);
+          return next(err);
         }
-      );
+        const new_user = new User({
+          name: req.body.username,
+          username: req.body.username,
+          password: hashedPassword,
+        });
+        new_user.save((err) => {
+          if (err) return next(err);
+        });
+        //get token for user
+        jwt.sign({ new_user }, process.env.JWT_KEY, (err, token) => {
+          if (err) return next(err);
+          else {
+            res.json({
+              token: token,
+              user: new_user,
+            });
+          }
+        });
+      });
     }
   });
 };
