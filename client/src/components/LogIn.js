@@ -47,9 +47,7 @@ class LogIn extends React.Component {
             The username and password you entered did not match our records.
             Please double-check and try again.
           </span>
-        ) : (
-          <div style={{ display: "none" }} />
-        )}
+        ) : null}
         <div className={usernameClasslist}>
           Username
           <input

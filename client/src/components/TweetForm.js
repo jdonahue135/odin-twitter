@@ -42,14 +42,8 @@ class TweetForm extends React.Component {
             {renderGraphic(graphics.GLOBE)}
             <p className="visibility-message">Everyone can reply</p>
           </div>
-        ) : (
-          <div style={{ display: "none" }} />
-        )}
-        {this.state.focused ? (
-          <div className="break" />
-        ) : (
-          <div style={{ display: "none" }} />
-        )}
+        ) : null}
+        {this.state.focused ? <div className="break" /> : null}
 
         <div className="tweet-compose-footer">
           <div className="tweet-compose-graphics">
@@ -59,9 +53,7 @@ class TweetForm extends React.Component {
           <Button class={ButtonClass} size="sm" onClick={this.props.onClick} />
           {this.props.charCount > 0 ? (
             <CharacterCounter charCount={this.props.charCount} />
-          ) : (
-            <div style={{ display: "none" }} />
-          )}
+          ) : null}
         </div>
       </div>
     );

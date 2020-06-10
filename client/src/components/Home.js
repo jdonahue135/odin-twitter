@@ -27,11 +27,7 @@ const Home = (props) => {
         />
       </div>
       <div className="main">
-        {props.tweets ? (
-          <TweetList tweets={props.tweets} />
-        ) : (
-          <div style={{ display: "none" }} />
-        )}
+        {props.tweets ? <TweetList tweets={props.tweets} /> : null}
       </div>
     </div>
   );
