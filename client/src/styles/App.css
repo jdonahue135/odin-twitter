@@ -103,6 +103,7 @@ textarea::placeholder {
 }
 
 .logo {
+  cursor: pointer;
   height: 3rem;
   margin-left: 10px;
   border-radius: 25px;
@@ -176,16 +177,42 @@ textarea::placeholder {
   background-color: rgb(29, 161, 242, 0.5);
 }
 
+.profile-popup {
+  cursor: pointer;
+  position: relative;
+  top: 150px;
+  border: 1px solid rgb(230, 236, 240);
+  border-radius: 10px;
+  box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px,
+    rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
+}
+.popup-text-container {
+  padding: 15px 15px;
+}
+
+.popup-text-container:hover {
+  background-color: rgba(245, 248, 250);
+}
+
 .profile {
   position: absolute;
   bottom: 20px;
-  margin-left: 1vw;
   font-size: 15px;
+  cursor: pointer;
+  padding: 10px 0px;
+  width: 220px;
+  height: 40px;
+  border-radius: 25px;
+}
+
+.profile:hover {
+  background-color: rgba(29, 161, 242, 0.1);
 }
 
 .id-container {
   display: inline-block;
   margin-right: 10px;
+  width: 55%;
 }
 
 .profile-name {
@@ -195,6 +222,32 @@ textarea::placeholder {
 .profile-handle {
   opacity: 0.6;
   font-weight: 400;
+}
+.profile-graphic-container {
+  display: inline-block;
+  position: relative;
+}
+.profile-graphic {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.profile-pic-container {
+  width: fit-content;
+  display: inline-block;
+  margin: 10px;
+  vertical-align: top;
+  position: relative;
+  bottom: 10px;
+}
+.profile-pic-overlay {
+  display: inline-block;
+  height: 49px;
+  width: 49px;
+  position: absolute;
+  bottom: 4px;
+  background-color: rgb(0, 0, 0, 0.2);
+  border-radius: 25px;
+  z-index: 1;
 }
 
 .Home {
@@ -213,6 +266,7 @@ textarea::placeholder {
 }
 
 .title {
+  cursor: pointer;
   display: inline-block;
   font-size: 19px;
   font-weight: 900;
@@ -234,6 +288,7 @@ textarea::placeholder {
 }
 
 .sidebar-item-container {
+  cursor: pointer;
   display: block;
   padding: 10px;
   width: fit-content;
@@ -255,35 +310,36 @@ textarea::placeholder {
 .sidebar-graphic-container {
   display: inline-block;
 }
-.profile-graphic-container {
-  display: inline-block;
-  margin-right: 10px;
-  padding-left: 10px;
-}
-.profile-graphic {
-  height: 1.5rem;
-  width: 1.5rem;
-}
+
 .sort-graphic {
   fill: rgba(29, 161, 242, 1);
   height: 1.5rem;
-  padding: 0px 10px;
-  float: right;
-  position: relative;
-  top: 12px;
 }
 .sort-graphic-container {
+  height: 1.5rem;
+  float: right;
+  position: relative;
+  cursor: pointer;
   display: initial;
+  padding: 10px;
+  width: fit-content;
+  border-radius: 25px;
+  top: 5px;
+  right: 5px;
 }
-
+.sort-graphic-container:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+}
 .tweet-compose-graphics {
   display: inline-block;
+  margin-top: 5px;
 }
 
 .tweet-compose-graphic {
   fill: rgba(29, 161, 242, 1);
   height: 1.5rem;
   width: 1.5rem;
+  cursor: pointer;
 }
 
 .tweet-compose-graphic-container {
@@ -347,10 +403,16 @@ textarea::placeholder {
 }
 
 .visibility-container {
+  cursor: pointer;
   width: fit-content;
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   margin-left: 15px;
+  padding: 0px 5px 5px 5px;
+  border-radius: 25px;
+}
+.visibility-container:hover {
+  background-color: rgba(29, 161, 242, 0.1);
 }
 .visibility-graphic-container {
   display: inline-block;
@@ -400,17 +462,12 @@ textarea::placeholder {
 }
 .tweet-container {
   min-height: 80px;
+  cursor: pointer;
 }
 .tweet-container:hover {
   background-color: rgb(245, 248, 250);
 }
-.profile-pic-container {
-  width: fit-content;
-  display: inline-block;
-  margin: 10px;
-  margin-top: 5px;
-  vertical-align: top;
-}
+
 .profile-pic {
   border-radius: 25px;
 }
@@ -432,6 +489,9 @@ textarea::placeholder {
 }
 .tweet-name {
   font-weight: 800;
+}
+.tweet-name:hover {
+  text-decoration: underline;
 }
 .tweet-username {
   opacity: 0.5;
