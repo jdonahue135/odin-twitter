@@ -23,6 +23,7 @@ const Home = (props) => {
           charCount={props.charCount}
           onChange={props.onChange}
           onClick={props.onClick}
+          tweetInput={props.tweetInput}
         />
       </div>
       <div className="main">
