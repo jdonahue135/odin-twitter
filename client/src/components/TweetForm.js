@@ -35,6 +35,7 @@ class TweetForm extends React.Component {
           placeholder="What's happening?"
           onChange={this.props.onChange}
           onFocus={this.handleFocus.bind(this)}
+          value={this.props.tweetInput}
         />
         {this.state.focused ? (
           <div className="visibility-container">
