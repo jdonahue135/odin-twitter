@@ -1,7 +1,7 @@
 import React from "react";
 
 import ProfilePic from "./ProfilePic";
-import { renderGraphic } from "../helpers";
+import { renderGraphic, formatDate } from "../helpers";
 import { graphics } from "../constants";
 
 const Tweet = (props) => {
@@ -22,7 +22,7 @@ const Tweet = (props) => {
             {"@" + props.tweet.user.username}
           </div>
           <div className="divider">.</div>
-          <div className="tweet-date">{props.tweet.date}</div>
+          <div className="tweet-date">{formatDate(props.tweet.date)}</div>
           {renderGraphic(graphics.TWEET_OPTIONS)}
         </div>
         <div className="tweet-text">{props.tweet.text}</div>
