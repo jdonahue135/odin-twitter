@@ -100,6 +100,7 @@ class App extends React.Component {
           this.setState({
             jwt: res.token,
             user: res.user,
+            showLoginWarning: false,
           });
         }
       })
@@ -134,6 +135,17 @@ class App extends React.Component {
       .catch((err) => console.log(err));
   }
 
+  handleLogOut() {
+    //remove user and jwt from localStorage
+    localStorage.clear();
+
+    //logs user out of state
+    this.setState({
+      user: null,
+      jwt: null,
+    });
+  }
+
   render() {
     let buttonStatus = false;
     if (this.state.usernameInput && this.state.passwordInput) {
@@ -151,7 +163,11 @@ class App extends React.Component {
           />
         ) : (
           <div>
-            <Sidebar />
+            <Sidebar
+              username={this.state.user.name}
+              handle={this.state.user.username}
+              onClick={this.handleLogOut.bind(this)}
+            />
             <Router>
               <Switch>
                 <Route
