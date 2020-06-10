@@ -123,6 +123,12 @@ textarea::placeholder {
   margin-block-end: 0;
 }
 
+.warning {
+  color: rgb(224, 36, 94);
+  width: 570px;
+  font-size: 15px;
+}
+
 .btn {
   font-weight: 800;
   background-color: rgba(29, 161, 242, 1);
@@ -136,6 +142,7 @@ textarea::placeholder {
   float: right;
   position: relative;
   left: 5px;
+  margin-top: 10px;
 }
 
 .login-container .btn {
@@ -192,7 +199,7 @@ textarea::placeholder {
 
 .Home {
   text-align: left;
-  position: fixed;
+  position: relative;
   height: 100vh;
   width: 600px;
   top: 0;
@@ -222,7 +229,7 @@ textarea::placeholder {
 }
 
 .tweet-compose-footer {
-  padding: 0px 10px 0px 40px;
+  padding-right: 10px;
   left: 10%;
 }
 
@@ -319,12 +326,6 @@ textarea::placeholder {
   background-color: rgba(29, 161, 242, 0.1);
 }
 
-.break {
-  height: 10px;
-  width: 100%;
-  background-color: rgb(230, 236, 240);
-}
-
 .main {
   border: 1px solid rgb(230, 236, 240);
   height: 100%;
@@ -332,10 +333,10 @@ textarea::placeholder {
   border-bottom-width: 0;
 }
 .break {
-  width: 80%;
+  width: 98%;
   height: 1px;
   background-color: rgb(230, 236, 240);
-  margin-left: 55px;
+  margin-left: 10px;
 }
 
 .tweet-form-container {
@@ -347,9 +348,9 @@ textarea::placeholder {
 
 .visibility-container {
   width: fit-content;
-  margin-left: 60px;
   margin-top: 5px;
   margin-bottom: 20px;
+  margin-left: 15px;
 }
 .visibility-graphic-container {
   display: inline-block;
