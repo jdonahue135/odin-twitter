@@ -9,6 +9,7 @@ class LogIn extends React.Component {
 
     this.state = {
       isFocused: null,
+      forgotPassword: false,
     };
   }
 
@@ -22,6 +23,9 @@ class LogIn extends React.Component {
     this.setState({
       isFocused: null,
     });
+  }
+  handleClick() {
+    this.setState({ forgotPassword: !this.state.forgotPassword });
   }
 
   render() {
@@ -38,6 +42,14 @@ class LogIn extends React.Component {
       <div className="login-container">
         <img className="static-logo" src={logo} alt="logo" />
         <h1>Log in to Twitter</h1>
+        {this.props.showWarning ? (
+          <span className="warning">
+            The username and password you entered did not match our records.
+            Please double-check and try again.
+          </span>
+        ) : (
+          <div style={{ display: "none" }} />
+        )}
         <div className={usernameClasslist}>
           Username
           <input
@@ -47,6 +59,7 @@ class LogIn extends React.Component {
             type="text"
             name="username"
             className="login-input"
+            maxLength={15}
           />
         </div>
         <div className={passwordFocused}>
@@ -58,6 +71,7 @@ class LogIn extends React.Component {
             type="password"
             name="password"
             className="login-input"
+            maxLength={15}
           />
         </div>
         <Button
@@ -72,7 +86,16 @@ class LogIn extends React.Component {
           class={buttonClass}
           onClick={this.props.handleSignUp}
         />
-        <button className="forgot-password">Forgot password?</button>
+        {this.state.forgotPassword ? (
+          <div className="forgot-password">Try "guest"</div>
+        ) : (
+          <button
+            onClick={this.handleClick.bind(this)}
+            className="forgot-password"
+          >
+            Forgot password?
+          </button>
+        )}
       </div>
     );
   }
