@@ -25,7 +25,7 @@ class App extends React.Component {
       jwt: null,
       showLoginWarning: false,
       tweets: null,
-      pathname: null,
+      pathname: "/home",
     };
   }
 
@@ -49,6 +49,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.state.pathname);
     //configure localStorage
     if (storageAvailable("localStorage")) {
       if (localStorage.getItem("jwt")) {
@@ -185,6 +186,7 @@ class App extends React.Component {
           <div>
             <Router>
               <Sidebar
+                selected={this.state.pathname}
                 onRouteChange={this.handleRouteChange.bind(this)}
                 username={this.state.user.name}
                 handle={this.state.user.username}
