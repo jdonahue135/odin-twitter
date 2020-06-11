@@ -12,6 +12,13 @@ class Recommendations extends React.Component {
     };
   }
 
+  componentDidMount() {
+    fetch("/users")
+      .then((res) => res.json())
+      .then((users) => this.setState({ users }))
+      .catch((err) => console.log(err));
+  }
+
   componentDidUpdate() {
     if (!this.state.users) {
       fetch("/users")
