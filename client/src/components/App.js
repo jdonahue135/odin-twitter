@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import Home from "./Home";
 import LogIn from "./LogIn";
 import Notifications from "./Notifications";
+import Messages from "./Messages";
 
 import {
   BrowserRouter as Router,
@@ -198,7 +199,11 @@ class App extends React.Component {
                 </Route>
                 <Route
                   path="/notifications"
-                  component={(props) => <Notifications {...props} />}
+                  render={(props) => <Notifications {...props} />}
+                />
+                <Route
+                  path="/messages"
+                  render={(props) => <Messages {...props} />}
                 />
                 <Route
                   path="/home"
