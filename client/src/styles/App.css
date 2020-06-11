@@ -3,6 +3,10 @@ p {
   margin-block-end: 0;
 }
 
+a {
+  color: inherit;
+}
+
 button {
   display: block;
   border: 0;
@@ -217,11 +221,13 @@ textarea::placeholder {
 
 .profile-name {
   font-weight: 800;
+  font-size: 15px;
 }
 
 .profile-handle {
   opacity: 0.6;
   font-weight: 400;
+  font-size: 15px;
 }
 .profile-graphic-container {
   display: inline-block;
@@ -288,6 +294,7 @@ textarea::placeholder {
 }
 
 .sidebar-item-container {
+  z-index: 1;
   cursor: pointer;
   display: block;
   padding: 10px;
@@ -457,12 +464,12 @@ textarea::placeholder {
   z-index: 1;
 }
 .tweets-container {
-  margin-top: 5px;
   border-bottom: 1px solid rgb(230, 236, 240);
 }
 .tweet-container {
   min-height: 80px;
   cursor: pointer;
+  padding-top: 5px;
 }
 .tweet-container:hover {
   background-color: rgb(245, 248, 250);
@@ -524,4 +531,71 @@ textarea::placeholder {
   width: 1rem;
   opacity: 0.5;
   margin-right: 10px;
+}
+.recommendations-container {
+  position: fixed;
+  top: 0;
+  right: 5vw;
+  background-color: rgb(245, 248, 250);
+  width: 25vw;
+  border-radius: 10px;
+}
+.user-title-container {
+  border-bottom: 1px solid rgb(230, 236, 240);
+  width: 100%;
+  height: 50px;
+}
+.users-container {
+  cursor: pointer;
+}
+.user-container {
+  border-bottom: 1px solid rgb(230, 236, 240);
+  padding-top: 15px;
+}
+.user-container:hover {
+  background-color: rgb(240, 242, 243);
+}
+.profile-information-container {
+  display: inline-block;
+  margin-top: 10px;
+}
+.follow-btn {
+  float: right;
+  border: 1px solid rgba(29, 161, 242, 1);
+  background-color: white;
+  color: rgba(29, 161, 242, 1);
+  padding: 5px 0px;
+  margin: 15px;
+}
+.follow-btn:hover {
+  background-color: rgba(29, 161, 242, 0.008);
+}
+.show-more {
+  color: rgb(27, 149, 224);
+  padding: 15px;
+}
+.show-more:hover {
+  background-color: rgb(240, 242, 243);
+}
+.recommendations-profile-name:hover {
+  text-decoration: underline;
+}
+.spinning-loader {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 5px solid rgba(29, 161, 242, 0.2);
+  border-left-color: rgb(29, 161, 242);
+  background: transparent;
+  animation: rotate-s-loader 1s linear infinite;
+  margin: 6rem auto;
+}
+
+@keyframes rotate-s-loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
