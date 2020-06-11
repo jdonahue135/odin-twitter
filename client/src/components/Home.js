@@ -3,6 +3,8 @@ import React from "react";
 import TweetForm from "./TweetForm";
 import TweetList from "./TweetList";
 import ProfilePic from "./ProfilePic";
+import Recommendations from "./Recommendations";
+import SpinningLoader from "./SpinningLoader";
 
 import { graphics } from "../constants";
 import { renderGraphic } from "../helpers";
@@ -27,8 +29,13 @@ const Home = (props) => {
         />
       </div>
       <div className="main">
-        {props.tweets ? <TweetList tweets={props.tweets} /> : null}
+        {props.tweets ? (
+          <TweetList tweets={props.tweets} />
+        ) : (
+          <SpinningLoader />
+        )}
       </div>
+      <Recommendations />
     </div>
   );
 };
