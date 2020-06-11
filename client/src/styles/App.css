@@ -256,7 +256,7 @@ textarea::placeholder {
   z-index: 1;
 }
 
-.Home {
+.component {
   text-align: left;
   position: relative;
   height: 100vh;
@@ -271,6 +271,10 @@ textarea::placeholder {
   border-top-width: 0;
 }
 
+.notifications-title-container {
+  height: 105px;
+}
+
 .title {
   cursor: pointer;
   display: inline-block;
@@ -279,6 +283,34 @@ textarea::placeholder {
   position: relative;
   top: 15px;
   padding-left: 10px;
+}
+
+.notification-options-container {
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  top: 33px;
+  height: 50px;
+}
+
+.notification-option {
+  display: inline-block;
+  width: 50%;
+  color: rgb(101, 119, 134);
+  font-weight: 700;
+  height: 100%;
+}
+.notification-option p {
+  position: relative;
+  top: 15px;
+}
+.notification-option:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+  color: rgb(29, 161, 242);
+}
+.notification-option-selected {
+  border-bottom: 2px solid rgb(29, 161, 242);
+  color: rgb(29, 161, 242);
 }
 
 .tweet-compose-container {
@@ -392,8 +424,10 @@ textarea::placeholder {
 .main {
   border: 1px solid rgb(230, 236, 240);
   height: 100%;
-  border-top-width: 9px;
   border-bottom-width: 0;
+}
+.home-main {
+  border-top-width: 9px;
 }
 .break {
   width: 98%;
