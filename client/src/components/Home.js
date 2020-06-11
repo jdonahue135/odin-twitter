@@ -11,7 +11,7 @@ import { renderGraphic } from "../helpers";
 
 const Home = (props) => {
   return (
-    <div className="Home">
+    <div className="component">
       <div className="title-container">
         <p className="title">Home</p>
         {renderGraphic(graphics.SORT)}
@@ -28,7 +28,7 @@ const Home = (props) => {
           tweetInput={props.tweetInput}
         />
       </div>
-      <div className="main">
+      <div className="main home-main">
         {props.tweets ? (
           <TweetList tweets={props.tweets} />
         ) : (
