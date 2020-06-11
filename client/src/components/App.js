@@ -3,8 +3,14 @@ import "../styles/App.css";
 import Sidebar from "./Sidebar";
 import Home from "./Home";
 import LogIn from "./LogIn";
+import Notifications from "./Notifications";
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import { storageAvailable } from "../localStorage";
 
 class App extends React.Component {
@@ -19,16 +25,26 @@ class App extends React.Component {
       jwt: null,
       showLoginWarning: false,
       tweets: null,
+      pathname: null,
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (window.location.pathname !== this.state.pathname) {
+      this.setState({ pathname: window.location.pathname });
+    }
     if (prevState.jwt !== this.state.jwt) {
       //save jwt and user to local storage
       localStorage.removeItem("jwt");
       localStorage.removeItem("user");
       localStorage.setItem("jwt", this.state.jwt);
       localStorage.setItem("user", JSON.stringify(this.state.user));
+    }
+    if (!this.state.tweets) {
+      fetch("/tweets")
+        .then((res) => res.json())
+        .then((tweets) => this.setState({ tweets }))
+        .catch((err) => console.log(err));
     }
   }
 
@@ -146,6 +162,10 @@ class App extends React.Component {
     });
   }
 
+  handleRouteChange() {
+    this.setState({ pathname: window.location.pathname });
+  }
+
   render() {
     let buttonStatus = false;
     if (this.state.usernameInput && this.state.passwordInput) {
@@ -163,15 +183,23 @@ class App extends React.Component {
           />
         ) : (
           <div>
-            <Sidebar
-              username={this.state.user.name}
-              handle={this.state.user.username}
-              onClick={this.handleLogOut.bind(this)}
-            />
             <Router>
+              <Sidebar
+                onRouteChange={this.handleRouteChange.bind(this)}
+                username={this.state.user.name}
+                handle={this.state.user.username}
+                onClick={this.handleLogOut.bind(this)}
+              />
               <Switch>
+                <Route exact path="/">
+                  <Redirect to="/home" />
+                </Route>
                 <Route
-                  path="/"
+                  path="/notifications"
+                  component={(props) => <Notifications {...props} />}
+                />
+                <Route
+                  path="/home"
                   render={(props) => (
                     <Home
                       {...props}
