@@ -1,11 +1,11 @@
 import React from "react";
 import moment from "moment";
 
-export const renderGraphic = (graphic) => {
+export const renderGraphic = (graphic, selectedStatus) => {
   const classList = graphic.class
     ? graphic.type + "-graphic-container " + graphic.class
     : graphic.type + "-graphic-container";
-  const dimensions = graphic.d;
+  const dimensions = selectedStatus ? graphic.selected : graphic.d;
   const circle = graphic.circle ? graphic.circle : null;
   if (Array.isArray(dimensions)) {
     return (
