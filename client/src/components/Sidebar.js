@@ -1,5 +1,6 @@
 import React from "react";
 import { ClickAwayListener } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 import ProfilePic from "./ProfilePic";
 import Button from "./Button";
@@ -19,9 +20,16 @@ class Sidebar extends React.Component {
 
   renderSidebarItem = (title) => {
     return (
-      <div className="sidebar-item-container">
-        {renderGraphic(graphics[title.toUpperCase()])}
-        <p className="sidebar-label">{title}</p>
+      <div>
+        <Link to={"/" + title}>
+          <div
+            onClick={this.props.onRouteChange}
+            className="sidebar-item-container"
+          >
+            {renderGraphic(graphics[title.toUpperCase()])}
+            <p className="sidebar-label">{title}</p>
+          </div>
+        </Link>
       </div>
     );
   };
@@ -42,7 +50,14 @@ class Sidebar extends React.Component {
         : this.props.username;
     return (
       <div className="Sidebar">
-        <img className="logo" src={logo} alt="logo" />
+        <Link to="/">
+          <img
+            className="logo"
+            src={logo}
+            alt="logo"
+            onClick={this.props.onRouteChange}
+          />
+        </Link>
         {this.renderSidebarItem("Home")}
         {this.renderSidebarItem("Notifications")}
         {this.renderSidebarItem("Messages")}
