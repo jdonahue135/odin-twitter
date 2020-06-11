@@ -19,14 +19,25 @@ class Sidebar extends React.Component {
   }
 
   renderSidebarItem = (title) => {
+    let selected = false;
+    if (
+      this.props.selected === "/" + title.toLowerCase() ||
+      window.location.pathname === "/" + title.toLowerCase()
+    ) {
+      selected = true;
+    }
     return (
       <div>
-        <Link to={"/" + title}>
+        <Link to={"/" + title.toLowerCase()}>
           <div
             onClick={this.props.onRouteChange}
-            className="sidebar-item-container"
+            className={
+              selected
+                ? "sidebar-item-container graphic-selected"
+                : "sidebar-item-container"
+            }
           >
-            {renderGraphic(graphics[title.toUpperCase()])}
+            {renderGraphic(graphics[title.toUpperCase()], selected)}
             <p className="sidebar-label">{title}</p>
           </div>
         </Link>
