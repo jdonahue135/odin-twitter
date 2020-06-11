@@ -532,6 +532,10 @@ textarea::placeholder {
   opacity: 0.5;
   margin-right: 10px;
 }
+.graphic-selected {
+  color: rgb(29, 161, 242);
+  fill: rgb(29, 161, 242);
+}
 .recommendations-container {
   position: fixed;
   top: 0;
