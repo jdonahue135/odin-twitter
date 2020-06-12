@@ -670,6 +670,11 @@ textarea::placeholder {
   width: 25vw;
   border-radius: 10px;
 }
+.recommendations-container-main {
+  position: unset;
+  background-color: initial;
+  width: 100%;
+}
 .user-title-container {
   border-bottom: 1px solid rgb(230, 236, 240);
   width: 100%;
@@ -809,4 +814,5 @@ textarea::placeholder {
 .profile-options {
   top: auto;
   bottom: 90px;
+  border-bottom: 1px solid rgb(230, 236, 240);
 }
