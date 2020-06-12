@@ -45,7 +45,9 @@ const Profile = (props) => {
           </div>
         </div>
         <Options a="Tweets" b="Tweets & replies" class="profile-options" />
-        <TweetList tweets={props.user.tweets} />
+        {props.user.tweets.length > 0 ? (
+          <TweetList tweets={props.user.tweets} />
+        ) : null}
       </div>
       <Recommendations />
     </div>
