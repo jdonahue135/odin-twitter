@@ -20,13 +20,19 @@ class Sidebar extends React.Component {
 
   renderSidebarItem = (title) => {
     let selected = false;
-    const pathname =
+    let pathname =
       title === "Profile"
         ? "/" + this.props.username
         : "/" + title.toLowerCase();
     if (
       this.props.selected === "/" + title.toLowerCase() ||
       window.location.pathname === "/" + title.toLowerCase()
+    ) {
+      selected = true;
+    }
+    if (
+      title === "Profile" &&
+      window.location.pathname === "/" + this.props.username
     ) {
       selected = true;
     }
@@ -74,10 +80,10 @@ class Sidebar extends React.Component {
           />
         </Link>
         {this.renderSidebarItem("Home")}
+        {this.renderSidebarItem("Explore")}
         {this.renderSidebarItem("Notifications")}
         {this.renderSidebarItem("Messages")}
         {this.renderSidebarItem("Profile")}
-        {this.renderSidebarItem("More")}
         <Button size="lg" />
         {this.state.isClicked ? (
           <div className="profile-popup">
