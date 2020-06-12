@@ -20,6 +20,10 @@ class Sidebar extends React.Component {
 
   renderSidebarItem = (title) => {
     let selected = false;
+    const pathname =
+      title === "Profile"
+        ? "/" + this.props.username
+        : "/" + title.toLowerCase();
     if (
       this.props.selected === "/" + title.toLowerCase() ||
       window.location.pathname === "/" + title.toLowerCase()
@@ -28,7 +32,7 @@ class Sidebar extends React.Component {
     }
     return (
       <div>
-        <Link to={"/" + title.toLowerCase()}>
+        <Link to={pathname}>
           <div
             onClick={this.props.onRouteChange}
             className={
