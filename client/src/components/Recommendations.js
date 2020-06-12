@@ -28,22 +28,28 @@ class Recommendations extends React.Component {
     }
   }
   render() {
+    if (!this.state.users) {
+      return <SpinningLoader />;
+    }
+    const classList = this.props.main
+      ? "recommendations-container recommendations-container-main"
+      : "recommendations-container";
+    const userList = this.props.main
+      ? this.state.users.slice(0, 15)
+      : this.state.users.slice(0, 5);
     return (
-      <div className="recommendations-container">
-        <div className="user-title-container">
-          <div className="title user-title">Who to follow</div>
-        </div>
-        {this.state.users ? (
-          <div className="users-container">
-            <User user={this.state.users[0]} />
-            <User user={this.state.users[1]} />
-            <User user={this.state.users[2]} />
-            <User user={this.state.users[3]} />
-            <p className="show-more">Show more</p>
+      <div className={classList}>
+        {!this.props.main ? (
+          <div className="user-title-container">
+            <div className="title user-title">Who to follow</div>
           </div>
-        ) : (
-          <SpinningLoader />
-        )}
+        ) : null}
+        <div className="users-container">
+          {userList.map((user) => (
+            <User user={user} key={user._id} />
+          ))}
+          {!this.props.main ? <p className="show-more">Show more</p> : null}
+        </div>
       </div>
     );
   }
