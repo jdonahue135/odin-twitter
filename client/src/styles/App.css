@@ -251,6 +251,9 @@ textarea::placeholder {
   position: relative;
   bottom: 10px;
 }
+.profile-pic-container-lg {
+  bottom: 100px;
+}
 .profile-pic-overlay {
   display: inline-block;
   height: 49px;
@@ -291,7 +294,28 @@ textarea::placeholder {
   padding-left: 10px;
 }
 
-.notification-options-container {
+.profile-title {
+  position: unset;
+  padding-left: 0;
+}
+
+.profile-main-title {
+  position: unset;
+  padding-left: 0;
+}
+
+.profile-main-info-container {
+  position: relative;
+  padding-left: 20px;
+  bottom: 110px;
+}
+
+.calendar-graphic {
+  height: 1.5rem;
+  display: inline-block;
+}
+
+.options-container {
   cursor: pointer;
   position: relative;
   text-align: center;
@@ -299,22 +323,22 @@ textarea::placeholder {
   height: 50px;
 }
 
-.notification-option {
+.option {
   display: inline-block;
   width: 50%;
   color: rgb(101, 119, 134);
   font-weight: 700;
   height: 100%;
 }
-.notification-option p {
+.option p {
   position: relative;
   top: 15px;
 }
-.notification-option:hover {
+.option:hover {
   background-color: rgba(29, 161, 242, 0.1);
   color: rgb(29, 161, 242);
 }
-.notification-option-selected {
+.option-selected {
   border-bottom: 2px solid rgb(29, 161, 242);
   color: rgb(29, 161, 242);
 }
@@ -391,6 +415,25 @@ textarea::placeholder {
   background-color: rgba(29, 161, 242, 0.1);
 }
 .message-graphic {
+  fill: rgba(29, 161, 242, 1);
+  height: 1.5rem;
+}
+.profile-header-graphic-container {
+  height: 1.5rem;
+  float: left;
+  position: relative;
+  cursor: pointer;
+  display: initial;
+  padding: 5px;
+  width: fit-content;
+  border-radius: 25px;
+  top: 5px;
+  left: 10px;
+}
+.profile-header-graphic-container:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+}
+.profile-header-graphic {
   fill: rgba(29, 161, 242, 1);
   height: 1.5rem;
 }
@@ -543,6 +586,30 @@ textarea::placeholder {
 .profile-pic-sm {
   height: 38px;
 }
+.profile-pic-lg {
+  height: 140px;
+  border-radius: 75px;
+  border: 5px solid white;
+}
+.profile-pic-overlay-sm {
+  height: 38px;
+  width: 100%;
+}
+.profile-pic-overlay-med {
+  height: 49px;
+}
+.profile-pic-overlay-lg {
+  height: 140px;
+  width: 140px;
+  border-radius: 75px;
+  bottom: 10px;
+  left: 5px;
+}
+.default-header-image {
+  background-color: rgb(204, 214, 221);
+  width: 100%;
+  height: 200px;
+}
 .tweet-main {
   display: inline-block;
   width: 88%;
@@ -608,6 +675,9 @@ textarea::placeholder {
   width: 100%;
   height: 50px;
 }
+.profile-title-container {
+  border-bottom: 0;
+}
 .messages-title-container {
   width: 390px;
   border-bottom: 0;
@@ -639,6 +709,11 @@ textarea::placeholder {
   display: inline-block;
   margin-top: 10px;
 }
+.profile-info-container {
+  position: relative;
+  margin-left: 75px;
+  margin-top: 5px;
+}
 .follow-btn {
   float: right;
   border: 1px solid rgba(29, 161, 242, 1);
@@ -648,7 +723,7 @@ textarea::placeholder {
   margin: 15px;
 }
 .follow-btn:hover {
-  background-color: rgba(29, 161, 242, 0.008);
+  background-color: rgba(29, 161, 242, 0.1);
 }
 .show-more {
   color: rgb(27, 149, 224);
@@ -687,6 +762,22 @@ textarea::placeholder {
   font-size: 15px;
   color: rgb(101, 119, 134);
 }
+.calendar-detail {
+  font-size: 15px;
+  color: rgb(101, 119, 134);
+  display: inline-block;
+  bottom: 6px;
+  position: relative;
+  left: 4px;
+}
+.calendar-container {
+  margin-top: 10px;
+}
+.sub-title {
+  font-size: 13px;
+  color: rgb(101, 119, 134);
+  margin-top: 5px;
+}
 .message-info-container {
   text-align: -webkit-center;
   margin-top: 37%;
@@ -701,4 +792,21 @@ textarea::placeholder {
 .message-btn {
   margin-top: 20px;
   max-width: 190px;
+}
+.follow-count {
+  display: inline-block;
+  font-weight: 800;
+}
+.follow-count-label {
+  display: inline-block;
+  opacity: 0.5;
+  padding-right: 20px;
+}
+.follow-info-container {
+  margin-top: 5px;
+}
+
+.profile-options {
+  top: auto;
+  bottom: 90px;
 }
