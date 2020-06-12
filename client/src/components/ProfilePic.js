@@ -22,10 +22,16 @@ class ProfilePic extends React.Component {
   render() {
     const classList = "profile-pic profile-pic-" + this.props.size;
     return (
-      <div className="profile-pic-container">
+      <div
+        className={
+          "profile-pic-container profile-pic-container-" + this.props.size
+        }
+      >
         {this.state.isHovered ? (
           <div
-            className="profile-pic-overlay"
+            className={
+              "profile-pic-overlay profile-pic-overlay-" + this.props.size
+            }
             onMouseLeave={this.handleBlur.bind(this)}
           />
         ) : null}
