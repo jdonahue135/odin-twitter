@@ -6,6 +6,7 @@ import LogIn from "./LogIn";
 import Notifications from "./Notifications";
 import Messages from "./Messages";
 import Profile from "./Profile";
+import Explore from "./Explore";
 
 import {
   BrowserRouter as Router,
@@ -198,6 +199,12 @@ class App extends React.Component {
                 <Route exact path="/">
                   <Redirect to="/home" />
                 </Route>
+                <Route
+                  path="/explore"
+                  render={(props) => (
+                    <Explore {...props} user={this.state.user} />
+                  )}
+                />
                 <Route
                   path="/notifications"
                   render={(props) => <Notifications {...props} />}
