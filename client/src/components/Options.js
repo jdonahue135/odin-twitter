@@ -1,45 +1,23 @@
 import React from "react";
 
-class Options extends React.Component {
-  constructor(props) {
-    super(props);
+const Options = (props) => {
+  const aClassList = props.selected ? "option option-selected" : "option";
+  const bClassList = !props.selected ? "option option-selected" : "option";
 
-    this.state = {
-      mentionsSelected: false,
-    };
-  }
-
-  handleAClick() {
-    if (!this.state.mentionsSelected) return;
-    else this.setState({ mentionsSelected: false });
-  }
-  handleBClick() {
-    if (this.state.mentionsSelected) return;
-    else this.setState({ mentionsSelected: true });
-  }
-
-  render() {
-    const aClassList = !this.state.mentionsSelected
-      ? "option option-selected"
-      : "option";
-    const bClassList = this.state.mentionsSelected
-      ? "option option-selected"
-      : "option";
-
-    return (
-      <div
-        onClick={this.handleAClick.bind(this)}
-        className={"options-container " + this.props.class}
-      >
-        <div className={aClassList}>
-          <p>{this.props.a}</p>
-        </div>
-        <div onClick={this.handleBClick.bind(this)} className={bClassList}>
-          <p>{this.props.b}</p>
-        </div>
+  return (
+    <div
+      id={props.a}
+      onClick={props.onClick}
+      className={"options-container " + props.class}
+    >
+      <div id={props.a} className={aClassList}>
+        <p id={props.a}>{props.a}</p>
       </div>
-    );
-  }
-}
+      <div id={props.b} onClick={props.onClick} className={bClassList}>
+        <p id={props.b}>{props.b}</p>
+      </div>
+    </div>
+  );
+};
 
 export default Options;
