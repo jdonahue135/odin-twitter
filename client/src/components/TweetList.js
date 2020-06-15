@@ -10,8 +10,12 @@ const TweetList = (props) => {
     //reverse logic of sort function
     return a > b ? -1 : a < b ? 1 : 0;
   });
+
+  const classList = props.class
+    ? "tweets-container " + props.class + "-tweets-container"
+    : "tweets-container";
   return (
-    <div className="tweets-container">
+    <div className={classList}>
       {sortedTweets.map((tweet) => (
         <Tweet key={tweet._id} tweet={tweet} />
       ))}
