@@ -19,4 +19,7 @@ router.post("/login", users_controller.login);
 /*handle sign up on POST*/
 router.post("/signup", users_controller.signup);
 
+/*handle GET request for user tweets*/
+router.get("/:userid", users_controller.get_tweets);
+
 module.exports = router;

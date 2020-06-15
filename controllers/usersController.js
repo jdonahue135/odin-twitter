@@ -1,4 +1,5 @@
 var User = require("../models/User");
+var Tweet = require("../models/Tweet");
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -38,6 +39,7 @@ exports.login = function (req, res, next) {
   });
 };
 
+// handle sign up on POST
 exports.signup = (req, res, next) => {
   // Validate fields.
   body("username")
@@ -95,6 +97,23 @@ exports.signup = (req, res, next) => {
           }
         });
       });
+    }
+  });
+};
+
+// send user tweets on GET
+exports.get_tweets = (req, res, next) => {
+  User.find({ username: req.params.userid }).exec(function (err, theUser) {
+    if (err) res.json({ success: false, message: "Error" });
+    if (!theUser) res.json({ success: false, message: "No user" });
+    else {
+      Tweet.find({ user: theUser })
+        .populate("user")
+        .exec(function (err, theTweets) {
+          if (err) res.json({ success: false, message: "Error" });
+          if (!theTweets) res.json({ success: false, message: "No tweets" });
+          else res.json(theTweets);
+        });
     }
   });
 };
