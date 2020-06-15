@@ -16,7 +16,14 @@ class Profile extends React.Component {
 
     this.state = {
       tweetsSelected: true,
+      tweets: null,
     };
+  }
+
+  componentDidMount() {
+    fetch("/users/" + this.props.user.username)
+      .then((res) => res.json())
+      .then((tweets) => this.setState({ tweets }));
   }
 
   handleClick(e) {
@@ -79,8 +86,8 @@ class Profile extends React.Component {
             selected={this.state.tweetsSelected}
             onClick={this.handleClick.bind(this)}
           />
-          {this.props.user.tweets.length > 0 ? (
-            <TweetList tweets={this.props.user.tweets} />
+          {this.state.tweets ? (
+            <TweetList tweets={this.state.tweets} class="profile" />
           ) : (
             <div className="tweetlist-info-container tweetlist-info-title-container">
               <p className="headline message-info-item">
