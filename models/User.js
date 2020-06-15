@@ -5,12 +5,13 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
   name: { type: String, required: true, max: 50 },
   password: { type: String, required: true, max: 15 },
-  username: { type: String, required: true, max: 15},
+  username: { type: String, required: true, max: 15 },
   joinDate: { type: Date, default: Date.now },
-  following: [ { type: Schema.Types.ObjectId, ref: 'User' } ],
-  followers: [ { type: Schema.Types.ObjectId, ref: 'User' } ],
-  tweets: [ { type: Schema.Types.ObjectId, ref: 'Tweet' } ],
-  profilePicture: { type: Buffer }
+  following: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  profilePicture: { type: Buffer },
+  header: { type: Buffer },
+  bio: { type: String, max: 160 },
 });
 
 //Export model
