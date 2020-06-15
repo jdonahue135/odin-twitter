@@ -14,6 +14,7 @@ const User = (props) => {
       <div className="profile-information-container">
         <div className="profile-name recommendations-profile-name">{name}</div>
         <div className="profile-handle">{"@" + props.user.username}</div>
+        {props.showBio ? <div>{props.user.bio}</div> : null}
       </div>
       <Button textContent="Follow" class="follow-btn" size="sm" />
     </div>
