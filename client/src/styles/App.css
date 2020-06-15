@@ -568,10 +568,15 @@ textarea::placeholder {
 .tweets-container {
   border-bottom: 1px solid rgb(230, 236, 240);
 }
+.profile-tweets-container {
+  position: relative;
+  bottom: 80px;
+}
 .tweet-container {
   min-height: 80px;
   cursor: pointer;
   padding-top: 5px;
+  border-bottom: 1px solid rgb(230, 236, 240);
 }
 .tweet-container:hover {
   background-color: rgb(245, 248, 250);
