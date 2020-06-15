@@ -783,6 +783,16 @@ textarea::placeholder {
   color: rgb(101, 119, 134);
   margin-top: 5px;
 }
+.tweetlist-info-container {
+  text-align: -webkit-center;
+  margin: 0;
+  position: relative;
+  bottom: 50px;
+}
+.notifications-info-container {
+  text-align: -webkit-center;
+  margin-top: 75px;
+}
 .message-info-container {
   text-align: -webkit-center;
   margin-top: 37%;
@@ -805,7 +815,15 @@ textarea::placeholder {
 .follow-count-label {
   display: inline-block;
   opacity: 0.5;
+}
+.follow-count-item {
   padding-right: 20px;
+  display: inline-block;
+  cursor: pointer;
+}
+.follow-count-item:hover p {
+  text-decoration: underline;
+  text-decoration-color: black;
 }
 .follow-info-container {
   margin-top: 5px;
