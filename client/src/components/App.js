@@ -7,6 +7,7 @@ import Notifications from "./Notifications";
 import Messages from "./Messages";
 import Profile from "./Profile";
 import Explore from "./Explore";
+import TweetPopup from "./TweetPopup";
 
 import {
   BrowserRouter as Router,
@@ -21,7 +22,6 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      tweetInput: "",
       user: null,
       usernameInput: "",
       passwordInput: "",
@@ -29,6 +29,7 @@ class App extends React.Component {
       showLoginWarning: false,
       tweets: null,
       pathname: "/home",
+      showTweetPopup: false,
     };
   }
 
@@ -127,21 +128,15 @@ class App extends React.Component {
       .catch((err) => console.log(err));
   }
 
-  handleTweetInputChange(e) {
-    this.setState({
-      tweetInput: e.target.value,
-    });
-  }
-
-  handleTweetSubmit() {
-    if (!this.state.tweetInput || !this.state.user) return;
+  handleTweetSubmit(text) {
+    if (!text || !this.state.user) return;
 
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         user: this.state.user,
-        text: this.state.tweetInput,
+        text: text,
       }),
     };
 
@@ -149,10 +144,11 @@ class App extends React.Component {
       .then((res) => res.json())
       .then((res) => {
         if (res.tweets) {
-          this.setState({ tweets: res.tweets, tweetInput: "" });
+          this.setState({ tweets: res.tweets });
         }
       })
       .catch((err) => console.log(err));
+    this.setState({ showTweetPopup: false });
   }
 
   handleLogOut() {
@@ -168,6 +164,10 @@ class App extends React.Component {
 
   handleRouteChange() {
     this.setState({ pathname: window.location.pathname });
+  }
+
+  toggleTweetPopup() {
+    this.setState({ showTweetPopup: !this.state.showTweetPopup });
   }
 
   render() {
@@ -187,53 +187,68 @@ class App extends React.Component {
           />
         ) : (
           <div>
-            <Router>
-              <Sidebar
-                selected={this.state.pathname}
-                onRouteChange={this.handleRouteChange.bind(this)}
-                username={this.state.user.name}
-                handle={this.state.user.username}
-                onClick={this.handleLogOut.bind(this)}
-              />
-              <Switch>
-                <Route exact path="/">
-                  <Redirect to="/home" />
-                </Route>
-                <Route
-                  path="/explore"
-                  render={(props) => (
-                    <Explore {...props} user={this.state.user} />
-                  )}
+            {this.state.showTweetPopup ? (
+              <div>
+                <div className="backdrop" />
+                <TweetPopup
+                  user={this.state.user}
+                  onXClick={this.toggleTweetPopup.bind(this)}
+                  onClick={this.handleTweetSubmit.bind(this)}
                 />
-                <Route
-                  path="/notifications"
-                  render={(props) => <Notifications {...props} />}
+              </div>
+            ) : null}
+            <div>
+              <Router>
+                <Sidebar
+                  onButtonClick={this.toggleTweetPopup.bind(this)}
+                  selected={this.state.pathname}
+                  onRouteChange={this.handleRouteChange.bind(this)}
+                  username={this.state.user.name}
+                  handle={this.state.user.username}
+                  onClick={this.handleLogOut.bind(this)}
+                  disable={this.state.showTweetPopup}
                 />
-                <Route
-                  path="/messages"
-                  render={(props) => <Messages {...props} />}
-                />
-                <Route
-                  path={"/" + this.state.user.username}
-                  render={(props) => (
-                    <Profile {...props} user={this.state.user} />
-                  )}
-                />
-                <Route
-                  path="/home"
-                  render={(props) => (
-                    <Home
-                      {...props}
-                      charCount={this.state.tweetInput.length}
-                      onChange={this.handleTweetInputChange.bind(this)}
-                      onClick={this.handleTweetSubmit.bind(this)}
-                      tweets={this.state.tweets}
-                      tweetInput={this.state.tweetInput}
-                    />
-                  )}
-                />
-              </Switch>
-            </Router>
+                <Switch>
+                  <Route exact path="/">
+                    <Redirect to="/home" />
+                  </Route>
+                  <Route
+                    path="/explore"
+                    render={(props) => (
+                      <Explore {...props} user={this.state.user} />
+                    )}
+                  />
+                  <Route
+                    path="/notifications"
+                    render={(props) => <Notifications {...props} />}
+                  />
+                  <Route
+                    path="/messages"
+                    render={(props) => <Messages {...props} />}
+                  />
+                  <Route
+                    path={"/" + this.state.user.username}
+                    render={(props) => (
+                      <Profile
+                        {...props}
+                        user={this.state.user}
+                        onButtonClick={this.toggleTweetPopup.bind(this)}
+                      />
+                    )}
+                  />
+                  <Route
+                    path="/home"
+                    render={(props) => (
+                      <Home
+                        {...props}
+                        onClick={this.handleTweetSubmit.bind(this)}
+                        tweets={this.state.tweets}
+                      />
+                    )}
+                  />
+                </Switch>
+              </Router>
+            </div>
           </div>
         )}
       </div>
