@@ -16,7 +16,7 @@ class Profile extends React.Component {
 
     this.state = {
       tweetsSelected: true,
-      tweets: null,
+      tweets: [],
     };
   }
 
@@ -35,9 +35,9 @@ class Profile extends React.Component {
   }
   render() {
     const tweetCount =
-      this.props.user.tweets.length === 1
+      this.state.tweets.length === 1
         ? "1 Tweet"
-        : this.props.user.tweets.length + " tweets";
+        : this.state.tweets.length + " tweets";
     return (
       <div className="component">
         <div className="title-container profile-title-container">
@@ -86,7 +86,7 @@ class Profile extends React.Component {
             selected={this.state.tweetsSelected}
             onClick={this.handleClick.bind(this)}
           />
-          {this.state.tweets ? (
+          {this.state.tweets.length > 0 ? (
             <TweetList tweets={this.state.tweets} class="profile" />
           ) : (
             <div className="tweetlist-info-container tweetlist-info-title-container">
@@ -96,7 +96,12 @@ class Profile extends React.Component {
               <p className="sub-headline message-info-item">
                 When you post a Tweet, it’ll show up here.
               </p>
-              <Button size="med" textContent="Tweet Now" class="message-btn" />
+              <Button
+                size="med"
+                textContent="Tweet Now"
+                class="message-btn"
+                onClick={this.props.onButtonClick}
+              />
             </div>
           )}
         </div>
