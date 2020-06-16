@@ -70,7 +70,7 @@ class Sidebar extends React.Component {
         ? this.props.username.slice(0, 13) + "..."
         : this.props.username;
     return (
-      <div className="Sidebar">
+      <div className="sidebar">
         <Link to="/">
           <img
             className="logo"
@@ -84,7 +84,7 @@ class Sidebar extends React.Component {
         {this.renderSidebarItem("Notifications")}
         {this.renderSidebarItem("Messages")}
         {this.renderSidebarItem("Profile")}
-        <Button size="lg" />
+        <Button size="lg" onClick={this.props.onButtonClick} />
         {this.state.isClicked ? (
           <div className="profile-popup">
             <div onClick={this.props.onClick} className="popup-text-container">
