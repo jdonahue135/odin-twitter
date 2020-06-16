@@ -26,6 +26,7 @@ const Home = (props) => {
           onChange={props.onChange}
           onClick={props.onClick}
           tweetInput={props.tweetInput}
+          inline={true}
         />
       </div>
       <div className="main home-main">
