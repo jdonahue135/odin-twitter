@@ -31,7 +31,7 @@ const Home = (props) => {
       </div>
       <div className="main home-main">
         {props.tweets ? (
-          <TweetList tweets={props.tweets} />
+          <TweetList tweets={props.tweets} onClick={props.onTweetDelete} />
         ) : (
           <SpinningLoader />
         )}
