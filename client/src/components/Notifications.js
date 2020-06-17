@@ -50,7 +50,7 @@ class Notifications extends React.Component {
             </div>
           ) : null}
         </div>
-        <Recommendations />
+        <Recommendations user={this.props.user} />
       </div>
     );
   }
