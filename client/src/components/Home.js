@@ -4,7 +4,6 @@ import TweetForm from "./TweetForm";
 import TweetList from "./TweetList";
 import ProfilePic from "./ProfilePic";
 import Recommendations from "./Recommendations";
-import SpinningLoader from "./SpinningLoader";
 
 import { graphics } from "../constants";
 import { renderGraphic } from "../helpers";
@@ -33,7 +32,7 @@ const Home = (props) => {
         {props.tweets ? (
           <TweetList tweets={props.tweets} onClick={props.onTweetDelete} />
         ) : (
-          <SpinningLoader />
+          <div className="spinning-loader" />
         )}
       </div>
       <Recommendations />

@@ -1,7 +1,6 @@
 import React from "react";
 
 import User from "./User";
-import SpinningLoader from "./SpinningLoader";
 
 class Recommendations extends React.Component {
   constructor(props) {
@@ -28,12 +27,16 @@ class Recommendations extends React.Component {
     }
   }
   render() {
-    if (!this.state.users) {
-      return <SpinningLoader />;
-    }
     const classList = this.props.main
       ? "recommendations-container recommendations-container-main"
       : "recommendations-container";
+    if (!this.state.users) {
+      return (
+        <div className={classList}>
+          <div className="spinning-loader" />
+        </div>
+      );
+    }
     const userList = this.props.main
       ? this.state.users.slice(0, 15)
       : this.state.users.slice(0, 5);
