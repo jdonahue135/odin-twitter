@@ -17,7 +17,7 @@ const TweetList = (props) => {
   return (
     <div className={classList}>
       {sortedTweets.map((tweet) => (
-        <Tweet key={tweet._id} tweet={tweet} />
+        <Tweet key={tweet._id} tweet={tweet} onClick={props.onClick} />
       ))}
     </div>
   );
