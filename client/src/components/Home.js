@@ -35,7 +35,7 @@ const Home = (props) => {
           <div className="spinning-loader" />
         )}
       </div>
-      <Recommendations />
+      <Recommendations user={props.user} />
     </div>
   );
 };
