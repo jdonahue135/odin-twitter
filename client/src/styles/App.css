@@ -5,6 +5,7 @@ p {
 
 a {
   color: inherit;
+  text-decoration: none;
 }
 
 button {
@@ -803,6 +804,12 @@ textarea::placeholder {
   color: rgba(29, 161, 242, 1);
   padding: 5px 0px;
   margin: 15px;
+}
+.unfollow-btn {
+  padding: 5px 10px;
+  margin: 15px;
+  float: right;
+  transition-duration: 0.2s;
 }
 .follow-btn:hover {
   background-color: rgba(29, 161, 242, 0.1);
