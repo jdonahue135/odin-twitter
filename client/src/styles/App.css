@@ -184,18 +184,26 @@ textarea::placeholder {
 .btn-disabled:hover {
   background-color: rgb(29, 161, 242, 0.5);
 }
-
-.profile-popup {
+.popup {
   cursor: pointer;
-  position: relative;
-  top: 150px;
+  position: absolute;
   border: 1px solid rgb(230, 236, 240);
   border-radius: 10px;
   box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px,
     rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
 }
+
+.profile-popup {
+  bottom: 75px;
+}
+.tweet-popup {
+  margin-left: 470px;
+  z-index: 99999;
+}
 .popup-text-container {
-  padding: 15px 15px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .popup-text-container:hover {
@@ -512,6 +520,7 @@ textarea::placeholder {
   border: 1px solid rgb(230, 236, 240);
   height: 100%;
   border-bottom-width: 0;
+  height: fit-content;
 }
 .home-main {
   border-top-width: 9px;
@@ -631,6 +640,14 @@ textarea::placeholder {
 .tweet-container:hover {
   background-color: rgb(245, 248, 250);
 }
+.tweet-overlay {
+  min-height: 80px;
+  padding-top: 5px;
+  position: absolute;
+  width: 100%;
+  padding-bottom: 11px;
+  z-index: 999;
+}
 
 .profile-pic {
   border-radius: 25px;
@@ -702,6 +719,8 @@ textarea::placeholder {
   width: 1rem;
   padding: 6px !important;
   float: right;
+  position: absolute;
+  margin-bottom: 20px;
 }
 .tweet-header-graphic-container:hover {
   fill: rgba(29, 161, 242, 1);
@@ -711,7 +730,10 @@ textarea::placeholder {
   height: 1rem;
   width: 1rem;
   opacity: 0.5;
-  margin-right: 10px;
+}
+.popup-option-container {
+  position: absolute;
+  right: 35px;
 }
 .graphic-selected {
   color: rgb(29, 161, 242);
