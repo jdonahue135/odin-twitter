@@ -86,25 +86,28 @@ class Sidebar extends React.Component {
         {this.renderSidebarItem("Profile")}
         <Button size="lg" onClick={this.props.onButtonClick} />
         {this.state.isClicked ? (
-          <div className="profile-popup">
-            <div onClick={this.props.onClick} className="popup-text-container">
-              {"Log out @" + this.props.handle}
+          <ClickAwayListener onClickAway={this.handleClickAway.bind(this)}>
+            <div className="popup profile-popup">
+              <div
+                onClick={this.props.onClick}
+                className="popup-text-container"
+              >
+                {"Log out @" + this.props.handle}
+              </div>
             </div>
-          </div>
+          </ClickAwayListener>
         ) : null}
-        <ClickAwayListener onClickAway={this.handleClickAway.bind(this)}>
-          <div className="profile" onClick={this.handleProfileClick.bind(this)}>
-            <ProfilePic
-              size="sm"
-              photo={this.props.user ? this.props.user.profilePicture : null}
-            />
-            <div className="id-container">
-              <p className="profile-name">{formatName}</p>
-              <p className="profile-handle">{"@" + this.props.handle}</p>
-            </div>
-            {renderGraphic(graphics.PROFILE_OPTIONS)}
+        <div className="profile" onClick={this.handleProfileClick.bind(this)}>
+          <ProfilePic
+            size="sm"
+            photo={this.props.user ? this.props.user.profilePicture : null}
+          />
+          <div className="id-container">
+            <p className="profile-name">{formatName}</p>
+            <p className="profile-handle">{"@" + this.props.handle}</p>
           </div>
-        </ClickAwayListener>
+          {renderGraphic(graphics.PROFILE_OPTIONS)}
+        </div>
       </div>
     );
   }
