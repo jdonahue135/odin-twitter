@@ -53,14 +53,16 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state.pathname);
     //configure localStorage
     if (storageAvailable("localStorage")) {
       if (localStorage.getItem("jwt")) {
         //update state with token and user
         const jwt = localStorage.getItem("jwt");
-        const user = JSON.parse(localStorage.getItem("user"));
-        this.setState({ jwt, user });
+        const userStored = JSON.parse(localStorage.getItem("user"));
+        fetch("/users/" + userStored._id)
+          .then((res) => res.json())
+          .then((user) => this.setState({ jwt, user }))
+          .catch((err) => console.log(err));
       }
     }
     //fetch tweets
@@ -170,7 +172,6 @@ class App extends React.Component {
     this.setState({ showTweetPopup: !this.state.showTweetPopup });
   }
   handleTweetDelete(e) {
-    console.log(e.target);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -184,6 +185,23 @@ class App extends React.Component {
         console.log(res.message);
         this.setState({ tweets: res.tweets });
       })
+      .catch((err) => console.log(err));
+  }
+
+  handleFollowerChange(e) {
+    console.log(e.target.id);
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: this.state.user,
+      }),
+    };
+    fetch("/users/" + e.target.id, requestOptions)
+      .then((res) => res.json())
+      .then((res) =>
+        this.setState({ user: res.user }, console.log("state set"))
+      )
       .catch((err) => console.log(err));
   }
 
@@ -232,12 +250,18 @@ class App extends React.Component {
                   <Route
                     path="/explore"
                     render={(props) => (
-                      <Explore {...props} user={this.state.user} />
+                      <Explore
+                        {...props}
+                        user={this.state.user}
+                        onClick={this.handleFollowerChange.bind(this)}
+                      />
                     )}
                   />
                   <Route
                     path="/notifications"
-                    render={(props) => <Notifications {...props} />}
+                    render={(props) => (
+                      <Notifications {...props} user={this.state.user} />
+                    )}
                   />
                   <Route
                     path="/messages"
@@ -262,6 +286,7 @@ class App extends React.Component {
                         onClick={this.handleTweetSubmit.bind(this)}
                         tweets={this.state.tweets}
                         onTweetDelete={this.handleTweetDelete.bind(this)}
+                        user={this.state.user}
                       />
                     )}
                   />
