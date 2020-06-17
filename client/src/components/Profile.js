@@ -87,7 +87,11 @@ class Profile extends React.Component {
             onClick={this.handleClick.bind(this)}
           />
           {this.state.tweets.length > 0 ? (
-            <TweetList tweets={this.state.tweets} class="profile" />
+            <TweetList
+              tweets={this.state.tweets}
+              class="profile"
+              onClick={this.props.onClick}
+            />
           ) : (
             <div className="tweetlist-info-container tweetlist-info-title-container">
               <p className="headline message-info-item">
