@@ -15,6 +15,10 @@ router.get("/", function (req, res, next) {
   //res.send('respond with a resource');
 });
 
+/* POST new tweet */
 router.post("/", tweets_controller.tweet_post);
+
+/* handle tweet DELETE on POST */
+router.post("/:tweetid/delete", tweets_controller.tweet_delete);
 
 module.exports = router;

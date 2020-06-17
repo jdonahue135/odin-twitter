@@ -44,3 +44,22 @@ exports.tweet_post = function (req, res, next) {
     }
   });
 };
+
+exports.tweet_delete = function (req, res, next) {
+  Tweet.findByIdAndDelete(req.params.tweetid).exec(function (err, theTweet) {
+    if (err) res.json({ success: false, err });
+    if (!theTweet) res.json({ success: false, message: "tweet not found" });
+    else {
+      Tweet.find({})
+        .populate("user")
+        .exec(function (err, theTweets) {
+          if (err) res.json({ success: false, err });
+          res.json({
+            success: true,
+            message: "tweet deleted: " + theTweet._id,
+            tweets: theTweets,
+          });
+        });
+    }
+  });
+};
