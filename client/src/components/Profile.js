@@ -21,7 +21,7 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    fetch("/users/" + this.props.user.username)
+    fetch("/users/" + this.props.user.username + "/tweets/")
       .then((res) => res.json())
       .then((tweets) => this.setState({ tweets }));
   }
@@ -109,7 +109,7 @@ class Profile extends React.Component {
             </div>
           )}
         </div>
-        <Recommendations />
+        <Recommendations user={this.props.user} />
       </div>
     );
   }

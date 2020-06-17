@@ -2,6 +2,8 @@ import React from "react";
 
 import User from "./User";
 
+import { Link } from "react-router-dom";
+
 class Recommendations extends React.Component {
   constructor(props) {
     super(props);
@@ -49,9 +51,18 @@ class Recommendations extends React.Component {
         ) : null}
         <div className="users-container">
           {userList.map((user) => (
-            <User user={user} key={user._id} />
+            <User
+              currentUser={this.props.user}
+              user={user}
+              key={user._id}
+              onClick={this.props.onClick}
+            />
           ))}
-          {!this.props.main ? <p className="show-more">Show more</p> : null}
+          {!this.props.main ? (
+            <Link to="/Explore">
+              <p className="show-more">Show more</p>
+            </Link>
+          ) : null}
         </div>
       </div>
     );
