@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 
 const { body } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
+var async = require("async");
 
 // Handle login on POST
 exports.login = function (req, res, next) {
@@ -83,6 +84,8 @@ exports.signup = (req, res, next) => {
           username: req.body.username,
           password: hashedPassword,
         });
+        new_user.following.push(new_user);
+        new_user.followers.push(new_user);
         new_user.save((err) => {
           if (err) return next(err);
         });
@@ -101,6 +104,15 @@ exports.signup = (req, res, next) => {
   });
 };
 
+// Send user info on GET
+exports.user_get = (req, res) => {
+  User.findById(req.params.userid).exec((err, theUser) => {
+    if (err) res.json({ success: false, message: "Error" });
+    if (!theUser) res.json({ success: false, message: "No user" });
+    res.json(theUser);
+  });
+};
+
 // send user tweets on GET
 exports.get_tweets = (req, res, next) => {
   User.find({ username: req.params.userid }).exec(function (err, theUser) {
@@ -116,4 +128,49 @@ exports.get_tweets = (req, res, next) => {
         });
     }
   });
+};
+
+// handle user follow/unfollow on POST
+exports.follow = (req, res) => {
+  async.parallel(
+    {
+      targetUser: function (callback) {
+        User.findById(req.params.userid).exec(callback);
+      },
+
+      user: function (callback) {
+        User.findById(req.body.user._id).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) res.json({ success: false, err });
+      if (!results.targetUser)
+        res.json({
+          success: false,
+          message: "User to follow/unfollow not found",
+        });
+      if (!results.user)
+        res.json({ success: false, message: "current user not found" });
+
+      //both users found, determine if request is follow or unfollow
+      if (results.user.following.includes(results.targetUser._id)) {
+        //unfollow
+        results.user.following.splice(
+          results.user.following.indexOf(results.targetUser),
+          1
+        );
+        results.targetUser.followers.splice(
+          results.user.followers.indexOf(results.user),
+          1
+        );
+      } else {
+        //Follow
+        results.user.following.push(results.targetUser);
+        results.targetUser.followers.push(results.user);
+      }
+      results.user.save();
+      results.targetUser.save();
+      res.json({ success: true, user: results.user });
+    }
+  );
 };

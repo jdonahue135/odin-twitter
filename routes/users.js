@@ -10,16 +10,20 @@ router.get("/", function (req, res, next) {
     if (err) return next(err);
     res.json(theUsers);
   });
-  //res.send('respond with a resource');
 });
 
-/*handle log in on POST*/
+/* handle log in on POST */
 router.post("/login", users_controller.login);
 
-/*handle sign up on POST*/
+/* handle sign up on POST */
 router.post("/signup", users_controller.signup);
 
-/*handle GET request for user tweets*/
-router.get("/:userid", users_controller.get_tweets);
+/* handle GET request for user information */
+router.get("/:userid", users_controller.user_get);
+
+/* handle GET request for user tweets */
+router.get("/:userid/tweets", users_controller.get_tweets);
+
+router.post("/:userid", users_controller.follow);
 
 module.exports = router;
