@@ -9,7 +9,11 @@ const Explore = (props) => {
         <p className="title">Explore</p>
       </div>
       <div className="main">
-        <Recommendations main={true} />
+        <Recommendations
+          user={props.user}
+          main={true}
+          onClick={props.onClick}
+        />
       </div>
     </div>
   );
