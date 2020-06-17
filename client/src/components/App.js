@@ -169,6 +169,23 @@ class App extends React.Component {
   toggleTweetPopup() {
     this.setState({ showTweetPopup: !this.state.showTweetPopup });
   }
+  handleTweetDelete(e) {
+    console.log(e.target);
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: this.state.user,
+      }),
+    };
+    fetch("/tweets/" + e.target.id + "/delete", requestOptions)
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message);
+        this.setState({ tweets: res.tweets });
+      })
+      .catch((err) => console.log(err));
+  }
 
   render() {
     let buttonStatus = false;
@@ -233,6 +250,7 @@ class App extends React.Component {
                         {...props}
                         user={this.state.user}
                         onButtonClick={this.toggleTweetPopup.bind(this)}
+                        onClick={this.handleTweetDelete.bind(this)}
                       />
                     )}
                   />
@@ -243,6 +261,7 @@ class App extends React.Component {
                         {...props}
                         onClick={this.handleTweetSubmit.bind(this)}
                         tweets={this.state.tweets}
+                        onTweetDelete={this.handleTweetDelete.bind(this)}
                       />
                     )}
                   />
