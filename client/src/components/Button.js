@@ -23,7 +23,6 @@ class Button extends React.Component {
       <div
         onClick={this.props.onClick}
         className={"btn btn-" + this.props.size + " " + this.props.class}
-        id={this.props.id}
         onMouseEnter={this.toggleHover.bind(this)}
         onMouseLeave={this.toggleHover.bind(this)}
         style={style}
