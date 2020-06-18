@@ -49,6 +49,7 @@ const Home = (props) => {
                     size="med"
                     textContent="Let's go!"
                     class="message-btn"
+                    onClick={props.onPathChange}
                   />
                 </Link>
               </div>
