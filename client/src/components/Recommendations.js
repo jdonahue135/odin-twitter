@@ -16,7 +16,10 @@ class Recommendations extends React.Component {
   componentDidMount() {
     fetch("/users")
       .then((res) => res.json())
-      .then((users) => users.splice(users.indexOf(this.props.user), 1))
+      .then((users) => {
+        users.splice(users.indexOf(this.props.user), 1);
+        return users;
+      })
       .then((users) => this.setState({ users }))
       .catch((err) => console.log(err));
   }
@@ -64,7 +67,7 @@ class Recommendations extends React.Component {
             />
           ))}
           {!this.props.main ? (
-            <Link to="/Explore">
+            <Link to="/explore" onClick={this.props.onPathChange}>
               <p className="show-more">Show more</p>
             </Link>
           ) : null}
