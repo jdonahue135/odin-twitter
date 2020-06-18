@@ -1,8 +1,27 @@
 var Tweet = require("../models/Tweet");
+var User = require("../models/User");
 
 const { body } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 
+exports.tweets_get = function (req, res) {
+  // get user following array
+  User.findById(req.params.userid)
+    .select("following")
+    .exec((err, results) => {
+      if (err) res.json({ success: false, err });
+      if (!results) res.json({ success: false, message: "user not found" });
+      else {
+        const query = { user: { $in: results.following } };
+        Tweet.find(query)
+          .populate("user")
+          .exec((err, theTweets) => {
+            if (err) res.json({ success: false, err });
+            else res.json({ success: true, tweets: theTweets });
+          });
+      }
+    });
+};
 exports.tweet_post = function (req, res, next) {
   // Validate field.
   body("text")
@@ -31,16 +50,10 @@ exports.tweet_post = function (req, res, next) {
   newTweet.save((err) => {
     if (err) res.json({ success: false, err: err });
     else {
-      Tweet.find({})
-        .populate("user")
-        .exec(function (err, theTweets) {
-          if (err) return next(err);
-          res.json({
-            success: true,
-            message: "Tweet posted!",
-            tweets: theTweets,
-          });
-        });
+      res.json({
+        success: true,
+        message: "Tweet posted!",
+      });
     }
   });
 };
