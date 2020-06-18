@@ -16,6 +16,7 @@ class Recommendations extends React.Component {
   componentDidMount() {
     fetch("/users")
       .then((res) => res.json())
+      .then((users) => users.splice(users.indexOf(this.props.user), 1))
       .then((users) => this.setState({ users }))
       .catch((err) => console.log(err));
   }
@@ -24,6 +25,10 @@ class Recommendations extends React.Component {
     if (!this.state.users) {
       fetch("/users")
         .then((res) => res.json())
+        .then((users) => {
+          users.splice(users.indexOf(this.props.user), 1);
+          return users;
+        })
         .then((users) => this.setState({ users }))
         .catch((err) => console.log(err));
     }
