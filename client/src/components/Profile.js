@@ -16,14 +16,7 @@ class Profile extends React.Component {
 
     this.state = {
       tweetsSelected: true,
-      tweets: [],
     };
-  }
-
-  componentDidMount() {
-    fetch("/users/" + this.props.user.username + "/tweets/")
-      .then((res) => res.json())
-      .then((tweets) => this.setState({ tweets }));
   }
 
   handleClick(e) {
@@ -33,11 +26,19 @@ class Profile extends React.Component {
       this.setState({ tweetsSelected: false });
     }
   }
+
   render() {
+    if (!this.props.tweets) {
+      return (
+        <div className="component">
+          <div className="spinning-loader" />
+        </div>
+      );
+    }
     const tweetCount =
-      this.state.tweets.length === 1
+      this.props.tweets.length === 1
         ? "1 Tweet"
-        : this.state.tweets.length + " tweets";
+        : this.props.tweets.length + " tweets";
     return (
       <div className="component">
         <div className="title-container profile-title-container">
@@ -86,11 +87,12 @@ class Profile extends React.Component {
             selected={this.state.tweetsSelected}
             onClick={this.handleClick.bind(this)}
           />
-          {this.state.tweets.length > 0 ? (
+          {this.props.tweets.length > 0 ? (
             <TweetList
-              tweets={this.state.tweets}
+              user={this.props.user}
+              tweets={this.props.tweets}
               class="profile"
-              onClick={this.props.onClick}
+              deleteTweet={this.props.onTweetDelete}
             />
           ) : (
             <div className="tweetlist-info-container tweetlist-info-title-container">
@@ -109,7 +111,11 @@ class Profile extends React.Component {
             </div>
           )}
         </div>
-        <Recommendations user={this.props.user} />
+        <Recommendations
+          user={this.props.user}
+          onClick={this.props.onClick}
+          onPathChange={this.props.onPathChange}
+        />
       </div>
     );
   }
