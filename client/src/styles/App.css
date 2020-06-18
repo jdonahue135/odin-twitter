@@ -198,13 +198,25 @@ textarea::placeholder {
   bottom: 75px;
 }
 .tweet-popup {
-  margin-left: 470px;
+  width: max-content;
   z-index: 99999;
+  right: 0;
+}
+.tweet-popup:hover {
+  background-color: rgba(245, 248, 250);
+}
+.delete-tweet-popup {
+  color: rgb(224, 36, 94);
+  fill: rgb(224, 36, 94);
 }
 .popup-text-container {
+  display: inline-block;
   background-color: white;
   padding: 10px;
   border-radius: 5px;
+}
+.tweet-options-text-container {
+  padding: 10px 20px 10px 0;
 }
 
 .popup-text-container:hover {
@@ -525,6 +537,7 @@ textarea::placeholder {
 }
 .home-main {
   border-top-width: 9px;
+  height: -webkit-fill-available;
 }
 .break {
   width: 98%;
@@ -569,6 +582,18 @@ textarea::placeholder {
   height: 45px;
   border-bottom: 1px solid rgb(230, 236, 240);
   margin-bottom: 10px;
+}
+
+.options-graphic-container {
+  display: inline-block;
+  padding: 10px;
+}
+
+.options-graphic {
+  display: inline-block;
+  height: 1.25rem;
+  width: 1.25rem;
+  vertical-align: middle;
 }
 
 .visibility-container {
@@ -880,6 +905,9 @@ textarea::placeholder {
 .message-info-container {
   text-align: -webkit-center;
   margin-top: 37%;
+}
+.welcome-message-container {
+  margin-top: 90px;
 }
 .message-info-title-container {
   margin-top: 25%;
