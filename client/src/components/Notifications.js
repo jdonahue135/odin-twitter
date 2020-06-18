@@ -50,7 +50,11 @@ class Notifications extends React.Component {
             </div>
           ) : null}
         </div>
-        <Recommendations user={this.props.user} />
+        <Recommendations
+          user={this.props.user}
+          onClick={this.props.onClick}
+          onPathChange={this.props.onPathChange}
+        />
       </div>
     );
   }
