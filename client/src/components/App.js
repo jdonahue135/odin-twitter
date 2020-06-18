@@ -148,12 +148,11 @@ class App extends React.Component {
     fetch("/tweets", requestOptions)
       .then((res) => res.json())
       .then((res) => {
-        if (res.tweets) {
-          this.setState({ tweets: res.tweets });
-        }
+        console.log(res);
+        this.setState({ showTweetPopup: false });
+        this.fetchTweets();
       })
       .catch((err) => console.log(err));
-    this.setState({ showTweetPopup: false });
   }
 
   handleLogOut() {
@@ -191,7 +190,7 @@ class App extends React.Component {
       .catch((err) => console.log(err));
   }
 
-  handleFollowerChange(targetUser) {
+  handleFollowerChange(e) {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -199,7 +198,7 @@ class App extends React.Component {
         user: this.state.user,
       }),
     };
-    fetch("/users/" + targetUser._id, requestOptions)
+    fetch("/users/" + e.target.id, requestOptions)
       .then((res) => res.json())
       .then((res) => {
         this.setState({ user: res.user });
@@ -208,11 +207,21 @@ class App extends React.Component {
       .catch((err) => console.log(err));
   }
 
+  handlePathChange() {
+    this.setState({ pathname: window.location.pathname });
+  }
+
   render() {
     let buttonStatus = false;
     if (this.state.usernameInput && this.state.passwordInput) {
       buttonStatus = true;
     }
+
+    const profileTweets = this.state.tweets
+      ? this.state.tweets.filter(
+          (tweets) => tweets.user._id === this.state.user._id
+        )
+      : null;
     return (
       <div className="App">
         {!this.state.user ? (
@@ -267,6 +276,7 @@ class App extends React.Component {
                         {...props}
                         user={this.state.user}
                         onClick={this.handleFollowerChange.bind(this)}
+                        onPathChange={this.handlePathChange.bind(this)}
                       />
                     )}
                   />
@@ -283,6 +293,9 @@ class App extends React.Component {
                         onButtonClick={this.toggleTweetPopup.bind(this)}
                         onTweetDelete={this.handleTweetDelete.bind(this)}
                         onClick={this.handleFollowerChange.bind(this)}
+                        popupStatus={this.state.showTweetPopup}
+                        tweets={profileTweets}
+                        onPathChange={this.handlePathChange.bind(this)}
                       />
                     )}
                   />
@@ -296,6 +309,7 @@ class App extends React.Component {
                         onTweetDelete={this.handleTweetDelete.bind(this)}
                         user={this.state.user}
                         onClick={this.handleFollowerChange.bind(this)}
+                        onPathChange={this.handlePathChange.bind(this)}
                       />
                     )}
                   />
