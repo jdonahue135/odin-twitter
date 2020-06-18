@@ -159,24 +159,23 @@ exports.follow = (req, res) => {
       if (results.user.following.includes(results.targetUser._id)) {
         //unfollow
         results.user.following.splice(
-          results.user.following.indexOf(results.targetUser),
+          results.user.following.indexOf(results.targetUser._id),
           1
         );
         results.targetUser.followers.splice(
-          results.user.followers.indexOf(results.user),
+          results.targetUser.followers.indexOf(results.user._id),
           1
         );
 
         //remove notification for unfollowed user
         var query = {
           user: results.targetUser,
-          actionUsers: [results.user],
+          actionUsers: [results.user._id],
           type: "follow",
         };
         Notification.findOneAndDelete(query).exec((err, result) => {
           if (err) console.log(err);
           if (!result) console.log("Notification not found");
-          else console.log(result);
         });
       } else {
         //Follow
