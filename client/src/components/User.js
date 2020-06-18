@@ -38,11 +38,11 @@ class User extends React.Component {
           {this.props.showBio ? <div>{this.props.user.bio}</div> : null}
         </div>
         <Button
-          id={this.props.user._id}
           textContent={buttonTextContent}
           class={buttonClass}
           size="sm"
           onClick={this.props.onClick}
+          id={this.props.user._id}
         />
       </div>
     );
