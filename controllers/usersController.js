@@ -1,5 +1,6 @@
 var User = require("../models/User");
 var Tweet = require("../models/Tweet");
+var Notification = require("../models/Notification");
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -151,6 +152,8 @@ exports.follow = (req, res) => {
         });
       if (!results.user)
         res.json({ success: false, message: "current user not found" });
+      if (results.user === results.targetUser)
+        res.json({ success: false, message: "Cannot unfollow yourself" });
 
       //both users found, determine if request is follow or unfollow
       if (results.user.following.includes(results.targetUser._id)) {
@@ -163,10 +166,32 @@ exports.follow = (req, res) => {
           results.user.followers.indexOf(results.user),
           1
         );
+
+        //remove notification for unfollowed user
+        var query = {
+          user: results.targetUser,
+          actionUsers: [results.user],
+          type: "follow",
+        };
+        Notification.findOneAndDelete(query).exec((err, result) => {
+          if (err) console.log(err);
+          if (!result) console.log("Notification not found");
+          else console.log(result);
+        });
       } else {
         //Follow
         results.user.following.push(results.targetUser);
         results.targetUser.followers.push(results.user);
+
+        //Create Notification for followed user
+        const newNotification = new Notification({
+          user: results.targetUser,
+          actionUsers: [results.user],
+          type: "follow",
+        });
+        newNotification.save((err) => {
+          if (err) console.log(err);
+        });
       }
       results.user.save();
       results.targetUser.save();
