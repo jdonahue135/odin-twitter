@@ -26,6 +26,7 @@ class Button extends React.Component {
         onMouseEnter={this.toggleHover.bind(this)}
         onMouseLeave={this.toggleHover.bind(this)}
         style={style}
+        id={this.props.id}
       >
         {textContent}
       </div>
