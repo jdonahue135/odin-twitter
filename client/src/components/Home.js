@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import TweetForm from "./TweetForm";
 import TweetList from "./TweetList";
 import ProfilePic from "./ProfilePic";
 import Recommendations from "./Recommendations";
+import Button from "./Button";
 
 import { graphics } from "../constants";
 import { renderGraphic } from "../helpers";
@@ -23,19 +25,49 @@ const Home = (props) => {
         <TweetForm
           charCount={props.charCount}
           onChange={props.onChange}
-          onClick={props.onClick}
+          onClick={props.onTweetSubmit}
           tweetInput={props.tweetInput}
           inline={true}
         />
       </div>
       <div className="main home-main">
-        {props.tweets ? (
-          <TweetList tweets={props.tweets} onClick={props.onTweetDelete} />
-        ) : (
+        {props.tweets === null ? (
           <div className="spinning-loader" />
+        ) : (
+          <div>
+            {props.tweets.length === 0 ? (
+              <div className="tweetlist-info-container tweetlist-info-title-container welcome-message-container">
+                <p className="headline message-info-item">
+                  Welcome to Twitter!
+                </p>
+                <p className="sub-headline message-info-item">
+                  This is the best place to see what’s happening in your world.
+                  Find some people and topics to follow now.
+                </p>
+                <Link to="/explore">
+                  <Button
+                    size="med"
+                    textContent="Let's go!"
+                    class="message-btn"
+                  />
+                </Link>
+              </div>
+            ) : (
+              <TweetList
+                user={props.user}
+                tweets={props.tweets}
+                deleteTweet={props.onTweetDelete}
+                unfollowUser={props.onClick}
+              />
+            )}
+          </div>
         )}
       </div>
-      <Recommendations user={props.user} />
+      <Recommendations
+        user={props.user}
+        onClick={props.onClick}
+        onPathChange={props.onPathChange}
+      />
     </div>
   );
 };
