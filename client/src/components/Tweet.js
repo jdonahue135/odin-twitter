@@ -18,18 +18,33 @@ class Tweet extends React.Component {
     this.setState({ showPopup: !this.state.showPopup });
   }
   render() {
+    const tweetOptionsText =
+      this.props.currentUser._id === this.props.tweet.user._id
+        ? "Delete"
+        : "Unfollow @" + this.props.tweet.user.username;
+    const classList =
+      tweetOptionsText === "Delete"
+        ? "popup tweet-popup delete-tweet-popup"
+        : "popup tweet-popup";
+    const id =
+      this.props.currentUser._id === this.props.tweet.user._id
+        ? this.props.tweet._id
+        : this.props.tweet.user._id;
     return (
       <div>
         {this.state.showPopup ? (
           <div>
             <ClickAwayListener onClickAway={this.togglePopup.bind(this)}>
-              <div className="popup tweet-popup">
+              <div className={classList}>
+                {tweetOptionsText === "Delete"
+                  ? renderGraphic(graphics.DELETE)
+                  : renderGraphic(graphics.UNFOLLOW)}
                 <div
-                  id={this.props.tweet._id}
-                  className="popup-text-container"
+                  id={id}
+                  className="popup-text-container tweet-options-text-container"
                   onClick={this.props.onClick}
                 >
-                  Delete Tweet
+                  {tweetOptionsText}
                 </div>
               </div>
             </ClickAwayListener>
