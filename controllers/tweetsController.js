@@ -22,6 +22,17 @@ exports.tweets_get = function (req, res) {
       }
     });
 };
+
+exports.tweet_get = function (req, res) {
+  Tweet.findById(req.params.tweetid)
+    .populate("user")
+    .exec((err, tweet) => {
+      if (err) res.json({ success: false, err });
+      if (!tweet) res.json({ success: false, message: "tweet not found" });
+      else res.json({ success: true, tweet: tweet });
+    });
+};
+
 exports.tweet_post = function (req, res, next) {
   // Validate field.
   body("text")
