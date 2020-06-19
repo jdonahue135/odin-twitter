@@ -489,6 +489,7 @@ textarea::placeholder {
 }
 
 .tweet-graphic-container {
+  cursor: pointer;
   display: inline-block;
   border-radius: 25px;
   height: 1.25rem;
@@ -558,6 +559,10 @@ textarea::placeholder {
   margin-left: 10px;
 }
 
+.tweet-focus-footer .tweet-graphic-container {
+  margin: 10px 55px;
+}
+
 .tweet-form-container {
   display: inline-block;
   position: static;
@@ -590,7 +595,7 @@ textarea::placeholder {
   position: relative;
   top: 15px;
 }
-.popup-top {
+.overlay-top {
   height: 45px;
   border-bottom: 1px solid rgb(230, 236, 240);
   margin-bottom: 10px;
@@ -678,6 +683,12 @@ textarea::placeholder {
 .tweet-container:hover {
   background-color: rgb(245, 248, 250);
 }
+.tweet-focus-container {
+  cursor: unset;
+}
+.tweet-focus-container:hover {
+  background-color: initial;
+}
 .tweet-overlay {
   min-height: 80px;
   padding-top: 5px;
@@ -730,6 +741,18 @@ textarea::placeholder {
   display: inline-block;
   padding: 2px;
 }
+.tweet-focus-header div {
+  display: block;
+}
+.tweet-focus-date-container {
+  padding-top: 15px;
+}
+.tweet-focus-date-container div {
+  display: inline-block;
+  padding: 2px;
+  color: rgb(101, 119, 134);
+  opacity: 1;
+}
 .tweet-name {
   font-weight: 800;
 }
@@ -750,6 +773,13 @@ textarea::placeholder {
 .tweet-text {
   padding-left: 3px;
   padding-top: 3px;
+}
+.tweet-focus-text {
+  font-size: 23px;
+}
+.tweet-body {
+  padding: 0 15px 10px 15px;
+  border-bottom: 1px solid rgb(230, 236, 240);
 }
 .tweet-header-graphic-container {
   border-radius: 25px;
@@ -802,6 +832,14 @@ textarea::placeholder {
   width: 390px;
   border-bottom: 0;
 }
+.tweet-focus-title-container {
+  border-bottom: 0;
+}
+.replies-container {
+  border: 1px solid rgb(230, 236, 240);
+  border-top: 0;
+  height: -webkit-fill-available;
+}
 .messages-container {
   display: inline-block;
   border-right: 1px solid rgb(230, 236, 240);
@@ -832,7 +870,6 @@ textarea::placeholder {
 .profile-info-container {
   position: relative;
   margin-left: 75px;
-  margin-top: 5px;
 }
 .follow-btn {
   float: right;
