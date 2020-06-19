@@ -59,6 +59,7 @@ const Home = (props) => {
                 tweets={props.tweets}
                 deleteTweet={props.onTweetDelete}
                 onFollowChange={props.onClick}
+                onPathChange={props.onPathChange}
               />
             )}
           </div>
