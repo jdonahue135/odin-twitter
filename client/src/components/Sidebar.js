@@ -20,27 +20,24 @@ class Sidebar extends React.Component {
 
   renderSidebarItem = (title) => {
     let selected = false;
-    let pathname =
+    let path =
       title === "Profile"
         ? "/" + this.props.username
         : "/" + title.toLowerCase();
-    if (
-      this.props.selected === "/" + title.toLowerCase() ||
-      window.location.pathname === "/" + title.toLowerCase()
-    ) {
+    if (this.props.pathname === "/" + title.toLowerCase()) {
       selected = true;
     }
     if (
       title === "Profile" &&
-      window.location.pathname === "/" + this.props.username
+      this.props.pathname === "/" + this.props.username
     ) {
       selected = true;
     }
     return (
       <div>
-        <Link to={pathname}>
+        <Link to={path}>
           <div
-            onClick={this.props.onRouteChange}
+            onClick={this.props.onPathChange}
             className={
               selected
                 ? "sidebar-item-container graphic-selected"
