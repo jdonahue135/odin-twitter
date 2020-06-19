@@ -63,7 +63,10 @@ class Tweet extends React.Component {
           </div>
         ) : null}
         <div className="tweet-container">
-          <Link to={"/" + this.props.tweet.user.username}>
+          <Link
+            to={"/" + this.props.tweet.user.username}
+            onClick={this.props.handlePathChange}
+          >
             <ProfilePic
               photo={
                 this.props.tweet.user.profilePicture
@@ -75,7 +78,10 @@ class Tweet extends React.Component {
           </Link>
           <div className="tweet-main">
             <div className="tweet-header">
-              <Link to={"/" + this.props.tweet.user.username}>
+              <Link
+                to={"/" + this.props.tweet.user.username}
+                onClick={this.props.onPathChange}
+              >
                 <div className="tweet-name">{this.props.tweet.user.name}</div>
                 <div className="tweet-username">
                   {"@" + this.props.tweet.user.username}

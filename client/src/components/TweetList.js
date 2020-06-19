@@ -27,6 +27,7 @@ const TweetList = (props) => {
             key={tweet._id}
             tweet={tweet}
             onClick={onClickProp}
+            onPathChange={props.onPathChange}
           />
         );
       })}
