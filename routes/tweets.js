@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var Tweet = require("../models/Tweet");
+const auth = require("../config/auth");
 
 var tweets_controller = require("../controllers/tweetsController");
 
@@ -11,9 +11,13 @@ router.get("/:userid", tweets_controller.tweets_get);
 router.get("/status/:tweetid", tweets_controller.tweet_get);
 
 /* POST new tweet */
-router.post("/", tweets_controller.tweet_post);
+router.post("/", auth.verifyToken, tweets_controller.tweet_post);
 
 /* handle tweet DELETE on POST */
-router.post("/:tweetid/delete", tweets_controller.tweet_delete);
+router.post(
+  "/:tweetid/delete",
+  auth.verifyToken,
+  tweets_controller.tweet_delete
+);
 
 module.exports = router;

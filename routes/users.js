@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var User = require("../models/User");
+const auth = require("../config/auth");
 
 var users_controller = require("../controllers/usersController");
 
@@ -24,6 +25,7 @@ router.get("/:userid", users_controller.user_get);
 /* handle GET request for user tweets */
 router.get("/:username/tweets", users_controller.get_tweets);
 
-router.post("/:userid", users_controller.follow);
+/* handle user follow/unfollow on POST*/
+router.post("/:userid", auth.verifyToken, users_controller.follow);
 
 module.exports = router;
