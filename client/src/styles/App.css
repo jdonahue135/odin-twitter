@@ -118,6 +118,18 @@ textarea::placeholder {
   background-color: rgba(29, 161, 242, 0.1);
 }
 
+.loading-logo {
+  cursor: unset;
+  height: 7rem;
+  position: absolute;
+  left: 45vw;
+  top: 40vh;
+  margin: 0;
+}
+.loading-logo:hover {
+  background-color: initial;
+}
+
 .sidebar-label {
   display: inline-block;
   font-size: 19px;
