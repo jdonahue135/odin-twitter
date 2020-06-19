@@ -1,5 +1,15 @@
 import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+
 import "../styles/App.css";
+import { storageAvailable } from "../localStorage";
+import logo from "../images/Twitter_Logo_Blue.png";
+
 import Sidebar from "./Sidebar";
 import Home from "./Home";
 import LogIn from "./LogIn";
@@ -9,19 +19,12 @@ import Profile from "./Profile";
 import Explore from "./Explore";
 import TweetPopup from "./TweetPopup";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
-import { storageAvailable } from "../localStorage";
-
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      showLoadingScreen: true,
       user: null,
       usernameInput: "",
       passwordInput: "",
@@ -64,7 +67,8 @@ class App extends React.Component {
     }
     if (this.state.user) {
       //fetch tweets
-      this.fetchTweets();
+      //this is set to wait 2 seconds if server needs to restart in development
+      setTimeout(this.fetchTweets(), 2000);
     }
   }
 
@@ -73,6 +77,15 @@ class App extends React.Component {
       .then((res) => res.json())
       .then((res) => this.setState({ tweets: res.tweets }))
       .catch((err) => console.log(err));
+  }
+
+  renderAppLoadingGraphic() {
+    setTimeout(this.stopLoadingScreen.bind(this), 2000);
+    return <img className="logo loading-logo" src={logo} alt="logo" />;
+  }
+
+  stopLoadingScreen() {
+    this.setState({ showLoadingScreen: false });
   }
 
   handleLoginInputChange(e) {
@@ -212,6 +225,9 @@ class App extends React.Component {
   }
 
   render() {
+    if (this.state.showLoadingScreen) {
+      return this.renderAppLoadingGraphic();
+    }
     let buttonStatus = false;
     if (this.state.usernameInput && this.state.passwordInput) {
       buttonStatus = true;
