@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { ClickAwayListener } from "@material-ui/core";
 
@@ -18,27 +19,37 @@ class Tweet extends React.Component {
     this.setState({ showPopup: !this.state.showPopup });
   }
   render() {
-    const tweetOptionsText =
+    let id;
+    let classList;
+    let tweetOptionsText =
       this.props.currentUser._id === this.props.tweet.user._id
         ? "Delete"
         : "Unfollow @" + this.props.tweet.user.username;
-    const classList =
+    if (this.props.currentUser._id === this.props.tweet.user._id) {
+      tweetOptionsText = "Delete";
+      id = this.props.tweet._id;
+      classList = "popup tweet-popup delete-tweet-popup";
+    } else {
+      id = this.props.tweet.user._id;
+      classList = "popup tweet-popup";
+      tweetOptionsText = this.props.currentUser.following.includes(
+        this.props.tweet.user._id
+      )
+        ? "Unfollow @" + this.props.tweet.user.username
+        : "Follow @" + this.props.tweet.user.username;
+    }
+    const graphic =
       tweetOptionsText === "Delete"
-        ? "popup tweet-popup delete-tweet-popup"
-        : "popup tweet-popup";
-    const id =
-      this.props.currentUser._id === this.props.tweet.user._id
-        ? this.props.tweet._id
-        : this.props.tweet.user._id;
+        ? "DELETE"
+        : tweetOptionsText.replace(/ .*/, "").toUpperCase();
+
     return (
       <div>
         {this.state.showPopup ? (
           <div>
             <ClickAwayListener onClickAway={this.togglePopup.bind(this)}>
               <div className={classList}>
-                {tweetOptionsText === "Delete"
-                  ? renderGraphic(graphics.DELETE)
-                  : renderGraphic(graphics.UNFOLLOW)}
+                {renderGraphic(graphics[graphic])}
                 <div
                   id={id}
                   className="popup-text-container tweet-options-text-container"
@@ -52,20 +63,24 @@ class Tweet extends React.Component {
           </div>
         ) : null}
         <div className="tweet-container">
-          <ProfilePic
-            photo={
-              this.props.tweet.user.profilePicture
-                ? this.props.tweet.user.profilePicture
-                : null
-            }
-            size="med"
-          />
+          <Link to={"/" + this.props.tweet.user.username}>
+            <ProfilePic
+              photo={
+                this.props.tweet.user.profilePicture
+                  ? this.props.tweet.user.profilePicture
+                  : null
+              }
+              size="med"
+            />
+          </Link>
           <div className="tweet-main">
             <div className="tweet-header">
-              <div className="tweet-name">{this.props.tweet.user.name}</div>
-              <div className="tweet-username">
-                {"@" + this.props.tweet.user.username}
-              </div>
+              <Link to={"/" + this.props.tweet.user.username}>
+                <div className="tweet-name">{this.props.tweet.user.name}</div>
+                <div className="tweet-username">
+                  {"@" + this.props.tweet.user.username}
+                </div>
+              </Link>
               <div className="divider">.</div>
               <div className="tweet-date">
                 {formatDate(this.props.tweet.date)}
