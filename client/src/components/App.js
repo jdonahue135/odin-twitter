@@ -285,21 +285,6 @@ class App extends React.Component {
                     render={(props) => <Messages {...props} />}
                   />
                   <Route
-                    path={"/" + this.state.user.username}
-                    render={(props) => (
-                      <Profile
-                        {...props}
-                        user={this.state.user}
-                        onButtonClick={this.toggleTweetPopup.bind(this)}
-                        onTweetDelete={this.handleTweetDelete.bind(this)}
-                        onClick={this.handleFollowerChange.bind(this)}
-                        popupStatus={this.state.showTweetPopup}
-                        tweets={profileTweets}
-                        onPathChange={this.handlePathChange.bind(this)}
-                      />
-                    )}
-                  />
-                  <Route
                     path="/home"
                     render={(props) => (
                       <Home
@@ -309,6 +294,21 @@ class App extends React.Component {
                         onTweetDelete={this.handleTweetDelete.bind(this)}
                         user={this.state.user}
                         onClick={this.handleFollowerChange.bind(this)}
+                        onPathChange={this.handlePathChange.bind(this)}
+                      />
+                    )}
+                  />
+                  <Route
+                    path={"/:username"}
+                    render={(props) => (
+                      <Profile
+                        {...props}
+                        user={this.state.user}
+                        onButtonClick={this.toggleTweetPopup.bind(this)}
+                        onTweetDelete={this.handleTweetDelete.bind(this)}
+                        onClick={this.handleFollowerChange.bind(this)}
+                        popupStatus={this.state.showTweetPopup}
+                        tweets={profileTweets}
                         onPathChange={this.handlePathChange.bind(this)}
                       />
                     )}
