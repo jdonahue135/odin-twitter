@@ -17,7 +17,8 @@ import Notifications from "./Notifications";
 import Messages from "./Messages";
 import Profile from "./Profile";
 import Explore from "./Explore";
-import TweetPopup from "./TweetPopup";
+import TweetOverlay from "./TweetOverlay";
+import TweetFocus from "./TweetFocus";
 
 class App extends React.Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class App extends React.Component {
       showLoginWarning: false,
       tweets: null,
       pathname: "/home",
-      showTweetPopup: false,
+      showTweetOverlay: false,
     };
   }
 
@@ -162,7 +163,7 @@ class App extends React.Component {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        this.setState({ showTweetPopup: false });
+        this.setState({ showTweetOverlay: false });
         this.fetchTweets();
       })
       .catch((err) => console.log(err));
@@ -179,12 +180,8 @@ class App extends React.Component {
     });
   }
 
-  handleRouteChange() {
-    this.setState({ pathname: window.location.pathname });
-  }
-
-  toggleTweetPopup() {
-    this.setState({ showTweetPopup: !this.state.showTweetPopup });
+  toggleTweetOverlay() {
+    this.setState({ showTweetOverlay: !this.state.showTweetOverlay });
   }
   handleTweetDelete(e) {
     const requestOptions = {
@@ -250,12 +247,12 @@ class App extends React.Component {
           />
         ) : (
           <div>
-            {this.state.showTweetPopup ? (
+            {this.state.showTweetOverlay ? (
               <div>
                 <div className="backdrop" />
-                <TweetPopup
+                <TweetOverlay
                   user={this.state.user}
-                  onXClick={this.toggleTweetPopup.bind(this)}
+                  onXClick={this.toggleTweetOverlay.bind(this)}
                   onClick={this.handleTweetSubmit.bind(this)}
                 />
               </div>
@@ -263,13 +260,13 @@ class App extends React.Component {
             <div>
               <Router>
                 <Sidebar
-                  onButtonClick={this.toggleTweetPopup.bind(this)}
-                  selected={this.state.pathname}
-                  onRouteChange={this.handleRouteChange.bind(this)}
+                  onButtonClick={this.toggleTweetOverlay.bind(this)}
+                  pathname={this.state.pathname}
+                  onPathChange={this.handlePathChange.bind(this)}
                   username={this.state.user.name}
                   handle={this.state.user.username}
                   onClick={this.handleLogOut.bind(this)}
-                  disable={this.state.showTweetPopup}
+                  disable={this.state.showTweetOverlay}
                 />
                 <Switch>
                   <Route exact path="/">
@@ -315,15 +312,26 @@ class App extends React.Component {
                     )}
                   />
                   <Route
+                    path={"/:username/:tweetid"}
+                    render={(props) => (
+                      <TweetFocus
+                        {...props}
+                        user={this.state.user}
+                        onTweetDelete={this.handleTweetDelete.bind(this)}
+                        onClick={this.handleFollowerChange.bind(this)}
+                      />
+                    )}
+                  />
+                  <Route
                     path={"/:username"}
                     render={(props) => (
                       <Profile
                         {...props}
                         user={this.state.user}
-                        onButtonClick={this.toggleTweetPopup.bind(this)}
+                        onButtonClick={this.toggleTweetOverlay.bind(this)}
                         onTweetDelete={this.handleTweetDelete.bind(this)}
                         onClick={this.handleFollowerChange.bind(this)}
-                        popupStatus={this.state.showTweetPopup}
+                        popupStatus={this.state.showTweetOverlay}
                         tweets={profileTweets}
                         onPathChange={this.handlePathChange.bind(this)}
                       />
