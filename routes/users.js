@@ -22,7 +22,7 @@ router.post("/signup", users_controller.signup);
 router.get("/:userid", users_controller.user_get);
 
 /* handle GET request for user tweets */
-router.get("/:userid/tweets", users_controller.get_tweets);
+router.get("/:username/tweets", users_controller.get_tweets);
 
 router.post("/:userid", users_controller.follow);
 

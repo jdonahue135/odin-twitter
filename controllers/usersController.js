@@ -116,7 +116,7 @@ exports.user_get = (req, res) => {
 
 // send user tweets on GET
 exports.get_tweets = (req, res, next) => {
-  User.find({ username: req.params.userid }).exec(function (err, theUser) {
+  User.find({ username: req.params.username }).exec(function (err, theUser) {
     if (err) res.json({ success: false, message: "Error" });
     if (!theUser) res.json({ success: false, message: "No user" });
     else {
