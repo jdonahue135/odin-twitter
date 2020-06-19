@@ -16,7 +16,18 @@ class Profile extends React.Component {
 
     this.state = {
       tweetsSelected: true,
+      tweets: null,
     };
+  }
+
+  componentDidMount() {
+    //get user info and user tweets
+    console.log(this.props.match.params.username);
+    fetch("/users/" + this.props.match.params.username + "/tweets")
+      .then((res) => res.json())
+      .then((tweets) => this.setState({ tweets }))
+      .then(console.log(this.state.tweets))
+      .catch((err) => console.log(err));
   }
 
   handleClick(e) {
@@ -28,7 +39,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    if (!this.props.tweets) {
+    if (!this.state.tweets) {
       return (
         <div className="component">
           <div className="spinning-loader" />
@@ -36,22 +47,24 @@ class Profile extends React.Component {
       );
     }
     const tweetCount =
-      this.props.tweets.length === 1
+      this.state.tweets.length === 1
         ? "1 Tweet"
-        : this.props.tweets.length + " tweets";
+        : this.state.tweets.length + " tweets";
     return (
       <div className="component">
         <div className="title-container profile-title-container">
           {renderGraphic(graphics.BACK)}
           <div className="profile-info-container">
-            <p className="title profile-title">{this.props.user.name}</p>
+            <p className="title profile-title">
+              {this.state.tweets[0].user.name}
+            </p>
             <p className="sub-title">{tweetCount}</p>
           </div>
         </div>
         <div className="main profile-main">
           <div className="header-image-container">
-            {this.props.user.headerImage ? (
-              <img src={this.props.user.headerImage} alt="header" />
+            {this.state.tweets[0].user.headerImage ? (
+              <img src={this.state.tweets[0].user.headerImage} alt="header" />
             ) : (
               <div className="default-header-image" />
             )}
@@ -59,8 +72,12 @@ class Profile extends React.Component {
           <ProfilePic size="lg" />
           <Button textContent="Set up profile" size="med" class="follow-btn" />
           <div className="profile-main-info-container">
-            <p className="title profile-main-title">{this.props.user.name}</p>
-            <p className="profile-handle">{"@" + this.props.user.username}</p>
+            <p className="title profile-main-title">
+              {this.state.tweets[0].user.name}
+            </p>
+            <p className="profile-handle">
+              {"@" + this.state.tweets[0].user.username}
+            </p>
             <div className="calendar-container">
               <img className="calendar-graphic" src={calendar} alt="calendar" />
               <p className="calendar-detail">Joined June 2020</p>
@@ -68,13 +85,13 @@ class Profile extends React.Component {
             <div className="follow-info-container">
               <div className="follow-count-item">
                 <p className="follow-count">
-                  {this.props.user.following.length}
+                  {this.state.tweets[0].user.following.length}
                 </p>
                 <p className="follow-count-label">&nbsp;Following</p>
               </div>
               <div className="follow-count-item">
                 <p className="follow-count">
-                  {this.props.user.followers.length}
+                  {this.state.tweets[0].user.followers.length}
                 </p>
                 <p className="follow-count-label">&nbsp;Followers</p>
               </div>
@@ -87,12 +104,13 @@ class Profile extends React.Component {
             selected={this.state.tweetsSelected}
             onClick={this.handleClick.bind(this)}
           />
-          {this.props.tweets.length > 0 ? (
+          {this.state.tweets.length > 0 ? (
             <TweetList
               user={this.props.user}
-              tweets={this.props.tweets}
+              tweets={this.state.tweets}
               class="profile"
               deleteTweet={this.props.onTweetDelete}
+              onFollowChange={this.props.onClick}
             />
           ) : (
             <div className="tweetlist-info-container tweetlist-info-title-container">
