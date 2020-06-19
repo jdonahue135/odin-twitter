@@ -63,7 +63,7 @@ class TweetForm extends React.Component {
     } else {
       ButtonClass = "";
     }
-    let rows = this.props.popup ? 6 : 1;
+    let rows = this.props.overlay ? 6 : 1;
 
     return (
       <div className="tweet-form-container">
