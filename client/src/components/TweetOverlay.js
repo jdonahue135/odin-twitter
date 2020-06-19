@@ -6,10 +6,10 @@ import TweetForm from "./TweetForm";
 import { graphics } from "../constants";
 import { renderGraphic } from "../helpers";
 
-const TweetPopup = (props) => {
+const TweetOverlay = (props) => {
   return (
     <div className="overlay-tweet-form-container">
-      <div className="popup-top" onClick={props.onXClick}>
+      <div className="overlay-top" onClick={props.onXClick}>
         {renderGraphic(graphics.X)}
       </div>
       <ProfilePic
@@ -17,7 +17,7 @@ const TweetPopup = (props) => {
         size="med"
       />
       <TweetForm
-        popup={true}
+        overlay={true}
         onClick={props.onClick}
         onChange={props.onChange}
         charCount={props.charCount}
@@ -26,4 +26,4 @@ const TweetPopup = (props) => {
   );
 };
 
-export default TweetPopup;
+export default TweetOverlay;
