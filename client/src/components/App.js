@@ -100,7 +100,10 @@ class App extends React.Component {
 
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.jwt,
+      },
       body: JSON.stringify({
         username: this.state.usernameInput,
         password: this.state.passwordInput,
@@ -124,7 +127,10 @@ class App extends React.Component {
 
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.jwt,
+      },
       body: JSON.stringify({
         username: this.state.usernameInput,
         password: this.state.passwordInput,
@@ -152,7 +158,10 @@ class App extends React.Component {
 
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.jwt,
+      },
       body: JSON.stringify({
         user: this.state.user,
         text: text,
@@ -173,10 +182,11 @@ class App extends React.Component {
     //remove user and jwt from localStorage
     localStorage.clear();
 
-    //logs user out of state
+    //logs user out of state and clears tweet cache
     this.setState({
       user: null,
       jwt: null,
+      tweets: null,
     });
   }
 
@@ -186,24 +196,29 @@ class App extends React.Component {
   handleTweetDelete(e) {
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.jwt,
+      },
       body: JSON.stringify({
         user: this.state.user,
       }),
     };
     fetch("/tweets/" + e.target.id + "/delete", requestOptions)
       .then((res) => res.json())
-      .then((res) => {
-        console.log(res.message);
-        this.setState({ tweets: res.tweets });
-      })
+      .then((res) => console.log(res))
+      .then(this.fetchTweets())
       .catch((err) => console.log(err));
   }
 
   handleFollowerChange(e) {
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.jwt,
+      },
       body: JSON.stringify({
         user: this.state.user,
       }),
@@ -225,9 +240,21 @@ class App extends React.Component {
     if (this.state.showLoadingScreen) {
       return this.renderAppLoadingGraphic();
     }
+
     let buttonStatus = false;
     if (this.state.usernameInput && this.state.passwordInput) {
       buttonStatus = true;
+    }
+    if (!this.state.user) {
+      return (
+        <LogIn
+          showWarning={this.state.showLoginWarning}
+          onChange={this.handleLoginInputChange.bind(this)}
+          buttonStatus={buttonStatus}
+          handleSignUp={this.handleSignUp.bind(this)}
+          handleLogIn={this.handleLogIn.bind(this)}
+        />
+      );
     }
 
     const profileTweets = this.state.tweets
