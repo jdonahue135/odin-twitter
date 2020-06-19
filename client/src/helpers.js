@@ -42,8 +42,13 @@ export const renderGraphic = (graphic, selectedStatus) => {
   );
 };
 
-export const formatDate = (date) => {
-  const fromNow = Math.round((Date.now() - new Date(date)) / 1000);
+export const formatDate = (dateTime, fullDateOption) => {
+  if (fullDateOption) {
+    const time = moment(dateTime).format("LT");
+    const date = moment(dateTime).format("MMM D, YYYY");
+    return { time, date };
+  }
+  const fromNow = Math.round((Date.now() - new Date(dateTime)) / 1000);
   let time;
   if (fromNow < 60) {
     time = fromNow + "s";
@@ -52,7 +57,7 @@ export const formatDate = (date) => {
   } else if (fromNow < 86400) {
     time = Math.floor(fromNow / 3600) + "h";
   } else {
-    time = moment(date).format("MMM D");
+    time = moment(dateTime).format("MMM D");
   }
   return time;
 };
