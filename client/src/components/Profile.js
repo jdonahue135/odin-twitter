@@ -22,11 +22,9 @@ class Profile extends React.Component {
 
   componentDidMount() {
     //get user info and user tweets
-    console.log(this.props.match.params.username);
     fetch("/users/" + this.props.match.params.username + "/tweets")
       .then((res) => res.json())
       .then((tweets) => this.setState({ tweets }))
-      .then(console.log(this.state.tweets))
       .catch((err) => console.log(err));
   }
 
