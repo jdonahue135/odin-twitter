@@ -58,7 +58,7 @@ const Home = (props) => {
                 user={props.user}
                 tweets={props.tweets}
                 deleteTweet={props.onTweetDelete}
-                unfollowUser={props.onClick}
+                onFollowChange={props.onClick}
               />
             )}
           </div>
