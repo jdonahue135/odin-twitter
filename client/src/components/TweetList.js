@@ -20,7 +20,7 @@ const TweetList = (props) => {
         const onClickProp =
           props.user._id === tweet.user._id
             ? props.deleteTweet
-            : props.unfollowUser;
+            : props.onFollowChange;
         return (
           <Tweet
             currentUser={props.user}
