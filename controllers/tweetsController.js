@@ -74,16 +74,10 @@ exports.tweet_delete = function (req, res, next) {
     if (err) res.json({ success: false, err });
     if (!theTweet) res.json({ success: false, message: "tweet not found" });
     else {
-      Tweet.find({})
-        .populate("user")
-        .exec(function (err, theTweets) {
-          if (err) res.json({ success: false, err });
-          res.json({
-            success: true,
-            message: "tweet deleted: " + theTweet._id,
-            tweets: theTweets,
-          });
-        });
+      res.json({
+        success: true,
+        message: "tweet deleted: " + theTweet._id,
+      });
     }
   });
 };
