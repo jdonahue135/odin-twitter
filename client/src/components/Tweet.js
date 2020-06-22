@@ -18,6 +18,12 @@ class Tweet extends React.Component {
   togglePopup() {
     this.setState({ showPopup: !this.state.showPopup });
   }
+
+  handleLikeChange() {
+    //send fetch request
+    this.props.onLike(this.props.tweet._id);
+  }
+
   render() {
     let id;
     let classList;
@@ -102,7 +108,11 @@ class Tweet extends React.Component {
             <div className="tweet-footer">
               {renderGraphic(graphics.REPLY)}
               {renderGraphic(graphics.RETWEET)}
-              {renderGraphic(graphics.LIKE)}
+              {renderGraphic(
+                graphics.LIKE,
+                false,
+                this.handleLikeChange.bind(this)
+              )}
               {renderGraphic(graphics.SHARE)}
             </div>
           </div>
