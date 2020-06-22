@@ -14,28 +14,29 @@ class Recommendations extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchUsers();
+  }
+
+  componentDidUpdate() {
+    if (!this.state.users) {
+      this.fetchUsers();
+    }
+  }
+
+  fetchUsers() {
     fetch("/users")
       .then((res) => res.json())
       .then((users) => {
-        users.splice(users.indexOf(this.props.user), 1);
+        const currentUser = users.find(
+          (user) => user._id === this.props.user._id
+        );
+        users.splice(users.indexOf(currentUser), 1);
         return users;
       })
       .then((users) => this.setState({ users }))
       .catch((err) => console.log(err));
   }
 
-  componentDidUpdate() {
-    if (!this.state.users) {
-      fetch("/users")
-        .then((res) => res.json())
-        .then((users) => {
-          users.splice(users.indexOf(this.props.user), 1);
-          return users;
-        })
-        .then((users) => this.setState({ users }))
-        .catch((err) => console.log(err));
-    }
-  }
   render() {
     const classList = this.props.main
       ? "recommendations-container recommendations-container-main"
