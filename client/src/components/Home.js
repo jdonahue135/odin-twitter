@@ -60,6 +60,7 @@ const Home = (props) => {
                 deleteTweet={props.onTweetDelete}
                 onFollowChange={props.onClick}
                 onPathChange={props.onPathChange}
+                onLike={props.onLike}
               />
             )}
           </div>

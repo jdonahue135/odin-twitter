@@ -28,6 +28,7 @@ const TweetList = (props) => {
             tweet={tweet}
             onClick={onClickProp}
             onPathChange={props.onPathChange}
+            onLike={props.onLike}
           />
         );
       })}

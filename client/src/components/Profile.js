@@ -100,6 +100,7 @@ class Profile extends React.Component {
               class="profile"
               deleteTweet={this.props.onTweetDelete}
               onFollowChange={this.props.onClick}
+              onLike={this.props.onLike}
             />
           ) : (
             <div className="tweetlist-info-container tweetlist-info-title-container">
