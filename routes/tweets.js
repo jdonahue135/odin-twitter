@@ -20,4 +20,7 @@ router.post(
   tweets_controller.tweet_delete
 );
 
+/* handle tweet like/unlike on POST */
+router.post("/:tweetid/like", auth.verifyToken, tweets_controller.like);
+
 module.exports = router;

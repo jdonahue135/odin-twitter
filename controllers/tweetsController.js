@@ -1,5 +1,6 @@
 var Tweet = require("../models/Tweet");
 var User = require("../models/User");
+var Notification = require("../models/Notification");
 
 const { body } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
@@ -77,6 +78,56 @@ exports.tweet_delete = function (req, res, next) {
       res.json({
         success: true,
         message: "tweet deleted: " + theTweet._id,
+      });
+    }
+  });
+};
+
+exports.like = (req, res) => {
+  //check if user is liking or unliking tweet
+  Tweet.findById(req.params.tweetid, "likes user").exec(function (
+    err,
+    theTweet
+  ) {
+    if (err) res.json({ success: false, err });
+    if (!theTweet) res.json({ success: false, message: "tweet not found" });
+    else {
+      //tweet found
+      if (theTweet.likes.includes(req.body.user._id)) {
+        //unlike
+        theTweet.likes.splice(theTweet.likes.indexOf(req.body.user._id), 1);
+
+        //remove notification for unliked tweet
+        var query = {
+          user: theTweet.user,
+          actionUsers: [req.body.user._id],
+          type: "like",
+        };
+        Notification.findOneAndDelete(query).exec((err, result) => {
+          if (err) console.log(err);
+          if (!result) console.log("Notification not found");
+        });
+      } else {
+        //like
+        theTweet.likes.push(req.body.user);
+
+        //create notification for tweet like
+        const newNotification = new Notification({
+          user: theTweet.user,
+          actionUsers: [req.body.user],
+          type: "like",
+        });
+        newNotification.save((err) => {
+          if (err) console.log(err);
+        });
+      }
+
+      //save tweet
+      theTweet.save();
+
+      res.json({
+        success: true,
+        tweet: "tweet like status changed: " + theTweet._id,
       });
     }
   });
