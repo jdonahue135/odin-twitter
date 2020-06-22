@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 
-export const renderGraphic = (graphic, selectedStatus) => {
+export const renderGraphic = (graphic, selectedStatus, onClick) => {
   const classList = graphic.class
     ? graphic.type + "-graphic-container " + graphic.class
     : graphic.type + "-graphic-container";
@@ -9,7 +9,7 @@ export const renderGraphic = (graphic, selectedStatus) => {
   const circle = graphic.circle ? graphic.circle : null;
   if (Array.isArray(dimensions)) {
     return (
-      <div className={classList}>
+      <div className={classList} onClick={onClick}>
         <svg className={graphic.type + "-graphic"} viewBox="0 0 24 24">
           <g>
             <path d={dimensions[0]} />
@@ -21,7 +21,7 @@ export const renderGraphic = (graphic, selectedStatus) => {
   }
   if (circle) {
     return (
-      <div className={classList}>
+      <div className={classList} onClick={onClick}>
         <svg className={graphic.type + "-graphic"} viewBox="0 0 24 24">
           <g>
             <path d={dimensions} />
@@ -32,7 +32,7 @@ export const renderGraphic = (graphic, selectedStatus) => {
     );
   }
   return (
-    <div className={classList}>
+    <div className={classList} onClick={onClick}>
       <svg className={graphic.type + "-graphic"} viewBox="0 0 24 24">
         <g>
           <path d={dimensions} />
