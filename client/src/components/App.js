@@ -37,6 +37,33 @@ class App extends React.Component {
     };
   }
 
+  componentDidMount() {
+    //configure localStorage
+
+    if (storageAvailable("localStorage")) {
+      if (localStorage.getItem("jwt") !== "null") {
+        //update state with token and user
+        const jwt = localStorage.getItem("jwt");
+        const userStored = JSON.parse(localStorage.getItem("user"));
+
+        //this is set to wait 2 seconds if server needs to restart in development
+        setTimeout(
+          () =>
+            fetch("/users/" + userStored._id)
+              .then((res) => res.json())
+              .then((user) => this.setState({ jwt, user }))
+              .catch((err) => console.log(err)),
+          2000
+        );
+      }
+    }
+    if (this.state.user) {
+      //fetch tweets
+      //this is set to wait 2 seconds if server needs to restart in development
+      setTimeout(this.fetchTweets(), 2000);
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (window.location.pathname !== this.state.pathname) {
       this.setState({ pathname: window.location.pathname });
@@ -50,27 +77,6 @@ class App extends React.Component {
     }
     if (!this.state.tweets && this.state.user) {
       this.fetchTweets();
-    }
-  }
-
-  componentDidMount() {
-    //configure localStorage
-
-    if (storageAvailable("localStorage")) {
-      if (localStorage.getItem("jwt") !== "null") {
-        //update state with token and user
-        const jwt = localStorage.getItem("jwt");
-        const userStored = JSON.parse(localStorage.getItem("user"));
-        fetch("/users/" + userStored._id)
-          .then((res) => res.json())
-          .then((user) => this.setState({ jwt, user }))
-          .catch((err) => console.log(err));
-      }
-    }
-    if (this.state.user) {
-      //fetch tweets
-      //this is set to wait 2 seconds if server needs to restart in development
-      setTimeout(this.fetchTweets(), 2000);
     }
   }
 
@@ -154,6 +160,18 @@ class App extends React.Component {
       .catch((err) => console.log(err));
   }
 
+  handleLogOut() {
+    //remove user and jwt from localStorage
+    localStorage.clear();
+
+    //logs user out of state and clears tweet cache
+    this.setState({
+      user: null,
+      jwt: null,
+      tweets: null,
+    });
+  }
+
   handleTweetSubmit(text) {
     if (!text || !this.state.user) return;
 
@@ -177,18 +195,6 @@ class App extends React.Component {
         this.fetchTweets();
       })
       .catch((err) => console.log(err));
-  }
-
-  handleLogOut() {
-    //remove user and jwt from localStorage
-    localStorage.clear();
-
-    //logs user out of state and clears tweet cache
-    this.setState({
-      user: null,
-      jwt: null,
-      tweets: null,
-    });
   }
 
   toggleTweetOverlay() {
@@ -235,6 +241,26 @@ class App extends React.Component {
 
   handlePathChange() {
     this.setState({ pathname: window.location.pathname });
+  }
+
+  handleLikeChange(tweetID) {
+    //configure fetch request
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.jwt,
+      },
+      body: JSON.stringify({
+        user: this.state.user,
+      }),
+    };
+
+    //send fetch request
+    fetch("/tweets/" + tweetID + "/like", requestOptions)
+      .then((res) => res.json())
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   }
 
   render() {
@@ -327,6 +353,7 @@ class App extends React.Component {
                       user={this.state.user}
                       onClick={this.handleFollowerChange.bind(this)}
                       onPathChange={this.handlePathChange.bind(this)}
+                      onLike={this.handleLikeChange.bind(this)}
                     />
                   )}
                 />
@@ -353,6 +380,7 @@ class App extends React.Component {
                       popupStatus={this.state.showTweetOverlay}
                       tweets={profileTweets}
                       onPathChange={this.handlePathChange.bind(this)}
+                      onLike={this.handleLikeChange.bind(this)}
                     />
                   )}
                 />
