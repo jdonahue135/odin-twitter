@@ -488,6 +488,15 @@ textarea::placeholder {
   padding: 8px;
 }
 
+.tweet-graphic-item {
+  margin-right: 90px;
+  margin-top: 10px;
+}
+
+.tweet-footer-count {
+  display: inline-block;
+}
+
 .tweet-graphic-container {
   cursor: pointer;
   display: inline-block;
@@ -495,19 +504,67 @@ textarea::placeholder {
   height: 1.25rem;
   width: 1.25rem;
   padding: 8px;
-  margin-right: 95px;
-  margin-top: 10px;
 }
 
-.tweet-graphic-container:hover {
+.tweet-graphic-item:hover .tweet-graphic-container {
   fill: rgba(29, 161, 242, 1);
   background-color: rgba(29, 161, 242, 0.1);
+}
+.tweet-graphic-item:hover .like-graphic {
+  background-color: rgb(224, 36, 94, 0.1);
+  fill: rgb(224, 36, 94);
+}
+.tweet-graphic-item:hover .retweet-graphic {
+  background-color: rgba(23, 191, 99, 0.1);
+  fill: rgba(23, 191, 99, 1);
+}
+.tweet-graphic-item:hover .tweet-footer-count {
+  opacity: 1;
+  color: rgba(29, 161, 242, 1);
+}
+.tweet-graphic-item:hover .like-count {
+  color: rgb(224, 36, 94);
+}
+.tweet-footer-count {
+  opacity: 0.5;
+  font-size: 13px;
+  position: relative;
+  bottom: 5px;
 }
 .tweet-graphic {
   height: 1.25rem;
   width: 1.25rem;
   opacity: 0.5;
 }
+.like-graphic .tweet-graphic-selected {
+  fill: rgb(224, 36, 94, 1);
+  opacity: 1;
+}
+.retweet-graphic .tweet-graphic-selected {
+  fill: rgba(23, 191, 99, 1);
+  opacity: 1;
+}
+.retweet-label {
+  opacity: 0.75;
+  font-size: 13px;
+  position: relative;
+  left: 43px;
+  padding: 5px;
+}
+.retweet-label div {
+  display: inline-block;
+  padding-right: 10px;
+}
+.retweet-label-graphic {
+  height: 0.8rem;
+  opacity: 0.75;
+  position: relative;
+  top: 2px;
+}
+.retweet-label:hover div {
+  text-decoration: underline;
+}
+
 .popup-graphic-container {
   cursor: pointer;
   border-radius: 25px;
@@ -529,15 +586,6 @@ textarea::placeholder {
   fill: rgb(31, 127, 187);
 }
 
-.retweet-graphic:hover {
-  background-color: rgba(23, 191, 99, 0.1);
-  fill: rgba(23, 191, 99, 1);
-}
-.like-graphic:hover {
-  background-color: rgb(224, 36, 94, 0.1);
-  fill: rgb(224, 36, 94);
-}
-
 .tweet-compose-graphic-container:hover {
   background-color: rgba(29, 161, 242, 0.1);
 }
@@ -557,6 +605,9 @@ textarea::placeholder {
   height: 1px;
   background-color: rgb(230, 236, 240);
   margin-left: 10px;
+}
+.tweet-footer div {
+  display: inline-block;
 }
 
 .tweet-focus-footer .tweet-graphic-container {
@@ -794,6 +845,7 @@ textarea::placeholder {
   fill: rgba(29, 161, 242, 1);
   background-color: rgba(29, 161, 242, 0.1);
 }
+
 .tweet-header-graphic {
   height: 1rem;
   width: 1rem;
