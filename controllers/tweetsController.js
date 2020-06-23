@@ -15,7 +15,14 @@ exports.tweets_get = function (req, res) {
       else {
         const query = { user: { $in: results.following } };
         Tweet.find(query)
-          .populate("user")
+          .populate("user retweetOf")
+          .populate({
+            path: "retweetOf",
+            populate: {
+              path: "user",
+              select: "name username profilePicture",
+            },
+          })
           .exec((err, theTweets) => {
             if (err) res.json({ success: false, err });
             else res.json({ success: true, tweets: theTweets });
@@ -26,7 +33,7 @@ exports.tweets_get = function (req, res) {
 
 exports.tweet_get = function (req, res) {
   Tweet.findById(req.params.tweetid)
-    .populate("user")
+    .populate("user retweetOf")
     .exec((err, tweet) => {
       if (err) res.json({ success: false, err });
       if (!tweet) res.json({ success: false, message: "tweet not found" });
@@ -71,16 +78,26 @@ exports.tweet_post = function (req, res, next) {
 };
 
 exports.tweet_delete = function (req, res, next) {
-  Tweet.findByIdAndDelete(req.params.tweetid).exec(function (err, theTweet) {
-    if (err) res.json({ success: false, err });
-    if (!theTweet) res.json({ success: false, message: "tweet not found" });
-    else {
-      res.json({
-        success: true,
-        message: "tweet deleted: " + theTweet._id,
-      });
-    }
-  });
+  Tweet.findById(req.params.tweetid)
+    .populate("retweets")
+    .exec(function (err, theTweet) {
+      if (err) res.json({ success: false, err });
+      if (!theTweet) res.json({ success: false, message: "tweet not found" });
+      else {
+        //delete all instances of the tweet
+        while (theTweet.retweets.length > 0) {
+          Tweet.findOneAndDelete({ retweetOf: theTweet._id }).exec((err) => {
+            if (err) console.log(err);
+          });
+          theTweet.retweets.pop();
+        }
+        theTweet.remove();
+        res.json({
+          success: true,
+          message: "tweet deleted: " + theTweet._id,
+        });
+      }
+    });
 };
 
 exports.like = (req, res) => {
@@ -102,6 +119,7 @@ exports.like = (req, res) => {
           user: theTweet.user,
           actionUsers: [req.body.user._id],
           type: "like",
+          tweet: theTweet._id,
         };
         Notification.findOneAndDelete(query).exec((err, result) => {
           if (err) console.log(err);
@@ -116,6 +134,7 @@ exports.like = (req, res) => {
           user: theTweet.user,
           actionUsers: [req.body.user],
           type: "like",
+          tweet: theTweet,
         });
         newNotification.save((err) => {
           if (err) console.log(err);
@@ -128,6 +147,76 @@ exports.like = (req, res) => {
       res.json({
         success: true,
         tweet: "tweet like status changed: " + theTweet._id,
+      });
+    }
+  });
+};
+
+exports.retweet = (req, res) => {
+  Tweet.findById(req.params.tweetid).exec(function (err, theTweet) {
+    if (err) res.json({ success: false, err });
+    if (!theTweet) res.json({ success: false, message: "tweet not found" });
+    else {
+      //tweet found
+      if (theTweet.retweets.includes(req.body.user._id)) {
+        //remove notification for retweet
+        var query = {
+          user: theTweet.user._id,
+          actionUsers: [req.body.user._id],
+          type: "retweet",
+          tweet: theTweet._id,
+        };
+        Notification.findOneAndDelete(query).exec((err, result) => {
+          if (err) console.log(err);
+          if (!result) console.log("Notification not found");
+        });
+
+        //delete RT
+        Tweet.findOne({
+          retweetOf: theTweet._id,
+          user: req.body.user._id,
+        }).exec((err, theRetweet) => {
+          if (err) res.json({ success: false, err });
+          else {
+            theRetweet.remove();
+          }
+        });
+
+        //remove RT from original tweet
+        theTweet.retweets.splice(
+          theTweet.retweets.indexOf(req.body.user._id),
+          1
+        );
+        theTweet.save();
+      } else {
+        //New retweet
+        const theRetweet = new Tweet({
+          user: req.body.user,
+          retweetOf: theTweet,
+        });
+
+        //create notification for retweet
+        const newNotification = new Notification({
+          user: theTweet.user,
+          actionUsers: [req.body.user],
+          type: "retweet",
+          tweet: theTweet,
+        });
+        newNotification.save((err) => {
+          if (err) console.log(err);
+        });
+
+        //save tweet
+        theRetweet.save((err) => console.log(err));
+
+        //add retweet to original tweet
+        theTweet.retweets.push(req.body.user._id);
+        theTweet.save((err) => console.log(err));
+      }
+
+      res.json({
+        success: true,
+        tweet: "retweet status changed: " + theTweet._id,
       });
     }
   });
