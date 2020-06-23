@@ -16,7 +16,31 @@ class Profile extends React.Component {
 
     this.state = {
       tweetsSelected: true,
+      tweets: null,
+      user: null,
+      refresh: false,
     };
+  }
+
+  componentDidMount() {
+    this.fetchUserTweets();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.fetchUserTweets();
+    }
+  }
+
+  fetchUserTweets() {
+    fetch("/users" + this.props.location.pathname + "/tweets")
+      .then((res) => res.json())
+      .then((res) =>
+        this.setState({
+          tweets: res.tweets,
+          user: res.user,
+        })
+      );
   }
 
   handleClick(e) {
@@ -28,7 +52,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    if (!this.props.tweets) {
+    if (!this.state.tweets || !this.state.user) {
       return (
         <div className="component">
           <div className="spinning-loader" />
@@ -36,24 +60,22 @@ class Profile extends React.Component {
       );
     }
     const tweetCount =
-      this.props.tweets.length === 1
+      this.state.tweets.length === 1
         ? "1 Tweet"
-        : this.props.tweets.length + " tweets";
+        : this.state.tweets.length + " tweets";
     return (
       <div className="component">
         <div className="title-container profile-title-container">
           {renderGraphic(graphics.BACK)}
           <div className="profile-info-container">
-            <p className="title profile-title">
-              {this.props.tweets[0].user.name}
-            </p>
+            <p className="title profile-title">{this.state.user.name}</p>
             <p className="sub-title">{tweetCount}</p>
           </div>
         </div>
         <div className="main profile-main">
           <div className="header-image-container">
-            {this.props.tweets[0].user.headerImage ? (
-              <img src={this.props.tweets[0].user.headerImage} alt="header" />
+            {this.state.user.headerImage ? (
+              <img src={this.state.user.headerImage} alt="header" />
             ) : (
               <div className="default-header-image" />
             )}
@@ -61,12 +83,8 @@ class Profile extends React.Component {
           <ProfilePic size="lg" />
           <Button textContent="Set up profile" size="med" class="follow-btn" />
           <div className="profile-main-info-container">
-            <p className="title profile-main-title">
-              {this.props.tweets[0].user.name}
-            </p>
-            <p className="profile-handle">
-              {"@" + this.props.tweets[0].user.username}
-            </p>
+            <p className="title profile-main-title">{this.state.user.name}</p>
+            <p className="profile-handle">{"@" + this.state.user.username}</p>
             <div className="calendar-container">
               <img className="calendar-graphic" src={calendar} alt="calendar" />
               <p className="calendar-detail">Joined June 2020</p>
@@ -74,13 +92,17 @@ class Profile extends React.Component {
             <div className="follow-info-container">
               <div className="follow-count-item">
                 <p className="follow-count">
-                  {this.props.tweets[0].user.following.length}
+                  {this.state.user.following
+                    ? this.state.user.following.length
+                    : 0}
                 </p>
                 <p className="follow-count-label">&nbsp;Following</p>
               </div>
               <div className="follow-count-item">
                 <p className="follow-count">
-                  {this.props.tweets[0].user.followers.length}
+                  {this.state.user.followers
+                    ? this.state.user.followers.length
+                    : 0}
                 </p>
                 <p className="follow-count-label">&nbsp;Followers</p>
               </div>
@@ -90,17 +112,18 @@ class Profile extends React.Component {
             a="Tweets"
             b="Tweets & replies"
             class="profile-options"
-            selected={this.props.tweetsSelected}
+            selected={this.state.tweetsSelected}
             onClick={this.handleClick.bind(this)}
           />
-          {this.props.tweets.length > 0 ? (
+          {this.state.tweets.length > 0 ? (
             <TweetList
               user={this.props.user}
-              tweets={this.props.tweets}
+              tweets={this.state.tweets}
               class="profile"
               deleteTweet={this.props.onTweetDelete}
               onFollowChange={this.props.onClick}
               onLike={this.props.onLike}
+              onRetweet={this.props.onRetweet}
             />
           ) : (
             <div className="tweetlist-info-container tweetlist-info-title-container">
