@@ -17,8 +17,17 @@ const TweetList = (props) => {
   return (
     <div className={classList}>
       {sortedTweets.map((tweet) => {
+        if (
+          tweet.retweetOf &&
+          tweet.user._id === props.user._id &&
+          props.home
+        ) {
+          //do not display user's retweet on home tweetList
+          return null;
+        }
+        const targetTweet = tweet.retweetOf ? tweet.retweetOf : tweet;
         const onClickProp =
-          props.user._id === tweet.user._id
+          props.user._id === targetTweet.user._id
             ? props.deleteTweet
             : props.onFollowChange;
         return (
@@ -29,6 +38,7 @@ const TweetList = (props) => {
             onClick={onClickProp}
             onPathChange={props.onPathChange}
             onLike={props.onLike}
+            onRetweet={props.onRetweet}
           />
         );
       })}
