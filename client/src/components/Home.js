@@ -61,6 +61,8 @@ const Home = (props) => {
                 onFollowChange={props.onClick}
                 onPathChange={props.onPathChange}
                 onLike={props.onLike}
+                onRetweet={props.onRetweet}
+                home={true}
               />
             )}
           </div>
