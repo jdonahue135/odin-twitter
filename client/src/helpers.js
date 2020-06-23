@@ -2,15 +2,18 @@ import React from "react";
 import moment from "moment";
 
 export const renderGraphic = (graphic, selectedStatus, onClick) => {
-  const classList = graphic.class
+  const containerClassList = graphic.class
     ? graphic.type + "-graphic-container " + graphic.class
     : graphic.type + "-graphic-container";
+  const graphicClassList = selectedStatus
+    ? graphic.type + "-graphic " + graphic.type + "-graphic-selected"
+    : graphic.type + "-graphic";
   const dimensions = selectedStatus ? graphic.selected : graphic.d;
   const circle = graphic.circle ? graphic.circle : null;
   if (Array.isArray(dimensions)) {
     return (
-      <div className={classList} onClick={onClick}>
-        <svg className={graphic.type + "-graphic"} viewBox="0 0 24 24">
+      <div className={containerClassList} onClick={onClick}>
+        <svg className={graphicClassList} viewBox="0 0 24 24">
           <g>
             <path d={dimensions[0]} />
             <path d={dimensions[1]} />
@@ -21,8 +24,8 @@ export const renderGraphic = (graphic, selectedStatus, onClick) => {
   }
   if (circle) {
     return (
-      <div className={classList} onClick={onClick}>
-        <svg className={graphic.type + "-graphic"} viewBox="0 0 24 24">
+      <div className={containerClassList} onClick={onClick}>
+        <svg className={graphicClassList} viewBox="0 0 24 24">
           <g>
             <path d={dimensions} />
             <circle style={circle} />
@@ -32,8 +35,8 @@ export const renderGraphic = (graphic, selectedStatus, onClick) => {
     );
   }
   return (
-    <div className={classList} onClick={onClick}>
-      <svg className={graphic.type + "-graphic"} viewBox="0 0 24 24">
+    <div className={containerClassList} onClick={onClick}>
+      <svg className={graphicClassList} viewBox="0 0 24 24">
         <g>
           <path d={dimensions} />
         </g>
