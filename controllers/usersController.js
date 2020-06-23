@@ -107,28 +107,39 @@ exports.signup = (req, res, next) => {
 
 // Send user info on GET
 exports.user_get = (req, res) => {
-  User.findById(req.params.userid).exec((err, theUser) => {
-    if (err) res.json({ success: false, message: "Error" });
-    if (!theUser) res.json({ success: false, message: "No user" });
-    res.json(theUser);
-  });
+  User.findById(req.params.userid)
+    .select("-password")
+    .exec((err, theUser) => {
+      if (err) res.json({ success: false, message: "Error" });
+      if (!theUser) res.json({ success: false, message: "No user" });
+      res.json(theUser);
+    });
 };
 
 // send user tweets on GET
 exports.get_tweets = (req, res, next) => {
-  User.find({ username: req.params.username }).exec(function (err, theUser) {
-    if (err) res.json({ success: false, message: "Error" });
-    if (!theUser) res.json({ success: false, message: "No user" });
-    else {
-      Tweet.find({ user: theUser })
-        .populate("user")
-        .exec(function (err, theTweets) {
-          if (err) res.json({ success: false, message: "Error" });
-          if (!theTweets) res.json({ success: false, message: "No tweets" });
-          else res.json(theTweets);
-        });
-    }
-  });
+  User.findOne({ username: req.params.username })
+    .select("-password")
+    .exec(function (err, theUser) {
+      if (err) res.json({ success: false, message: "Error" });
+      if (!theUser) res.json({ success: false, message: "No user" });
+      else {
+        Tweet.find({ user: theUser })
+          .populate("user")
+          .populate({
+            path: "retweetOf",
+            populate: {
+              path: "user",
+              select: "name username profilePicture",
+            },
+          })
+          .exec(function (err, theTweets) {
+            if (err) res.json({ success: false, message: "Error" });
+            if (!theTweets) res.json({ success: false, message: "No tweets" });
+            else res.json({ tweets: theTweets, user: theUser });
+          });
+      }
+    });
 };
 
 // handle user follow/unfollow on POST
@@ -140,7 +151,7 @@ exports.follow = (req, res) => {
       },
 
       user: function (callback) {
-        User.findById(req.body.user._id).exec(callback);
+        User.findById(req.body.user._id).select("-password").exec(callback);
       },
     },
     function (err, results) {
