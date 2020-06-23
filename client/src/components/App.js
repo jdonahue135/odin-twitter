@@ -39,7 +39,6 @@ class App extends React.Component {
 
   componentDidMount() {
     //configure localStorage
-
     if (storageAvailable("localStorage")) {
       if (localStorage.getItem("jwt") !== "null") {
         //update state with token and user
@@ -260,6 +259,28 @@ class App extends React.Component {
     fetch("/tweets/" + tweetID + "/like", requestOptions)
       .then((res) => res.json())
       .then((res) => console.log(res))
+      .then(this.fetchTweets())
+      .catch((err) => console.log(err));
+  }
+
+  handleRetweetChange(tweetID) {
+    //configure fetch request
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.jwt,
+      },
+      body: JSON.stringify({
+        user: this.state.user,
+      }),
+    };
+
+    //send fetch request
+    fetch("/tweets/" + tweetID + "/retweet", requestOptions)
+      .then((res) => res.json())
+      .then((res) => console.log(res))
+      .then(this.fetchTweets())
       .catch((err) => console.log(err));
   }
 
@@ -284,11 +305,6 @@ class App extends React.Component {
       );
     }
 
-    const profileTweets = this.state.tweets
-      ? this.state.tweets.filter(
-          (tweets) => tweets.user._id === this.state.user._id
-        )
-      : null;
     return (
       <div className="App">
         <div>
@@ -354,6 +370,7 @@ class App extends React.Component {
                       onClick={this.handleFollowerChange.bind(this)}
                       onPathChange={this.handlePathChange.bind(this)}
                       onLike={this.handleLikeChange.bind(this)}
+                      onRetweet={this.handleRetweetChange.bind(this)}
                     />
                   )}
                 />
@@ -378,9 +395,9 @@ class App extends React.Component {
                       onTweetDelete={this.handleTweetDelete.bind(this)}
                       onClick={this.handleFollowerChange.bind(this)}
                       popupStatus={this.state.showTweetOverlay}
-                      tweets={profileTweets}
                       onPathChange={this.handlePathChange.bind(this)}
                       onLike={this.handleLikeChange.bind(this)}
+                      onRetweet={this.handleRetweetChange.bind(this)}
                     />
                   )}
                 />
