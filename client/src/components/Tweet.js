@@ -13,39 +13,102 @@ class Tweet extends React.Component {
 
     this.state = {
       showPopup: false,
+      likeStatus: false,
+      likeCount: null,
+      retweetStatus: false,
+      retweetCount: null,
     };
   }
+
+  componentDidMount() {
+    const likeStatus = this.props.tweet.likes.includes(
+      this.props.currentUser._id
+    )
+      ? true
+      : false;
+    const retweetStatus = this.props.tweet.retweets.includes(
+      this.props.currentUser._id
+    )
+      ? true
+      : false;
+    this.setState({
+      likeStatus: likeStatus,
+      retweetStatus: retweetStatus,
+      likeCount: this.props.tweet.likes.length,
+      retweetCount: this.props.tweet.retweets.length,
+    });
+  }
+
   togglePopup() {
     this.setState({ showPopup: !this.state.showPopup });
   }
 
   handleLikeChange() {
-    //send fetch request
     this.props.onLike(this.props.tweet._id);
+    const likeCount = this.state.likeStatus
+      ? this.state.likeCount - 1
+      : this.state.likeCount + 1;
+    this.setState({
+      likeStatus: !this.state.likeStatus,
+      likeCount: likeCount,
+    });
+  }
+
+  handleRetweetChange() {
+    const retweetCount = this.state.retweetStatus
+      ? this.state.retweetCount - 1
+      : this.state.retweetCount + 1;
+    this.setState({
+      retweetStatus: !this.state.retweetStatus,
+      retweetCount: retweetCount,
+    });
+    this.props.onRetweet(this.props.tweet._id);
+  }
+
+  renderTweetGraphic(name) {
+    const selected = this.state[name + "Status"] ? true : false;
+    const functionString =
+      "handle" + name[0].toUpperCase() + name.slice(1) + "Change";
+    return (
+      <div className="tweet-graphic-item">
+        {renderGraphic(
+          graphics[name.toUpperCase()],
+          selected,
+          this[functionString].bind(this)
+        )}
+
+        {this.state[name + "Count"] > 0 ? (
+          <div className={"tweet-footer-count " + name + "-count"}>
+            {this.state[name + "Count"]}
+          </div>
+        ) : null}
+      </div>
+    );
   }
 
   render() {
+    const tweet = this.props.tweet.retweetOf
+      ? this.props.tweet.retweetOf
+      : this.props.tweet;
     let id;
-    let classList;
-    let tweetOptionsText =
-      this.props.currentUser._id === this.props.tweet.user._id
-        ? "Delete"
-        : "Unfollow @" + this.props.tweet.user.username;
-    if (this.props.currentUser._id === this.props.tweet.user._id) {
+    let classList = "popup tweet-popup";
+    let tweetOptionsText;
+
+    if (this.props.currentUser._id === tweet.user._id) {
       tweetOptionsText = "Delete";
-      id = this.props.tweet._id;
-      classList = "popup tweet-popup delete-tweet-popup";
+      id = tweet._id;
+      classList = classList + " delete-tweet-popup";
     } else {
-      id = this.props.tweet.user._id;
-      classList = "popup tweet-popup";
+      id = tweet.user._id;
+      classList = classList + " popup tweet-popup";
       tweetOptionsText = this.props.currentUser.following.includes(
-        this.props.tweet.user._id
+        tweet.user._id
       )
-        ? "Unfollow @" + this.props.tweet.user.username
-        : "Follow @" + this.props.tweet.user.username;
+        ? "Unfollow @" + tweet.user.username
+        : "Follow @" + tweet.user.username;
     }
     const graphic =
-      tweetOptionsText === "Delete"
+      this.props.currentUser._id === tweet.user._id
         ? "DELETE"
         : tweetOptionsText.replace(/ .*/, "").toUpperCase();
 
@@ -69,15 +132,25 @@ class Tweet extends React.Component {
           </div>
         ) : null}
         <div className="tweet-container">
+          {this.props.tweet.retweetOf ? (
+            <Link to={"/" + this.props.tweet.user.username}>
+              <div className="retweet-label">
+                {renderGraphic(graphics.RETWEET_SMALL)}
+                <div>
+                  {this.props.currentUser.name === this.props.tweet.user.name
+                    ? "You Retweeted"
+                    : this.props.tweet.user.name + " Retweeted"}
+                </div>
+              </div>
+            </Link>
+          ) : null}
           <Link
-            to={"/" + this.props.tweet.user.username}
+            to={"/" + tweet.user.username}
             onClick={this.props.handlePathChange}
           >
             <ProfilePic
               photo={
-                this.props.tweet.user.profilePicture
-                  ? this.props.tweet.user.profilePicture
-                  : null
+                tweet.user.profilePicture ? tweet.user.profilePicture : null
               }
               size="med"
             />
@@ -85,18 +158,16 @@ class Tweet extends React.Component {
           <div className="tweet-main">
             <div className="tweet-header">
               <Link
-                to={"/" + this.props.tweet.user.username}
+                to={"/" + tweet.user.username}
                 onClick={this.props.onPathChange}
               >
-                <div className="tweet-name">{this.props.tweet.user.name}</div>
+                <div className="tweet-name">{tweet.user.name}</div>
                 <div className="tweet-username">
-                  {"@" + this.props.tweet.user.username}
+                  {"@" + tweet.user.username}
                 </div>
               </Link>
               <div className="divider">.</div>
-              <div className="tweet-date">
-                {formatDate(this.props.tweet.date)}
-              </div>
+              <div className="tweet-date">{formatDate(tweet.date)}</div>
               <div
                 className="popup-option-container"
                 onClick={this.togglePopup.bind(this)}
@@ -104,16 +175,16 @@ class Tweet extends React.Component {
                 {renderGraphic(graphics.TWEET_OPTIONS)}
               </div>
             </div>
-            <div className="tweet-text">{this.props.tweet.text}</div>
+            <div className="tweet-text">{tweet.text}</div>
             <div className="tweet-footer">
-              {renderGraphic(graphics.REPLY)}
-              {renderGraphic(graphics.RETWEET)}
-              {renderGraphic(
-                graphics.LIKE,
-                false,
-                this.handleLikeChange.bind(this)
-              )}
-              {renderGraphic(graphics.SHARE)}
+              <div className="tweet-graphic-item">
+                {renderGraphic(graphics.REPLY)}
+              </div>
+              {this.renderTweetGraphic("retweet")}
+              {this.renderTweetGraphic("like")}
+              <div className="tweet-graphic-item">
+                {renderGraphic(graphics.SHARE)}
+              </div>
             </div>
           </div>
         </div>
