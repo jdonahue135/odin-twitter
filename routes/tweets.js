@@ -23,4 +23,7 @@ router.post(
 /* handle tweet like/unlike on POST */
 router.post("/:tweetid/like", auth.verifyToken, tweets_controller.like);
 
+/* handle retweet/retweet delete on POST */
+router.post("/:tweetid/retweet", auth.verifyToken, tweets_controller.retweet);
+
 module.exports = router;
