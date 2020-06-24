@@ -8,7 +8,7 @@ const CharacterCounter = (props) => {
   let viewBox;
   let circleSize;
   const charCountColor =
-    props.charCount < 280 ? "rgb(101, 119, 134)" : "rgb(224, 36, 94)";
+    props.charCount < 279 ? "rgb(101, 119, 134)" : "rgb(224, 36, 94)";
   if (props.charCount < 260) {
     strokeDashoffset = 0.20196 * (280 - props.charCount);
     strokeDasharray = 56.5487;
@@ -18,10 +18,10 @@ const CharacterCounter = (props) => {
     circleSize = "1.5rem";
   } else {
     strokeDashoffset =
-      props.charcount < 280 ? 0.314159 * (280 - props.charCount) : 0;
+      props.charCount < 279 ? 0.314159 * (280 - props.charCount) : 0;
     strokeDasharray = 87.9646;
     r = 14;
-    stroke = props.charCount < 280 ? "rgb(255, 173, 31)" : "rgb(224, 36, 94)";
+    stroke = props.charCount < 279 ? "rgb(255, 173, 31)" : "rgb(224, 36, 94)";
     viewBox = "0 0 30 30";
     circleSize = "2.25rem";
   }
@@ -62,7 +62,7 @@ const CharacterCounter = (props) => {
       </svg>
       {props.charCount > 259 ? (
         <div className="char-count" style={{ color: charCountColor }}>
-          {280 - props.charCount}
+          {279 - props.charCount}
         </div>
       ) : (
         <div />
