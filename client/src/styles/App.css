@@ -25,7 +25,17 @@ h1 {
   font-weight: 800;
   margin: 25px;
 }
-
+.hashtag {
+  color: rgb(27, 149, 224);
+  cursor: pointer;
+}
+.hashtag:hover {
+  text-decoration: underline;
+}
+.profile-link {
+  color: rgb(27, 149, 224);
+  cursor: pointer;
+}
 .input-overlay {
   padding-left: 10px;
   border-bottom: 2px solid rgb(118, 118, 118);
@@ -286,6 +296,9 @@ textarea::placeholder {
 .profile-pic-container-lg {
   bottom: 100px;
 }
+.profile-pic-container-med {
+  margin-bottom: 0;
+}
 .profile-pic-overlay {
   display: inline-block;
   height: 49px;
@@ -489,8 +502,11 @@ textarea::placeholder {
 }
 
 .tweet-graphic-item {
-  margin-right: 90px;
-  margin-top: 10px;
+  margin-right: 80px;
+  width: 50px;
+}
+.tweet-footer {
+  padding-left: 60px;
 }
 
 .tweet-footer-count {
@@ -606,8 +622,30 @@ textarea::placeholder {
   background-color: rgb(230, 236, 240);
   margin-left: 10px;
 }
+.vertical-break {
+  width: 2px;
+  height: 15%;
+  background-color: rgb(202, 205, 206);
+  position: absolute;
+  top: 120px;
+  left: 25px;
+  display: inline-block;
+}
+.reply-label {
+  position: relative;
+  left: 70px;
+  top: 15px;
+  font-size: 15px;
+  color: rgb(101, 119, 134);
+}
 .tweet-footer div {
   display: inline-block;
+}
+.overlay-tweet-input-container {
+  margin-top: 35px;
+}
+.overlay-tweet-target-container {
+  margin-left: 2px;
 }
 
 .tweet-focus-footer .tweet-graphic-container {
@@ -627,7 +665,7 @@ textarea::placeholder {
   top: 5vh;
   width: 600px;
   height: fit-content;
-  position: absolute;
+  position: fixed;
   left: 27vw;
   border-radius: 15px;
 }
@@ -726,6 +764,7 @@ textarea::placeholder {
   bottom: 80px;
 }
 .tweet-container {
+  text-align: left;
   min-height: 80px;
   cursor: pointer;
   padding-top: 5px;
@@ -733,6 +772,13 @@ textarea::placeholder {
 }
 .tweet-container:hover {
   background-color: rgb(245, 248, 250);
+}
+.overlay-tweet-form-container .tweet-container {
+  border-bottom: 0;
+  cursor: unset;
+}
+.overlay-tweet-form-container .tweet-container:hover {
+  background-color: initial;
 }
 .tweet-focus-container {
   cursor: unset;
@@ -786,6 +832,9 @@ textarea::placeholder {
   display: inline-block;
   width: 88%;
   padding-top: 5px;
+}
+.tweet-header {
+  width: fit-content;
 }
 
 .tweet-header div {
