@@ -9,6 +9,7 @@ var NotificationSchema = new Schema({
   actionUsers: [{ type: Schema.Types.ObjectId, ref: "User", required: true }],
   type: { type: String, required: true, max: 15 },
   tweet: { type: Schema.Types.ObjectId, ref: "Tweet" },
+  reply: { type: Schema.Types.ObjectId, ref: "Tweet" },
 });
 
 //Export model
