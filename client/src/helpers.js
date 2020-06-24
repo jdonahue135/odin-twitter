@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import moment from "moment";
 
 export const renderGraphic = (graphic, selectedStatus, onClick) => {
@@ -74,9 +75,18 @@ export const formatTweetText = (string) => {
   for (let i = 0; i < words.length; i++) {
     if (words[i][0] === "#") {
       formatArray.push(
-        <span key={words[i] + " " + i} className="hashtag">
+        <span key={words[i] + " hashtag"} className="hashtag">
           {words[i]}
         </span>,
+        " "
+      );
+    } else if (words[i][0] === "@") {
+      formatArray.push(
+        <Link key={words[i]} to={"/" + words[i].slice(1)}>
+          <span key={words[i] + " handle"} className="handle">
+            {words[i]}
+          </span>
+        </Link>,
         " "
       );
     } else formatArray.push(words[i], " ");
