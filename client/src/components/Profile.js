@@ -30,7 +30,18 @@ class Profile extends React.Component {
       this.fetchUserTweets();
     }
   }
-
+  handleTweetDelete(e) {
+    this.props.onTweetDelete(e);
+    setTimeout(this.fetchUserTweets(), 1000);
+  }
+  handleFollowChange(e) {
+    this.props.onClick(e);
+    setTimeout(this.fetchUserTweets(), 1000);
+  }
+  handleRetweetChange(tweetID) {
+    this.props.onRetweet(tweetID);
+    setTimeout(this.fetchUserTweets(), 1000);
+  }
   fetchUserTweets() {
     fetch("/users" + this.props.location.pathname + "/tweets")
       .then((res) => res.json())
@@ -119,10 +130,10 @@ class Profile extends React.Component {
               user={this.props.user}
               tweets={this.state.tweets}
               class="profile"
-              deleteTweet={this.props.onTweetDelete}
-              onFollowChange={this.props.onClick}
+              deleteTweet={this.handleTweetDelete.bind(this)}
+              onFollowChange={this.handleFollowChange.bind(this)}
               onLike={this.props.onLike}
-              onRetweet={this.props.onRetweet}
+              onRetweet={this.handleRetweetChange.bind(this)}
               onReply={this.props.onReply}
             />
           ) : (
