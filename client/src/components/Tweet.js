@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { ClickAwayListener } from "@material-ui/core";
 
@@ -13,6 +13,7 @@ class Tweet extends React.Component {
 
     this.state = {
       showPopup: false,
+      redirect: null,
     };
   }
 
@@ -42,14 +43,21 @@ class Tweet extends React.Component {
 
     return formatArray;
   }
+  handleTweetClick() {
+    this.setState({ redirect: true });
+  }
 
   render() {
     const tweet = this.props.tweet.retweetOf
       ? this.props.tweet.retweetOf
       : this.props.tweet;
-
-    const text =
-      tweet.text.indexOf("#") !== -1 ? formatTweetText(tweet.text) : tweet.text;
+    if (this.state.redirect) {
+      return <Redirect to={"/" + tweet.user.username + "/" + tweet._id} />;
+    }
+    let text = tweet.text;
+    if (tweet.text.indexOf("#") !== -1 || tweet.text.indexOf("@") !== -1) {
+      text = formatTweetText(tweet.text);
+    }
 
     let id;
     let classList = "popup tweet-popup";
@@ -127,17 +135,20 @@ class Tweet extends React.Component {
             <Link to={"/" + tweet.user.username + "/" + tweet._id}>
               <div className="divider">.</div>
               <div className="tweet-date">{formatDate(tweet.date)}</div>
-              <div
-                className="popup-option-container"
-                onClick={this.togglePopup.bind(this)}
-              >
-                {renderGraphic(graphics.TWEET_OPTIONS)}
-              </div>
             </Link>
+            <div
+              className="popup-option-container"
+              onClick={this.togglePopup.bind(this)}
+            >
+              {renderGraphic(graphics.TWEET_OPTIONS)}
+            </div>
           </div>
-          <Link to={"/" + tweet.user.username + "/" + tweet._id}>
-            <div className="tweet-text">{text}</div>
-          </Link>
+          <div
+            onClick={this.handleTweetClick.bind(this)}
+            className="tweet-text"
+          >
+            {text}
+          </div>
         </div>
       </div>
     );
