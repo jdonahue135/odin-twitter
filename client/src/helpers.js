@@ -97,3 +97,13 @@ export const formatTweetText = (string) => {
 
   return formatArray;
 };
+
+export const removeReplies = (tweetList) => {
+  let formattedTweetList = [];
+  for (let i = 0; i < tweetList.length; i++) {
+    if (!tweetList[i].text || tweetList[i].text[0] !== "@") {
+      formattedTweetList.push(tweetList[i]);
+    }
+  }
+  return formattedTweetList;
+};
