@@ -18,7 +18,6 @@ class Profile extends React.Component {
       tweetsSelected: true,
       tweets: null,
       user: null,
-      refresh: false,
     };
   }
 
@@ -124,6 +123,7 @@ class Profile extends React.Component {
               onFollowChange={this.props.onClick}
               onLike={this.props.onLike}
               onRetweet={this.props.onRetweet}
+              onReply={this.props.onReply}
             />
           ) : (
             <div className="tweetlist-info-container tweetlist-info-title-container">

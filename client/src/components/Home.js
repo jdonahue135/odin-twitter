@@ -63,6 +63,7 @@ const Home = (props) => {
                 onLike={props.onLike}
                 onRetweet={props.onRetweet}
                 home={true}
+                onReply={props.onReply}
               />
             )}
           </div>
