@@ -172,7 +172,7 @@ class App extends React.Component {
     });
   }
 
-  handleTweetSubmit(text) {
+  handleTweetSubmit(text, replyTweet) {
     if (!text || !this.state.user) return;
 
     const requestOptions = {
@@ -184,6 +184,7 @@ class App extends React.Component {
       body: JSON.stringify({
         user: this.state.user,
         text: text,
+        replyTweet: replyTweet,
       }),
     };
 
@@ -218,7 +219,7 @@ class App extends React.Component {
     fetch("/tweets/" + e.target.id + "/delete", requestOptions)
       .then((res) => res.json())
       .then((res) => console.log(res))
-      .then(this.fetchTweets())
+      .then(() => this.fetchTweets())
       .catch((err) => console.log(err));
   }
 
@@ -263,7 +264,7 @@ class App extends React.Component {
     fetch("/tweets/" + tweetID + "/like", requestOptions)
       .then((res) => res.json())
       .then((res) => console.log(res))
-      .then(this.fetchTweets())
+      .then(() => this.fetchTweets())
       .catch((err) => console.log(err));
   }
 
@@ -284,7 +285,7 @@ class App extends React.Component {
     fetch("/tweets/" + tweetID + "/retweet", requestOptions)
       .then((res) => res.json())
       .then((res) => console.log(res))
-      .then(this.fetchTweets())
+      .then(() => this.fetchTweets())
       .catch((err) => console.log(err));
   }
 
