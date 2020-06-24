@@ -46,14 +46,17 @@ class TweetForm extends React.Component {
       this.state.text.length < 280 &&
       /\S/.test(this.state.text)
     ) {
-      this.props.onClick(this.state.text);
+      const handle = this.props.isReplyTo
+        ? "@" + this.props.isReplyTo.user.username + " "
+        : "";
+      this.props.onClick(handle + this.state.text, this.props.isReplyTo);
       //clear form after submit
       this.setState({ text: "" });
     } else return;
   }
 
   render() {
-    const placeholder = this.props.isReply
+    const placeholder = this.props.isReplyTo
       ? "Tweet your reply"
       : "What's happening?";
 
@@ -68,6 +71,10 @@ class TweetForm extends React.Component {
       ButtonClass = "";
     }
     let rows = this.props.overlay ? 6 : 1;
+
+    const charCount = this.props.isReplyTo
+      ? this.state.text.length + this.props.isReplyTo.user.username.length
+      : this.state.text.length;
 
     return (
       <div className="tweet-form-container">
@@ -90,7 +97,7 @@ class TweetForm extends React.Component {
             onClick={this.handleClick.bind(this)}
           />
           {this.state.text.length > 0 ? (
-            <CharacterCounter charCount={this.state.text.length} />
+            <CharacterCounter charCount={charCount} />
           ) : null}
         </div>
       </div>
