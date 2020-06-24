@@ -17,7 +17,7 @@ import Notifications from "./Notifications";
 import Messages from "./Messages";
 import Profile from "./Profile";
 import Explore from "./Explore";
-import TweetOverlay from "./TweetOverlay";
+import Overlay from "./Overlay";
 import TweetFocus from "./TweetFocus";
 
 class App extends React.Component {
@@ -33,7 +33,8 @@ class App extends React.Component {
       showLoginWarning: false,
       tweets: null,
       pathname: "/home",
-      showTweetOverlay: false,
+      showOverlay: false,
+      replyTweet: null,
     };
   }
 
@@ -190,14 +191,17 @@ class App extends React.Component {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        this.setState({ showTweetOverlay: false });
+        this.setState({ showOverlay: false });
         this.fetchTweets();
       })
       .catch((err) => console.log(err));
   }
 
-  toggleTweetOverlay() {
-    this.setState({ showTweetOverlay: !this.state.showTweetOverlay });
+  toggleOverlay() {
+    this.setState({
+      showOverlay: !this.state.showOverlay,
+      replyTweet: null,
+    });
   }
   handleTweetDelete(e) {
     const requestOptions = {
@@ -284,6 +288,13 @@ class App extends React.Component {
       .catch((err) => console.log(err));
   }
 
+  showReplyOverlay(tweet) {
+    this.setState({
+      showOverlay: true,
+      replyTweet: tweet,
+    });
+  }
+
   render() {
     if (this.state.showLoadingScreen) {
       return this.renderAppLoadingGraphic();
@@ -307,27 +318,28 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <div>
-          {this.state.showTweetOverlay ? (
-            <div>
-              <div className="backdrop" />
-              <TweetOverlay
-                user={this.state.user}
-                onXClick={this.toggleTweetOverlay.bind(this)}
-                onClick={this.handleTweetSubmit.bind(this)}
-              />
-            </div>
-          ) : null}
+        <Router>
           <div>
-            <Router>
+            {this.state.showOverlay ? (
+              <div>
+                <div className="backdrop" />
+                <Overlay
+                  user={this.state.user}
+                  onXClick={this.toggleOverlay.bind(this)}
+                  onClick={this.handleTweetSubmit.bind(this)}
+                  replyTweet={this.state.replyTweet}
+                />
+              </div>
+            ) : null}
+            <div>
               <Sidebar
-                onButtonClick={this.toggleTweetOverlay.bind(this)}
+                onButtonClick={this.toggleOverlay.bind(this)}
                 pathname={this.state.pathname}
                 onPathChange={this.handlePathChange.bind(this)}
                 username={this.state.user.name}
                 handle={this.state.user.username}
                 onClick={this.handleLogOut.bind(this)}
-                disable={this.state.showTweetOverlay}
+                disable={this.state.showOverlay}
               />
               <Switch>
                 <Route exact path="/">
@@ -371,6 +383,7 @@ class App extends React.Component {
                       onPathChange={this.handlePathChange.bind(this)}
                       onLike={this.handleLikeChange.bind(this)}
                       onRetweet={this.handleRetweetChange.bind(this)}
+                      onReply={this.showReplyOverlay.bind(this)}
                     />
                   )}
                 />
@@ -391,20 +404,21 @@ class App extends React.Component {
                     <Profile
                       {...props}
                       user={this.state.user}
-                      onButtonClick={this.toggleTweetOverlay.bind(this)}
+                      onButtonClick={this.toggleOverlay.bind(this)}
                       onTweetDelete={this.handleTweetDelete.bind(this)}
                       onClick={this.handleFollowerChange.bind(this)}
-                      popupStatus={this.state.showTweetOverlay}
+                      popupStatus={this.state.showOverlay}
                       onPathChange={this.handlePathChange.bind(this)}
                       onLike={this.handleLikeChange.bind(this)}
                       onRetweet={this.handleRetweetChange.bind(this)}
+                      onReply={this.showReplyOverlay.bind(this)}
                     />
                   )}
                 />
               </Switch>
-            </Router>
+            </div>
           </div>
-        </div>
+        </Router>
       </div>
     );
   }
