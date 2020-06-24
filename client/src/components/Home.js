@@ -62,7 +62,6 @@ const Home = (props) => {
                 onPathChange={props.onPathChange}
                 onLike={props.onLike}
                 onRetweet={props.onRetweet}
-                home={true}
                 onReply={props.onReply}
               />
             )}
