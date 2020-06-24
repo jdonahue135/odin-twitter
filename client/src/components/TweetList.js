@@ -3,8 +3,13 @@ import React from "react";
 import Tweet from "./Tweet";
 import TweetFooter from "./TweetFooter";
 
+import { removeReplies } from "../helpers";
+
 const TweetList = (props) => {
-  const sortedTweets = props.tweets.sort(function (a, b) {
+  const tweets = props.tweetsSelected
+    ? removeReplies(props.tweets)
+    : props.tweets;
+  const sortedTweets = tweets.sort(function (a, b) {
     a = new Date(a.date);
     b = new Date(b.date);
 
@@ -18,12 +23,8 @@ const TweetList = (props) => {
   return (
     <div className={classList}>
       {sortedTweets.map((tweet) => {
-        if (
-          tweet.retweetOf &&
-          tweet.user._id === props.user._id &&
-          props.home
-        ) {
-          //do not display user's retweet on home tweetList
+        if (tweet.retweetOf && tweet.user._id === props.user._id) {
+          //do not display user's retweet
           return null;
         }
         const targetTweet = tweet.retweetOf ? tweet.retweetOf : tweet;
