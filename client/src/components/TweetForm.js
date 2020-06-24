@@ -53,6 +53,10 @@ class TweetForm extends React.Component {
   }
 
   render() {
+    const placeholder = this.props.isReply
+      ? "Tweet your reply"
+      : "What's happening?";
+
     let ButtonClass;
     if (
       this.state.text.length === 0 ||
@@ -69,7 +73,7 @@ class TweetForm extends React.Component {
       <div className="tweet-form-container">
         <TextareaAutosize
           rows={rows}
-          placeholder="What's happening?"
+          placeholder={placeholder}
           onChange={this.handleTextChange.bind(this)}
           onFocus={this.handleFocus.bind(this)}
           value={this.state.text}
