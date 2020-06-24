@@ -1,6 +1,7 @@
 import React from "react";
 
 import Tweet from "./Tweet";
+import TweetFooter from "./TweetFooter";
 
 const TweetList = (props) => {
   const sortedTweets = props.tweets.sort(function (a, b) {
@@ -31,15 +32,23 @@ const TweetList = (props) => {
             ? props.deleteTweet
             : props.onFollowChange;
         return (
-          <Tweet
-            currentUser={props.user}
-            key={tweet._id}
-            tweet={tweet}
-            onClick={onClickProp}
-            onPathChange={props.onPathChange}
-            onLike={props.onLike}
-            onRetweet={props.onRetweet}
-          />
+          <div className="tweet-container" key={tweet._id + " container"}>
+            <Tweet
+              currentUser={props.user}
+              key={tweet._id}
+              tweet={tweet}
+              onClick={onClickProp}
+              onPathChange={props.onPathChange}
+            />
+            <TweetFooter
+              currentUser={props.user}
+              key={tweet._id + "footer"}
+              tweet={tweet}
+              onLike={props.onLike}
+              onRetweet={props.onRetweet}
+              onReply={props.onReply}
+            />
+          </div>
         );
       })}
     </div>
