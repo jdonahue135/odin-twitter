@@ -64,3 +64,26 @@ export const formatDate = (dateTime, fullDateOption) => {
   }
   return time;
 };
+
+export const formatTweetText = (string) => {
+  //deconstruct string into words
+  const words = string.split(" ");
+
+  //apply span stylings
+  let formatArray = [];
+  for (let i = 0; i < words.length; i++) {
+    if (words[i][0] === "#") {
+      formatArray.push(
+        <span key={words[i] + " " + i} className="hashtag">
+          {words[i]}
+        </span>,
+        " "
+      );
+    } else formatArray.push(words[i], " ");
+  }
+
+  //remove trailing space
+  formatArray[formatArray.length - 1].trim();
+
+  return formatArray;
+};
