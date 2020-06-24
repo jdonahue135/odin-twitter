@@ -2,7 +2,7 @@ import React from "react";
 import { ClickAwayListener } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-import { renderGraphic, formatDate } from "../helpers";
+import { renderGraphic, formatDate, formatTweetText } from "../helpers";
 import { graphics } from "../constants";
 
 import ProfilePic from "./ProfilePic";
@@ -18,7 +18,6 @@ class TweetFocus extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.match.params.tweetid);
     fetch("/tweets/status/" + this.props.match.params.tweetid)
       .then((res) => res.json())
       .then((res) => this.setState({ tweet: res.tweet }));
@@ -46,15 +45,18 @@ class TweetFocus extends React.Component {
     }
     let id;
     let classList;
+    let onClick;
     let tweetOptionsText =
       this.props.user._id === this.state.tweet.user._id
         ? "Delete"
         : "Unfollow @" + this.state.tweet.user.username;
     if (this.props.user._id === this.state.tweet.user._id) {
+      onClick = this.props.onTweetDelete;
       tweetOptionsText = "Delete";
       id = this.state.tweet._id;
       classList = "popup tweet-popup delete-tweet-popup";
     } else {
+      onClick = this.props.onClick;
       id = this.state.tweet.user._id;
       classList = "popup tweet-popup";
       tweetOptionsText = this.props.user.following.includes(
@@ -70,6 +72,11 @@ class TweetFocus extends React.Component {
 
     const { time, date } = formatDate(this.state.tweet.date, true);
 
+    const text =
+      this.state.tweet.text.indexOf("#") !== -1
+        ? formatTweetText(this.state.tweet.text)
+        : this.state.tweet.text;
+
     return (
       <div className="component">
         <div className="title-container tweet-focus-title-container">
@@ -84,13 +91,15 @@ class TweetFocus extends React.Component {
               <ClickAwayListener onClickAway={this.togglePopup.bind(this)}>
                 <div className={classList}>
                   {renderGraphic(graphics[graphic])}
-                  <div
-                    id={id}
-                    className="popup-text-container tweet-options-text-container"
-                    onClick={this.props.onClick}
-                  >
-                    {tweetOptionsText}
-                  </div>
+                  <Link to="/home">
+                    <div
+                      id={id}
+                      className="popup-text-container tweet-options-text-container"
+                      onClick={onClick}
+                    >
+                      {tweetOptionsText}
+                    </div>
+                  </Link>
                 </div>
               </ClickAwayListener>
               <div className="tweet-overlay" />
@@ -126,9 +135,7 @@ class TweetFocus extends React.Component {
               </div>
             </div>
             <div className="tweet-body">
-              <div className="tweet-text tweet-focus-text">
-                {this.state.tweet.text}
-              </div>
+              <div className="tweet-text tweet-focus-text">{text}</div>
               <div className="tweet-focus-date-container">
                 <div className="tweet-date">{time}</div>
                 <div className="divider">.</div>
