@@ -129,6 +129,7 @@ class Profile extends React.Component {
             <TweetList
               user={this.props.user}
               tweets={this.state.tweets}
+              tweetsSelected={this.state.tweetsSelected}
               class="profile"
               deleteTweet={this.handleTweetDelete.bind(this)}
               onFollowChange={this.handleFollowChange.bind(this)}
