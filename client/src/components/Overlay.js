@@ -22,7 +22,7 @@ const Overlay = (props) => {
     ];
   }
 
-  const isReply = props.replyTweet !== null ? true : false;
+  const isReply = props.replyTweet !== null ? props.replyTweet : null;
   const className = props.replyTweet ? "overlay-tweet-input-container" : null;
   return (
     <div className="overlay-tweet-form-container">
@@ -32,7 +32,7 @@ const Overlay = (props) => {
       {props.replyTweet ? (
         <div className="overlay-tweet-target-container">
           <div className="tweet-container" onClick={props.onXClick}>
-            <Tweet tweet={props.replyTweet} />
+            <Tweet tweet={props.replyTweet} currentUser={props.user} />
             <div className="reply-label">
               {formatReplyLabel(props.replyTweet.user.username)}
             </div>
@@ -50,7 +50,7 @@ const Overlay = (props) => {
           onClick={props.onClick}
           onChange={props.onChange}
           charCount={props.charCount}
-          isReply={isReply}
+          isReplyTo={isReply}
         />
       </div>
     </div>
