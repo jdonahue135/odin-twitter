@@ -51,7 +51,7 @@ exports.tweet_post = function (req, res, next) {
     .withMessage("Text has non-alphanumeric characters."),
     // Sanitize field.
     sanitizeBody("text").escape();
-
+  console.log(req.body);
   //Validate input
   if (req.body.user == null) {
     res.json({ message: "user must be specified" });
@@ -61,10 +61,37 @@ exports.tweet_post = function (req, res, next) {
   }
 
   //save tweet
-  const newTweet = new Tweet({
+  let newTweet = new Tweet({
     user: req.body.user,
     text: req.body.text,
   });
+
+  if (req.body.replyTweet) {
+    //save reply to new tweet
+    newTweet.inReplyTo = req.body.replyTweet;
+
+    //find the replyTweet and save new tweet as a reply
+    Tweet.findById(req.body.replyTweet._id).exec((err, theTweet) => {
+      if (err) {
+        console.log(err);
+        return;
+      } else {
+        theTweet.replies.push(newTweet);
+        theTweet.save();
+      }
+    });
+
+    //add new notification for user
+    const newNotification = new Notification({
+      user: req.body.replyTweet.user,
+      actionUsers: [req.body.user],
+      type: "reply",
+      tweet: req.body.replyTweet,
+      reply: newTweet,
+    });
+
+    newNotification.save();
+  }
 
   newTweet.save((err) => {
     if (err) res.json({ success: false, err: err });
@@ -79,7 +106,7 @@ exports.tweet_post = function (req, res, next) {
 
 exports.tweet_delete = function (req, res, next) {
   Tweet.findById(req.params.tweetid)
-    .populate("retweets")
+    .populate("retweets inReplyTo")
     .exec(function (err, theTweet) {
       if (err) res.json({ success: false, err });
       if (!theTweet) res.json({ success: false, message: "tweet not found" });
@@ -90,6 +117,13 @@ exports.tweet_delete = function (req, res, next) {
             if (err) console.log(err);
           });
           theTweet.retweets.pop();
+        }
+        //delete all replies to the tweet
+        while (theTweet.replies.length > 0) {
+          Tweet.findOneAndDelete({ inReplyTo: theTweet._id }).exec((err) => {
+            if (err) console.log(err);
+          });
+          theTweet.replies.pop();
         }
         theTweet.remove();
         res.json({
@@ -177,6 +211,7 @@ exports.retweet = (req, res) => {
           user: req.body.user._id,
         }).exec((err, theRetweet) => {
           if (err) res.json({ success: false, err });
+          if (!theRetweet) console.log("retweet not found");
           else {
             theRetweet.remove();
           }
