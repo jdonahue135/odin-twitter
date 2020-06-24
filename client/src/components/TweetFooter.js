@@ -60,6 +60,7 @@ class TweetFooter extends React.Component {
   }
 
   handleReplyClick() {
+    this.setState({ replyCount: this.state.replyCount + 1 });
     this.props.onReply(this.props.tweet);
   }
 
