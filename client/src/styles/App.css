@@ -32,6 +32,18 @@ h1 {
 .hashtag:hover {
   text-decoration: underline;
 }
+.show-thread {
+  color: rgb(27, 149, 224);
+  cursor: pointer;
+  width: auto;
+  height: 25px;
+  padding-left: 70px;
+  padding-top: 5px;
+}
+.show-thread:hover {
+  background-color: rgb(245, 248, 250);
+}
+
 .handle {
   color: rgb(27, 149, 224);
   cursor: pointer;
@@ -642,6 +654,15 @@ textarea::placeholder {
   left: 25px;
   display: inline-block;
 }
+.tweet-list-vertical-break {
+  left: 33px;
+  top: 55px;
+  height: 75px;
+}
+.replies-container .tweet-list-vertical-break {
+  display: none;
+}
+
 .reply-label {
   position: relative;
   left: 70px;
@@ -660,7 +681,7 @@ textarea::placeholder {
 }
 
 .tweet-focus-footer .tweet-graphic-container {
-  margin: 10px 55px;
+  margin: 10px 45px;
 }
 
 .tweet-form-container {
@@ -778,10 +799,13 @@ textarea::placeholder {
   text-align: left;
   min-height: 80px;
   cursor: pointer;
-  padding-top: 5px;
   border-bottom: 1px solid rgb(230, 236, 240);
 }
-.tweet-container:hover {
+.tweet {
+  height: 100%;
+  padding-top: 5px;
+}
+.tweet:hover {
   background-color: rgb(245, 248, 250);
 }
 .overlay-tweet-form-container .tweet-container {
@@ -793,6 +817,7 @@ textarea::placeholder {
 }
 .tweet-focus-container {
   cursor: unset;
+  padding-top: 10px;
 }
 .tweet-focus-container:hover {
   background-color: initial;
