@@ -32,6 +32,7 @@ class App extends React.Component {
       jwt: null,
       showLoginWarning: false,
       tweets: null,
+      notifications: null,
       pathname: "/home",
       showOverlay: false,
       replyTweet: null,
@@ -58,9 +59,10 @@ class App extends React.Component {
       }
     }
     if (this.state.user) {
-      //fetch tweets
+      //fetch tweets and notifications
       //this is set to wait 2 seconds if server needs to restart in development
       setTimeout(this.fetchTweets(), 2000);
+      setTimeout(this.fetchUserNotifications(), 2000);
     }
   }
 
@@ -78,12 +80,32 @@ class App extends React.Component {
     if (!this.state.tweets && this.state.user) {
       this.fetchTweets();
     }
+    if (!this.state.notifications && this.state.user) {
+      this.fetchUserNotifications();
+    }
   }
 
   fetchTweets() {
     fetch("/tweets/" + this.state.user._id)
       .then((res) => res.json())
       .then((res) => this.setState({ tweets: res.tweets }))
+      .catch((err) => console.log(err));
+  }
+
+  fetchUserNotifications() {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.jwt,
+      },
+    };
+
+    const url = "/users/" + this.state.user._id + "/notifications";
+
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((res) => this.setState({ notifications: res.notifications }))
       .catch((err) => console.log(err));
   }
 
@@ -361,6 +383,7 @@ class App extends React.Component {
                   render={(props) => (
                     <Notifications
                       {...props}
+                      notifications={this.state.notifications}
                       user={this.state.user}
                       onClick={this.handleFollowerChange.bind(this)}
                       onPathChange={this.handlePathChange.bind(this)}
@@ -396,6 +419,10 @@ class App extends React.Component {
                       user={this.state.user}
                       onTweetDelete={this.handleTweetDelete.bind(this)}
                       onClick={this.handleFollowerChange.bind(this)}
+                      onPathChange={this.handlePathChange.bind(this)}
+                      onLike={this.handleLikeChange.bind(this)}
+                      onRetweet={this.handleRetweetChange.bind(this)}
+                      onReply={this.showReplyOverlay.bind(this)}
                     />
                   )}
                 />
