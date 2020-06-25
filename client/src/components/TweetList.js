@@ -1,28 +1,40 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import Tweet from "./Tweet";
 import TweetFooter from "./TweetFooter";
 
-import { removeReplies } from "../helpers";
+import { removeReplies, addFormattedReplies } from "../helpers";
 
 const TweetList = (props) => {
-  const tweets = props.tweetsSelected
-    ? removeReplies(props.tweets)
-    : props.tweets;
-  const sortedTweets = tweets.sort(function (a, b) {
+  if (!props.tweets || !props.user) {
+    return (
+      <div className="component">
+        <div className="spinning-loader" />
+      </div>
+    );
+  }
+  const sortedTweets = props.tweets.sort(function (a, b) {
     a = new Date(a.date);
     b = new Date(b.date);
 
     //reverse logic of sort function
     return a > b ? -1 : a < b ? 1 : 0;
   });
+  let tweets = sortedTweets;
+  if (!props.focus) {
+    tweets =
+      props.tweetsSelected === false
+        ? addFormattedReplies(sortedTweets)
+        : removeReplies(sortedTweets);
+  }
 
   const classList = props.class
     ? "tweets-container " + props.class + "-tweets-container"
     : "tweets-container";
   return (
     <div className={classList}>
-      {sortedTweets.map((tweet) => {
+      {tweets.map((tweet) => {
         if (tweet.retweetOf && tweet.user._id === props.user._id) {
           //do not display user's retweet
           return null;
@@ -32,23 +44,36 @@ const TweetList = (props) => {
           props.user._id === targetTweet.user._id
             ? props.deleteTweet
             : props.onFollowChange;
+        let threadLink;
+        if (tweet.replies.length > 0 && props.home) {
+          threadLink = (
+            <Link to={"/" + tweet.user.username + "/" + tweet._id}>
+              <div className="show-thread">Show this thread</div>
+            </Link>
+          );
+        }
+        const isreply = tweet.inReplyTo ? true : false;
         return (
           <div className="tweet-container" key={tweet._id + " container"}>
-            <Tweet
-              currentUser={props.user}
-              key={tweet._id}
-              tweet={tweet}
-              onClick={onClickProp}
-              onPathChange={props.onPathChange}
-            />
-            <TweetFooter
-              currentUser={props.user}
-              key={tweet._id + "footer"}
-              tweet={tweet}
-              onLike={props.onLike}
-              onRetweet={props.onRetweet}
-              onReply={props.onReply}
-            />
+            <div className="tweet">
+              <Tweet
+                currentUser={props.user}
+                key={tweet._id}
+                tweet={tweet}
+                onClick={onClickProp}
+                onPathChange={props.onPathChange}
+                isReply={isreply}
+              />
+              <TweetFooter
+                currentUser={props.user}
+                key={tweet._id + "footer"}
+                tweet={tweet}
+                onLike={props.onLike}
+                onRetweet={props.onRetweet}
+                onReply={props.onReply}
+              />
+            </div>
+            {threadLink}
           </div>
         );
       })}
