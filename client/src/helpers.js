@@ -107,3 +107,24 @@ export const removeReplies = (tweetList) => {
   }
   return formattedTweetList;
 };
+
+export const addFormattedReplies = (tweetList) => {
+  let formattedTweetList = [];
+  for (let i = 0; i < tweetList.length; i++) {
+    //check if tweet is already in array
+    const tweet = formattedTweetList.find(
+      (tweet) => tweet._id === tweetList[i]._id
+    );
+    if (tweet === undefined) {
+      if (!tweetList[i].inReplyTo) {
+        formattedTweetList.push(tweetList[i]);
+      } else {
+        formattedTweetList.push(tweetList[i].inReplyTo);
+        for (let x = 0; x < tweetList[i].inReplyTo.length; x++) {
+          formattedTweetList.push(tweetList[i].replies[x]);
+        }
+      }
+    }
+  }
+  return formattedTweetList;
+};
