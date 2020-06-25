@@ -33,7 +33,14 @@ exports.tweets_get = function (req, res) {
 
 exports.tweet_get = function (req, res) {
   Tweet.findById(req.params.tweetid)
-    .populate("user retweetOf")
+    .populate("user retweetOf replies")
+    .populate({
+      path: "replies",
+      populate: {
+        path: "user",
+        select: "name username profilePicture",
+      },
+    })
     .exec((err, tweet) => {
       if (err) res.json({ success: false, err });
       if (!tweet) res.json({ success: false, message: "tweet not found" });
@@ -106,7 +113,7 @@ exports.tweet_post = function (req, res, next) {
 
 exports.tweet_delete = function (req, res, next) {
   Tweet.findById(req.params.tweetid)
-    .populate("retweets inReplyTo")
+    .populate("retweets inReplyTo replies")
     .exec(function (err, theTweet) {
       if (err) res.json({ success: false, err });
       if (!theTweet) res.json({ success: false, message: "tweet not found" });
@@ -117,6 +124,7 @@ exports.tweet_delete = function (req, res, next) {
             if (err) console.log(err);
           });
           theTweet.retweets.pop();
+          theTweet.save();
         }
         //delete all replies to the tweet
         while (theTweet.replies.length > 0) {
@@ -124,6 +132,21 @@ exports.tweet_delete = function (req, res, next) {
             if (err) console.log(err);
           });
           theTweet.replies.pop();
+          theTweet.save();
+        }
+        //if tweet is a reply, remove from target tweet "replies"
+        if (theTweet.inReplyTo !== undefined) {
+          console.log(theTweet.inReplyTo);
+          Tweet.findById(theTweet.inReplyTo._id).exec((err, targetTweet) => {
+            if (err) console.log(err);
+            else {
+              targetTweet.replies.splice(
+                targetTweet.replies.indexOf(theTweet._id),
+                1
+              );
+              targetTweet.save();
+            }
+          });
         }
         theTweet.remove();
         res.json({
