@@ -122,12 +122,18 @@ exports.get_tweets = (req, res, next) => {
     .select("-password")
     .exec(function (err, theUser) {
       if (err) res.json({ success: false, message: "Error" });
-      if (!theUser) res.json({ success: false, message: "No user" });
       else {
         Tweet.find({ user: theUser })
           .populate("user")
           .populate({
             path: "retweetOf",
+            populate: {
+              path: "user",
+              select: "name username profilePicture",
+            },
+          })
+          .populate({
+            path: "inReplyTo",
             populate: {
               path: "user",
               select: "name username profilePicture",
@@ -139,6 +145,22 @@ exports.get_tweets = (req, res, next) => {
             else res.json({ tweets: theTweets, user: theUser });
           });
       }
+    });
+};
+
+exports.get_notifications = (req, res) => {
+  //find user notifications
+  Notification.find({ user: req.params.userid })
+    .populate({
+      path: "tweet",
+      populate: {
+        path: "actionUsers",
+        select: "name username profilePicture",
+      },
+    })
+    .exec((err, theNotifications) => {
+      if (err) console.log(err);
+      else res.json({ success: true, notifications: theNotifications });
     });
 };
 
