@@ -6,6 +6,7 @@ import { renderGraphic, formatDate, formatTweetText } from "../helpers";
 import { graphics } from "../constants";
 
 import ProfilePic from "./ProfilePic";
+import TweetList from "./TweetList";
 
 class TweetFocus extends React.Component {
   constructor(props) {
@@ -18,13 +19,37 @@ class TweetFocus extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchTweet();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.fetchTweet();
+    }
+  }
+
+  fetchTweet() {
     fetch("/tweets/status/" + this.props.match.params.tweetid)
       .then((res) => res.json())
-      .then((res) => this.setState({ tweet: res.tweet }));
+      .then((res) => this.setState({ tweet: res.tweet }))
+      .catch((err) => console.log(err));
   }
 
   togglePopup() {
     this.setState({ showPopup: !this.state.showPopup });
+  }
+
+  handleTweetDelete(e) {
+    this.props.onTweetDelete(e);
+    setTimeout(this.fetchTweet(), 1000);
+  }
+  handleFollowChange(e) {
+    this.props.onClick(e);
+    setTimeout(this.fetchTweet(), 1000);
+  }
+  handleRetweetChange(tweetID) {
+    this.props.onRetweet(tweetID);
+    setTimeout(this.fetchTweet(), 1000);
   }
 
   render() {
@@ -150,7 +175,18 @@ class TweetFocus extends React.Component {
             </div>
           </div>
         </div>
-        <div className="replies-container" />
+        <div className="replies-container">
+          <TweetList
+            tweets={this.state.tweet.replies}
+            user={this.props.user}
+            deleteTweet={this.handleTweetDelete.bind(this)}
+            onFollowChange={this.handleFollowChange.bind(this)}
+            onLike={this.props.onLike}
+            onRetweet={this.handleRetweetChange.bind(this)}
+            onReply={this.props.onReply}
+            focus={true}
+          />
+        </div>
       </div>
     );
   }
