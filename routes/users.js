@@ -25,6 +25,13 @@ router.get("/:userid", users_controller.user_get);
 /* handle GET request for user tweets */
 router.get("/:username/tweets", users_controller.get_tweets);
 
+/*handle GET request for user Notifications */
+router.get(
+  "/:userid/notifications",
+  auth.verifyToken,
+  users_controller.get_notifications
+);
+
 /* handle user follow/unfollow on POST*/
 router.post("/:userid", auth.verifyToken, users_controller.follow);
 
