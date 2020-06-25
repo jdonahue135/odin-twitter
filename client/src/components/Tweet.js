@@ -114,6 +114,9 @@ class Tweet extends React.Component {
             </div>
           </Link>
         ) : null}
+        {this.props.isReply ? (
+          <div className="vertical-break tweet-list-vertical-break" />
+        ) : null}
         <Link
           to={"/" + tweet.user.username}
           onClick={this.props.handlePathChange}
