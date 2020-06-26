@@ -4,7 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { ClickAwayListener } from "@material-ui/core";
 
 import ProfilePic from "./ProfilePic";
-import { renderGraphic, formatDate, formatTweetText } from "../helpers";
+import { renderGraphic, formatDate, addTextStyling } from "../helpers";
 import { graphics } from "../constants";
 
 class Tweet extends React.Component {
@@ -21,28 +21,6 @@ class Tweet extends React.Component {
     this.setState({ showPopup: !this.state.showPopup });
   }
 
-  formatText(string) {
-    //deconstruct string into words
-    const words = string.split(" ");
-
-    //apply span stylings
-    let formatArray = [];
-    for (let i = 0; i < words.length; i++) {
-      if (words[i][0] === "#") {
-        formatArray.push(
-          <span key={words[i] + " " + i} className="hashtag">
-            {words[i]}
-          </span>,
-          " "
-        );
-      } else formatArray.push(words[i], " ");
-    }
-
-    //remove trailing space
-    formatArray[formatArray.length - 1].trim();
-
-    return formatArray;
-  }
   handleTweetClick() {
     this.setState({ redirect: true });
   }
@@ -59,7 +37,7 @@ class Tweet extends React.Component {
     }
     let text = tweet.text;
     if (tweet.text.indexOf("#") !== -1 || tweet.text.indexOf("@") !== -1) {
-      text = formatTweetText(tweet.text);
+      text = addTextStyling(tweet.text);
     }
     let handle = ["Replying to "];
     if (this.props.notification) {
