@@ -2,6 +2,7 @@ import React from "react";
 
 import ProfilePic from "./ProfilePic";
 import Button from "./Button";
+import { addTextStyling } from "../helpers";
 
 class User extends React.Component {
   constructor(props) {
@@ -35,7 +36,11 @@ class User extends React.Component {
             {name}
           </div>
           <div className="profile-handle">{"@" + this.props.user.username}</div>
-          {this.props.showBio ? <div>{this.props.user.bio}</div> : null}
+          {this.props.showBio ? (
+            <div className="bio">
+              {this.props.user.bio ? addTextStyling(this.props.user.bio) : null}
+            </div>
+          ) : null}
         </div>
         <Button
           textContent={buttonTextContent}
