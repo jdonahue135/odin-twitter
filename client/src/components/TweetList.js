@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Tweet from "./Tweet";
 import TweetFooter from "./TweetFooter";
 
-import { removeReplies, addFormattedReplies } from "../helpers";
+import { sortList, removeReplies, addFormattedReplies } from "../helpers";
 
 const TweetList = (props) => {
   if (!props.tweets || !props.user) {
@@ -14,13 +14,7 @@ const TweetList = (props) => {
       </div>
     );
   }
-  const sortedTweets = props.tweets.sort(function (a, b) {
-    a = new Date(a.date);
-    b = new Date(b.date);
-
-    //reverse logic of sort function
-    return a > b ? -1 : a < b ? 1 : 0;
-  });
+  const sortedTweets = sortList(props.tweets);
   let tweets = sortedTweets;
   if (!props.focus) {
     tweets =
