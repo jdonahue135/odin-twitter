@@ -48,6 +48,9 @@ class Tweet extends React.Component {
   }
 
   render() {
+    if (!this.props.tweet) {
+      return <div className="spinning-loader" />;
+    }
     const tweet = this.props.tweet.retweetOf
       ? this.props.tweet.retweetOf
       : this.props.tweet;
@@ -57,6 +60,12 @@ class Tweet extends React.Component {
     let text = tweet.text;
     if (tweet.text.indexOf("#") !== -1 || tweet.text.indexOf("@") !== -1) {
       text = formatTweetText(tweet.text);
+    }
+    let handle = ["Replying to "];
+    if (this.props.notification) {
+      handle.push(text[0]);
+      //split text into an array
+      text.splice(0, 1);
     }
 
     let id;
@@ -146,6 +155,9 @@ class Tweet extends React.Component {
               {renderGraphic(graphics.TWEET_OPTIONS)}
             </div>
           </div>
+          {this.props.notification ? (
+            <div className="replying-to">{handle}</div>
+          ) : null}
           <div
             onClick={this.handleTweetClick.bind(this)}
             className="tweet-text"
