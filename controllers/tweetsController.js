@@ -134,7 +134,7 @@ exports.tweet_delete = function (req, res, next) {
           theTweet.replies.pop();
           theTweet.save();
         }
-        //if tweet is a reply, remove from target tweet "replies"
+        //if tweet is a reply, remove from target tweet "replies" and remove Notification of target user
         if (theTweet.inReplyTo !== undefined) {
           console.log(theTweet.inReplyTo);
           Tweet.findById(theTweet.inReplyTo._id).exec((err, targetTweet) => {
@@ -147,6 +147,12 @@ exports.tweet_delete = function (req, res, next) {
               targetTweet.save();
             }
           });
+          Notification.findOne({ reply: theTweet._id }).exec(
+            (err, notification) => {
+              if (err) console.log(err);
+              notification.remove();
+            }
+          );
         }
         theTweet.remove();
         res.json({
