@@ -22,6 +22,9 @@ router.post("/signup", users_controller.signup);
 /* handle GET request for user information */
 router.get("/:userid", users_controller.user_get);
 
+/* handle profile update on POST */
+router.post("/:userid/update", auth.verifyToken, users_controller.user_update);
+
 /* handle GET request for user tweets */
 router.get("/:username/tweets", users_controller.get_tweets);
 
