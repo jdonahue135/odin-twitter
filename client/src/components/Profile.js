@@ -5,6 +5,7 @@ import ProfilePic from "./ProfilePic";
 import Recommendations from "./Recommendations";
 import Options from "./Options";
 import TweetList from "./TweetList";
+import Overlay from "./Overlay";
 import calendar from "../images/calendar.png";
 
 import { renderGraphic } from "../helpers";
@@ -18,6 +19,8 @@ class Profile extends React.Component {
       tweetsSelected: true,
       tweets: null,
       user: null,
+      popup: false,
+      profileInputText: "",
     };
   }
 
@@ -61,6 +64,16 @@ class Profile extends React.Component {
     }
   }
 
+  togglePopup() {
+    this.setState({ popup: !this.state.popup });
+  }
+
+  handleSubmit(bio) {
+    this.setState({ popup: false });
+    this.props.onProfileUpdate(bio);
+    this.fetchUserTweets();
+  }
+
   render() {
     if (!this.state.tweets || !this.state.user) {
       return (
@@ -75,6 +88,16 @@ class Profile extends React.Component {
         : this.state.tweets.length + " tweets";
     return (
       <div className="component">
+        {this.state.popup ? (
+          <div className="profile-backdrop backdrop" />
+        ) : null}
+        {this.state.popup ? (
+          <Overlay
+            onProfileSubmit={this.handleSubmit.bind(this)}
+            onXClick={this.togglePopup.bind(this)}
+            profile={true}
+          />
+        ) : null}
         <div className="title-container profile-title-container">
           {renderGraphic(graphics.BACK)}
           <div className="profile-info-container">
@@ -91,7 +114,12 @@ class Profile extends React.Component {
             )}
           </div>
           <ProfilePic size="lg" />
-          <Button textContent="Set up profile" size="med" class="follow-btn" />
+          <Button
+            textContent="Set up profile"
+            size="med"
+            class="follow-btn"
+            onClick={this.togglePopup.bind(this)}
+          />
           <div className="profile-main-info-container">
             <p className="title profile-main-title">{this.state.user.name}</p>
             <p className="profile-handle">{"@" + this.state.user.username}</p>
