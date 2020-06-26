@@ -116,6 +116,26 @@ exports.user_get = (req, res) => {
     });
 };
 
+exports.user_update = (req, res) => {
+  User.findById(req.params.userid).exec((err, theUser) => {
+    if (err) res.json({ success: false, message: "Error" });
+    if (!theUser) res.json({ success: false, message: "No user" });
+    else {
+      let updates = "";
+      if (req.body.bio) {
+        theUser.bio = req.body.bio;
+        updates = updates + "bio ";
+      }
+      theUser.save();
+      res.json({
+        success: true,
+        updates: updates,
+        message: "user profile updated",
+      });
+    }
+  });
+};
+
 // send user tweets on GET
 exports.get_tweets = (req, res, next) => {
   User.findOne({ username: req.params.username })
