@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import ProfilePic from "./ProfilePic";
 import TweetForm from "./TweetForm";
+import ProfileForm from "./ProfileForm";
 import Tweet from "./Tweet";
 
 import { graphics } from "../constants";
@@ -22,15 +23,21 @@ const Overlay = (props) => {
     ];
   }
 
+  if (props.profile) {
+    return (
+      <ProfileForm onXClick={props.onXClick} onSubmit={props.onProfileSubmit} />
+    );
+  }
+
   const isReply = props.replyTweet !== null ? props.replyTweet : null;
-  const className = props.replyTweet ? "overlay-tweet-input-container" : null;
+  const className = props.replyTweet ? "overlay-input-container" : null;
   return (
-    <div className="overlay-tweet-form-container">
+    <div className="overlay-form-container">
       <div className="overlay-top" onClick={props.onXClick}>
         {renderGraphic(graphics.X)}
       </div>
       {props.replyTweet ? (
-        <div className="overlay-tweet-target-container">
+        <div className="overlay-target-container">
           <div className="tweet-container" onClick={props.onXClick}>
             <Tweet tweet={props.replyTweet} currentUser={props.user} />
             <div className="reply-label">
