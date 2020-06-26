@@ -42,7 +42,10 @@ class App extends React.Component {
   componentDidMount() {
     //configure localStorage
     if (storageAvailable("localStorage")) {
-      if (localStorage.getItem("jwt") !== "null") {
+      if (
+        localStorage.getItem("jwt") !== "null" &&
+        localStorage.getItem("user") !== null
+      ) {
         //update state with token and user
         const jwt = localStorage.getItem("jwt");
         const userStored = JSON.parse(localStorage.getItem("user"));
@@ -67,6 +70,9 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (prevState.user !== this.state.user) {
+      this.fetchUserNotifications();
+    }
     if (window.location.pathname !== this.state.pathname) {
       this.setState({ pathname: window.location.pathname });
     }
@@ -93,6 +99,7 @@ class App extends React.Component {
   }
 
   fetchUserNotifications() {
+    if (!this.state.user) return;
     const requestOptions = {
       method: "GET",
       headers: {
@@ -191,7 +198,26 @@ class App extends React.Component {
       user: null,
       jwt: null,
       tweets: null,
+      notifications: null,
     });
+  }
+
+  handleProfileUpdate(bio) {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.jwt,
+      },
+      body: JSON.stringify({
+        bio: bio,
+      }),
+    };
+
+    fetch("/users/" + this.state.user._id + "/update", requestOptions)
+      .then((res) => res.json())
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   }
 
   handleTweetSubmit(text, replyTweet) {
@@ -432,6 +458,7 @@ class App extends React.Component {
                     <Profile
                       {...props}
                       user={this.state.user}
+                      onProfileUpdate={this.handleProfileUpdate.bind(this)}
                       onButtonClick={this.toggleOverlay.bind(this)}
                       onTweetDelete={this.handleTweetDelete.bind(this)}
                       onClick={this.handleFollowerChange.bind(this)}
