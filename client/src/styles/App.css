@@ -283,6 +283,10 @@ textarea::placeholder {
   height: 40px;
   border-radius: 25px;
 }
+.bio {
+  font-size: 15px;
+  margin: 10px 0;
+}
 
 .profile:hover {
   background-color: rgba(29, 161, 242, 0.1);
@@ -691,7 +695,7 @@ textarea::placeholder {
 
 .main {
   border: 1px solid rgb(230, 236, 240);
-  height: 100%;
+  height: 100% !important;
   border-bottom-width: 0;
   height: fit-content;
 }
@@ -706,6 +710,7 @@ textarea::placeholder {
   margin-left: 10px;
 }
 .vertical-break {
+  z-index: -1;
   width: 2px;
   height: 15%;
   background-color: rgb(202, 205, 206);
@@ -733,10 +738,10 @@ textarea::placeholder {
 .tweet-footer div {
   display: inline-block;
 }
-.overlay-tweet-input-container {
+.overlay-input-container {
   margin-top: 35px;
 }
-.overlay-tweet-target-container {
+.overlay-target-container {
   margin-left: 2px;
 }
 
@@ -751,7 +756,7 @@ textarea::placeholder {
   width: 88%;
   height: 100%;
 }
-.overlay-tweet-form-container {
+.overlay-form-container {
   background-color: white;
   z-index: 999;
   top: 5vh;
@@ -762,17 +767,17 @@ textarea::placeholder {
   border-radius: 15px;
 }
 
-.overlay-tweet-form-container .tweet-compose-footer {
+.overlay-form-container .tweet-compose-footer {
   padding: 25px 10px 10px 0;
 }
-.overlay-tweet-form-container .tweet-compose-graphics {
+.overlay-form-container .tweet-compose-graphics {
   position: relative;
   right: 200px;
 }
-.overlay-tweet-form-container .btn {
+.overlay-form-container .btn {
   left: unset;
 }
-.overlay-tweet-form-container .character-display-container {
+.overlay-form-container .character-display-container {
   position: relative;
   top: 15px;
 }
@@ -780,6 +785,76 @@ textarea::placeholder {
   height: 45px;
   border-bottom: 1px solid rgb(230, 236, 240);
   margin-bottom: 10px;
+}
+.profile-overlay-top {
+  border-bottom: 0;
+}
+.profile-overlay-skip {
+  float: right;
+  margin: 10px;
+  font-size: 15px;
+  background-color: white;
+  color: rgb(29, 161, 242);
+  padding: 5px 0;
+  width: 125px;
+}
+.profile-overlay-next {
+  float: right;
+  padding: 5px 0;
+  font-size: 15px;
+  margin: 10px;
+  width: 75px;
+}
+.profile-overlay-skip:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+}
+.profile-input-container {
+  margin: 0 50px;
+  background-color: rgb(245, 248, 250);
+  border-bottom: 2px solid rgb(118, 118, 118);
+}
+.profile-input-container:focus {
+  border-bottom-color: rgb(29, 161, 242);
+}
+.profile-input {
+  background-color: rgb(245, 248, 250);
+  padding-left: 10px;
+  width: 90%;
+}
+.profile-form {
+  height: 80vh;
+}
+.profile-form-title-container {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+.profile-form-title-container .headline {
+  font-size: 23px;
+  margin-bottom: 15px;
+  font-weight: 800;
+}
+.profile-form-logo {
+  cursor: unset;
+  height: 2.5rem;
+  position: relative;
+  left: 230px;
+  top: 3px;
+}
+.profile-form-logo:hover {
+  background-color: initial;
+}
+.label {
+  font-size: 15px;
+  color: rgb(101, 119, 134);
+  opacity: 1;
+  padding-left: 10px;
+  background-color: rgb(245, 248, 250);
+  width: 90%;
+}
+
+.selected {
+  color: rgba(29, 161, 242, 1);
+  border-bottom-color: rgba(29, 161, 242, 1);
 }
 
 .options-graphic-container {
@@ -868,11 +943,11 @@ textarea::placeholder {
 .tweet:hover {
   background-color: rgb(245, 248, 250);
 }
-.overlay-tweet-form-container .tweet-container {
+.overlay-form-container .tweet-container {
   border-bottom: 0;
   cursor: unset;
 }
-.overlay-tweet-form-container .tweet-container:hover {
+.overlay-form-container .tweet-container:hover {
   background-color: initial;
 }
 .tweet-focus-container {
@@ -1219,4 +1294,7 @@ textarea::placeholder {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1;
   position: fixed;
+}
+.profile-backdrop {
+  left: 0;
 }
