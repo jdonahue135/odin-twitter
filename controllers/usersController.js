@@ -151,10 +151,18 @@ exports.get_tweets = (req, res, next) => {
 exports.get_notifications = (req, res) => {
   //find user notifications
   Notification.find({ user: req.params.userid })
+    .populate("tweet")
     .populate({
-      path: "tweet",
+      path: "actionUsers",
       populate: {
-        path: "actionUsers",
+        path: "user",
+        select: "name username profilePicture",
+      },
+    })
+    .populate({
+      path: "reply",
+      populate: {
+        path: "user",
         select: "name username profilePicture",
       },
     })
