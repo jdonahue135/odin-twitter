@@ -13,6 +13,7 @@ const Explore = (props) => {
           user={props.user}
           main={true}
           onClick={props.onClick}
+          showBio={true}
         />
       </div>
     </div>

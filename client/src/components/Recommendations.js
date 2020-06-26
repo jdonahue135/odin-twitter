@@ -65,6 +65,7 @@ class Recommendations extends React.Component {
               user={user}
               key={user._id}
               onClick={this.props.onClick}
+              showBio={this.props.showBio}
             />
           ))}
           {!this.props.main ? (
