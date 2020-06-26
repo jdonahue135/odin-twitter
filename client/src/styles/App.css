@@ -43,6 +43,11 @@ h1 {
 .show-thread:hover {
   background-color: rgb(245, 248, 250);
 }
+.replying-to {
+  color: rgb(101, 119, 134);
+  font-size: 15px;
+  padding: 2px;
+}
 
 .handle {
   color: rgb(27, 149, 224);
@@ -535,6 +540,61 @@ textarea::placeholder {
 .tweet-footer-count {
   display: inline-block;
 }
+.notifications-header-container div {
+  display: inline-block;
+  width: fit-content;
+}
+.notification-header-graphic {
+  display: inline-block;
+  width: fit-content;
+  margin-left: 25px;
+}
+.notification-graphic-container {
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 25px;
+  height: 2.25rem;
+  width: 2.25rem;
+}
+.username {
+  font-weight: 800;
+}
+.username:hover {
+  text-decoration: underline;
+}
+.notification-main {
+  margin-left: 75px;
+  position: relative;
+  bottom: 20px;
+}
+.action-user-container {
+  margin: 10px;
+  position: relative;
+  bottom: 18px;
+}
+.action-user-container .profile-pic-container {
+  margin: 0;
+  position: unset;
+}
+.action-user-container .profile-pic {
+  height: 30px;
+}
+.action-user-container .profile-pic-overlay {
+  height: 30px;
+}
+.notification-graphic {
+  height: 2.25rem;
+  width: 2.25rem;
+}
+.new-follow-graphic {
+  fill: rgb(29, 161, 242);
+}
+.new-retweet-graphic {
+  fill: rgb(23, 191, 99);
+}
+.new-like-graphic {
+  fill: rgb(224, 36, 94);
+}
 
 .tweet-graphic-container {
   cursor: pointer;
@@ -987,6 +1047,7 @@ textarea::placeholder {
   top: 0;
 }
 .messages-main {
+  height: 100%;
   width: 390px;
   display: inline-block;
 }
@@ -1088,9 +1149,29 @@ textarea::placeholder {
   text-align: -webkit-center;
   margin-top: 75px;
 }
+.notification-item-container {
+  border-bottom: 1px solid rgb(230, 236, 240);
+  min-height: 100px;
+  padding-top: 5px;
+  cursor: pointer;
+}
+.notification-item-container:hover {
+  background-color: rgb(240, 242, 243);
+}
+.notification-item-container .profile-graphic {
+  fill: rgb(29, 161, 242);
+  cursor: pointer;
+}
+.notification-tweet-text {
+  color: rgb(101, 119, 134);
+  font-size: 15px;
+  margin-top: 10px;
+}
+
 .message-info-container {
   text-align: -webkit-center;
   margin-top: 37%;
+  height: ;
 }
 .welcome-message-container {
   margin-top: 90px;
