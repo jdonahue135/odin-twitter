@@ -9,7 +9,7 @@ const Messages = (props) => {
   return (
     <div className="component">
       <div className="title-container messages-title-container">
-        <p className="title">Messages</p>
+        <p className="title">Messages (read-only for now)</p>
         {renderGraphic(graphics.COMPOSE)}
       </div>
       <div className="main messages-main">
