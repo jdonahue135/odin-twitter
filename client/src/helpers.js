@@ -128,3 +128,15 @@ export const addFormattedReplies = (tweetList) => {
   }
   return formattedTweetList;
 };
+
+//sorts a list by most recent date
+export const sortList = (list) => {
+  const sortedList = list.sort(function (a, b) {
+    a = new Date(a.date);
+    b = new Date(b.date);
+
+    //reverse logic of sort function
+    return a > b ? -1 : a < b ? 1 : 0;
+  });
+  return sortedList;
+};
