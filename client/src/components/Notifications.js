@@ -1,6 +1,8 @@
 import React from "react";
-import Options from "./Options";
 
+import { sortList } from "../helpers";
+import Options from "./Options";
+import NotificationItem from "./NotificationItem";
 import Recommendations from "./Recommendations";
 
 class Notifications extends React.Component {
@@ -14,7 +16,6 @@ class Notifications extends React.Component {
   }
 
   handleClick(e) {
-    console.log(e.target);
     if (e.target.id === "All") {
       this.setState({ showAll: true });
     } else {
@@ -23,6 +24,16 @@ class Notifications extends React.Component {
   }
 
   render() {
+    const sortedNotificationList = this.props.notifications
+      ? sortList(this.props.notifications)
+      : null;
+    if (!sortedNotificationList) {
+      return (
+        <div className="component">
+          <div className="spinning-loader" />
+        </div>
+      );
+    }
     const subHeadlineText = this.state.showAll
       ? "From likes to Retweets and a whole lot more, this is where all the action happens."
       : "When someone mentions you, you’ll find it here.";
@@ -39,7 +50,7 @@ class Notifications extends React.Component {
           />
         </div>
         <div className="main">
-          {!this.props.notifications ? (
+          {sortedNotificationList.length === 0 ? (
             <div className="notifications-info-container notifications-info-title-container">
               <p className="headline message-info-item">
                 Nothing to see here — yet
@@ -48,7 +59,17 @@ class Notifications extends React.Component {
                 {subHeadlineText}
               </p>
             </div>
-          ) : null}
+          ) : (
+            <div className="main">
+              {sortedNotificationList.map((notification) => (
+                <NotificationItem
+                  key={notification._id}
+                  notification={notification}
+                  user={this.props.user}
+                />
+              ))}
+            </div>
+          )}
         </div>
         <Recommendations
           user={this.props.user}
