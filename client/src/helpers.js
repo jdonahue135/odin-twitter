@@ -66,7 +66,7 @@ export const formatDate = (dateTime, fullDateOption) => {
   return time;
 };
 
-export const formatTweetText = (string) => {
+export const addTextStyling = (string) => {
   //deconstruct string into words
   const words = string.split(" ");
 
@@ -109,6 +109,7 @@ export const removeReplies = (tweetList) => {
 };
 
 export const addFormattedReplies = (tweetList) => {
+  console.log(tweetList);
   let formattedTweetList = [];
   for (let i = 0; i < tweetList.length; i++) {
     //check if tweet is already in array
@@ -120,9 +121,7 @@ export const addFormattedReplies = (tweetList) => {
         formattedTweetList.push(tweetList[i]);
       } else {
         formattedTweetList.push(tweetList[i].inReplyTo);
-        for (let x = 0; x < tweetList[i].inReplyTo.length; x++) {
-          formattedTweetList.push(tweetList[i].replies[x]);
-        }
+        formattedTweetList.push(tweetList[i]);
       }
     }
   }
