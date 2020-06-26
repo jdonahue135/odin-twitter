@@ -2,7 +2,7 @@ import React from "react";
 import { ClickAwayListener } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-import { renderGraphic, formatDate, formatTweetText } from "../helpers";
+import { renderGraphic, formatDate, addTextStyling } from "../helpers";
 import { graphics } from "../constants";
 
 import ProfilePic from "./ProfilePic";
@@ -99,7 +99,7 @@ class TweetFocus extends React.Component {
 
     const text =
       this.state.tweet.text.indexOf("#") !== -1
-        ? formatTweetText(this.state.tweet.text)
+        ? addTextStyling(this.state.tweet.text)
         : this.state.tweet.text;
 
     return (
