@@ -23,8 +23,18 @@ class ProfileForm extends React.Component {
     this.setState({ textInput: e.target.value });
   }
 
-  handleFormSubmit() {
-    this.props.onSubmit(this.state.textInput);
+  handleNextClick() {
+    //stores new bio in Profile component
+    this.props.onTextInputChange(this.state.textInput);
+    this.props.onNext();
+    this.setState({
+      textInput: "",
+      selected: false,
+    });
+  }
+
+  handleClose() {
+    this.props.onXClick();
     this.setState({
       textInput: "",
       selected: false,
@@ -32,27 +42,28 @@ class ProfileForm extends React.Component {
   }
 
   render() {
+    if (!this.props.show) {
+      return <div className="hidden" />;
+    }
     const selected = this.state.selected ? "selected" : null;
     return (
       <div className="overlay-form-container">
-        <div
-          className="overlay-top profile-overlay-top"
-          onClick={this.props.onXClick}
-        >
-          {renderGraphic(graphics.BACK)}
+        <div className="overlay-top profile-overlay-top">
+          {renderGraphic(graphics.BACK, null, this.handleClose.bind(this))}
           <img className="logo profile-form-logo" src={logo} alt="logo" />
           {this.state.textInput.length === 0 ? (
             <Button
               class="profile-overlay-skip"
               textContent="Skip for now"
               size="med"
+              onClick={this.handleNextClick.bind(this)}
             />
           ) : (
             <Button
               class="profile-overlay-next"
               textContent="Next"
               size="sm"
-              onClick={this.handleFormSubmit.bind(this)}
+              onClick={this.handleNextClick.bind(this)}
             />
           )}
         </div>
