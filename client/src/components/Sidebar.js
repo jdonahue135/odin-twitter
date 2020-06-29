@@ -78,6 +78,11 @@ class Sidebar extends React.Component {
         </Link>
         {this.renderSidebarItem("Home")}
         {this.renderSidebarItem("Explore")}
+        {this.props.unseenNotifications > 0 ? (
+          <div className="notification-count">
+            {this.props.unseenNotifications}
+          </div>
+        ) : null}
         {this.renderSidebarItem("Notifications")}
         {this.renderSidebarItem("Messages")}
         {this.renderSidebarItem("Profile")}
