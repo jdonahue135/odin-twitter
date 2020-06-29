@@ -142,6 +142,11 @@ class Tweet extends React.Component {
           >
             {text}
           </div>
+          {tweet.photo ? (
+            <div className="tweet-photo-container">
+              <img className="tweet-photo" src={tweet.photo} alt="upload" />
+            </div>
+          ) : null}
         </div>
       </div>
     );
