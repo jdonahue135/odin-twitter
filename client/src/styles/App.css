@@ -1133,6 +1133,18 @@ textarea::placeholder {
   color: rgb(29, 161, 242);
   fill: rgb(29, 161, 242);
 }
+.notification-count {
+  position: absolute;
+  background-color: rgb(29, 161, 242);
+  color: white;
+  font-size: 11px;
+  padding: 4px;
+  border-radius: 25px;
+  left: 33px;
+}
+.unread {
+  background-color: rgb(29, 161, 242, 0.1);
+}
 .recommendations-container {
   position: fixed;
   top: 0;

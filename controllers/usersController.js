@@ -197,6 +197,21 @@ exports.get_notifications = (req, res) => {
     });
 };
 
+exports.read_notifications = (req, res) => {
+  Notification.find({ user: req.params.userid }).exec(
+    (err, theNotifications) => {
+      if (err) res.json({ success: false, err });
+      else {
+        for (let i = 0; i < theNotifications.length; i++) {
+          theNotifications[i].readStatus = true;
+          theNotifications[i].save();
+        }
+        res.json({ success: true, message: "notifications read" });
+      }
+    }
+  );
+};
+
 // handle user follow/unfollow on POST
 exports.follow = (req, res) => {
   async.parallel(

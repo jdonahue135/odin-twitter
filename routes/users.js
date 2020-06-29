@@ -41,6 +41,13 @@ router.get(
   users_controller.get_notifications
 );
 
+/*handle GET request for user seeing notifications*/
+router.get(
+  "/:userid/notifications/read",
+  auth.verifyToken,
+  users_controller.read_notifications
+);
+
 /* handle user follow/unfollow on POST*/
 router.post("/:userid", auth.verifyToken, users_controller.follow);
 
