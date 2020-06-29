@@ -10,8 +10,9 @@ import ProfilePic from "./ProfilePic";
 
 const NotificationItem = (props) => {
   if (props.notification.type === "reply") {
+    const className = !props.notification.readStatus ? "unread" : "";
     return (
-      <div className="notification-item-container">
+      <div className={"notification-item-container " + className}>
         <Tweet tweet={props.notification.reply} notification={true} />
         <TweetFooter
           tweet={props.notification.reply}
@@ -64,8 +65,9 @@ const NotificationItem = (props) => {
         </div>
       );
     };
+    const className = !props.notification.readStatus ? "unread" : "";
     return (
-      <div className="notification-item-container">
+      <div className={"notification-item-container " + className}>
         {renderNotificationItem(props.notification.type)}
       </div>
     );
