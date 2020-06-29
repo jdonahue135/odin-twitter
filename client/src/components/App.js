@@ -5,6 +5,7 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
+import axios from "axios";
 
 import "../styles/App.css";
 import { storageAvailable } from "../localStorage";
@@ -202,22 +203,23 @@ class App extends React.Component {
     });
   }
 
-  handleProfileUpdate(bio) {
-    const requestOptions = {
-      method: "POST",
+  handleProfileUpdate(bio, image) {
+    const formData = new FormData();
+    formData.append("profilePicture", image);
+    formData.append("bio", bio);
+
+    const url = "/users/" + this.state.user._id + "/update";
+    const headers = {
       headers: {
         "Content-Type": "application/json",
         authorization: "Bearer " + this.state.jwt,
       },
-      body: JSON.stringify({
-        bio: bio,
-      }),
     };
 
-    fetch("/users/" + this.state.user._id + "/update", requestOptions)
-      .then((res) => res.json())
+    axios
+      .post(url, formData, headers)
       .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   }
 
   handleTweetSubmit(text, replyTweet) {
@@ -385,10 +387,9 @@ class App extends React.Component {
                 onButtonClick={this.toggleOverlay.bind(this)}
                 pathname={this.state.pathname}
                 onPathChange={this.handlePathChange.bind(this)}
-                username={this.state.user.name}
-                handle={this.state.user.username}
                 onClick={this.handleLogOut.bind(this)}
                 disable={this.state.showOverlay}
+                user={this.state.user}
               />
               <Switch>
                 <Route exact path="/">
