@@ -52,37 +52,41 @@ exports.tweet_post = function (req, res, next) {
   // Validate field.
   body("text")
     .trim()
-    .isLength({ min: 1 })
-    .withMessage("Text must be specified.")
     .isAlphanumeric()
     .withMessage("Text has non-alphanumeric characters."),
     // Sanitize field.
     sanitizeBody("text").escape();
-  console.log(req.body);
   //Validate input
   if (req.body.user == null) {
     res.json({ message: "user must be specified" });
   }
-  if (req.body.text == "") {
-    res.json({ message: "text must be specified" });
+  if (req.body.text == "" && !req.file) {
+    res.json({ message: "text and/or photo must be specified" });
   }
+
+  const user = JSON.parse(req.body.user);
 
   //save tweet
   let newTweet = new Tweet({
-    user: req.body.user,
+    user: user,
     text: req.body.text,
   });
 
-  if (req.body.replyTweet) {
-    //save reply to new tweet
-    newTweet.inReplyTo = req.body.replyTweet;
+  if (req.file) {
+    //save image
+    const url = req.protocol + "://" + req.get("host");
+    newTweet.photo = url + "/public/images/" + req.file.filename;
+  }
 
+  if (req.body.replyTweet !== "undefined" && req.body.replyTweet !== "null") {
     //find the replyTweet and save new tweet as a reply
-    Tweet.findById(req.body.replyTweet._id).exec((err, theTweet) => {
+    const replyTweet = JSON.parse(req.body.replyTweet);
+    Tweet.findById(replyTweet._id).exec((err, theTweet) => {
       if (err) {
         console.log(err);
         return;
       } else {
+        newTweet.inReplyTo = theTweet;
         theTweet.replies.push(newTweet);
         theTweet.save();
       }
@@ -90,10 +94,10 @@ exports.tweet_post = function (req, res, next) {
 
     //add new notification for user
     const newNotification = new Notification({
-      user: req.body.replyTweet.user,
-      actionUsers: [req.body.user],
+      user: theTweet.user,
+      actionUsers: [user],
       type: "reply",
-      tweet: req.body.replyTweet,
+      tweet: theTweet,
       reply: newTweet,
     });
 
