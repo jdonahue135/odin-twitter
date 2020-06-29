@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import Button from "./Button";
 import ProfilePic from "./ProfilePic";
@@ -8,7 +9,7 @@ import TweetList from "./TweetList";
 import Overlay from "./Overlay";
 import calendar from "../images/calendar.png";
 
-import { renderGraphic } from "../helpers";
+import { renderGraphic, addTextStyling } from "../helpers";
 import { graphics } from "../constants";
 
 class Profile extends React.Component {
@@ -82,7 +83,7 @@ class Profile extends React.Component {
   handleSubmit(image) {
     this.setState({ popup: false });
     this.props.onProfileUpdate(this.state.profileInputText, image);
-    this.fetchUserTweets();
+    window.location.reload();
   }
 
   showBioForm() {
@@ -103,6 +104,8 @@ class Profile extends React.Component {
         </div>
       );
     }
+    const joinDate = moment(this.state.user.joinDate).format("MMM YYYY");
+
     const tweetCount =
       this.state.tweets.length === 1
         ? "1 Tweet"
@@ -167,9 +170,10 @@ class Profile extends React.Component {
           <div className="profile-main-info-container">
             <p className="title profile-main-title">{this.state.user.name}</p>
             <p className="profile-handle">{"@" + this.state.user.username}</p>
+            <p className="profile-bio">{addTextStyling(this.state.user.bio)}</p>
             <div className="calendar-container">
               <img className="calendar-graphic" src={calendar} alt="calendar" />
-              <p className="calendar-detail">Joined June 2020</p>
+              <p className="calendar-detail">{"Joined " + joinDate}</p>
             </div>
             <div className="follow-info-container">
               <div className="follow-count-item">
