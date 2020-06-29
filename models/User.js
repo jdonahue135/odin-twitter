@@ -9,8 +9,8 @@ var UserSchema = new Schema({
   joinDate: { type: Date, default: Date.now },
   following: [{ type: Schema.Types.ObjectId, ref: "User" }],
   followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  profilePicture: { type: Buffer },
-  header: { type: Buffer },
+  profilePicture: { type: String },
+  header: { type: String },
   bio: { type: String, max: 160 },
 });
 
