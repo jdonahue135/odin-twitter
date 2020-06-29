@@ -170,7 +170,11 @@ class Profile extends React.Component {
           <div className="profile-main-info-container">
             <p className="title profile-main-title">{this.state.user.name}</p>
             <p className="profile-handle">{"@" + this.state.user.username}</p>
-            <p className="profile-bio">{addTextStyling(this.state.user.bio)}</p>
+            {this.state.user.bio ? (
+              <p className="profile-bio">
+                {addTextStyling(this.state.user.bio)}
+              </p>
+            ) : null}
             <div className="calendar-container">
               <img className="calendar-graphic" src={calendar} alt="calendar" />
               <p className="calendar-detail">{"Joined " + joinDate}</p>
