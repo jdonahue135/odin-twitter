@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ProfilePic from "./ProfilePic";
 import TweetForm from "./TweetForm";
 import ProfileForm from "./ProfileForm";
+import PhotoUpload from "./PhotoUpload";
 import Tweet from "./Tweet";
 
 import { graphics } from "../constants";
@@ -25,7 +26,19 @@ const Overlay = (props) => {
 
   if (props.profile) {
     return (
-      <ProfileForm onXClick={props.onXClick} onSubmit={props.onProfileSubmit} />
+      <div>
+        <PhotoUpload
+          header={false}
+          onBackClick={props.onBackClick}
+          onSubmit={props.onProfileSubmit}
+        />
+        <ProfileForm
+          onTextInputChange={props.onTextInputChange}
+          onNext={props.onNext}
+          show={props.showBioForm}
+          onXClick={props.onXClick}
+        />
+      </div>
     );
   }
 
