@@ -11,7 +11,7 @@ var TweetSchema = new Schema({
   replies: [{ type: Schema.Types.ObjectId, ref: "Tweet" }],
   inReplyTo: { type: Schema.Types.ObjectId, ref: "Tweet" },
   likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  photos: [{ type: Buffer }],
+  photo: { type: String },
 });
 
 //Export model
