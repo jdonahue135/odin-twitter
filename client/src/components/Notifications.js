@@ -14,6 +14,9 @@ class Notifications extends React.Component {
       showAll: true,
     };
   }
+  componentDidMount() {
+    this.props.onMount();
+  }
 
   handleClick(e) {
     if (e.target.id === "All") {
