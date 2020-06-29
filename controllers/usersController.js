@@ -22,7 +22,7 @@ exports.login = function (req, res, next) {
         if (err) {
           res.json(err);
         }
-        if (result || req.body.password === "guest") {
+        if (result) {
           //success
           jwt.sign({ theUser }, process.env.JWT_KEY, (err, token) => {
             if (err) return next(err);
@@ -116,15 +116,20 @@ exports.user_get = (req, res) => {
     });
 };
 
-exports.user_update = (req, res) => {
+exports.user_update = (req, res, next) => {
   User.findById(req.params.userid).exec((err, theUser) => {
     if (err) res.json({ success: false, message: "Error" });
     if (!theUser) res.json({ success: false, message: "No user" });
     else {
       let updates = "";
-      if (req.body.bio) {
+      if (req.body.bio !== "") {
         theUser.bio = req.body.bio;
         updates = updates + "bio ";
+      }
+      if (req.file) {
+        const url = req.protocol + "://" + req.get("host");
+        theUser.profilePicture = url + "/public/images/" + req.file.filename;
+        updates = updates + "profilePicture ";
       }
       theUser.save();
       res.json({
