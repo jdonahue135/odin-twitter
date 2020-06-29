@@ -37,6 +37,7 @@ class App extends React.Component {
       pathname: "/home",
       showOverlay: false,
       replyTweet: null,
+      unseenNotifications: null,
     };
   }
 
@@ -113,7 +114,18 @@ class App extends React.Component {
 
     fetch(url, requestOptions)
       .then((res) => res.json())
-      .then((res) => this.setState({ notifications: res.notifications }))
+      .then((res) => {
+        let unseenNotifications = 0;
+        for (let i = 0; i < res.notifications.length; i++) {
+          if (!res.notifications[i].readStatus) {
+            unseenNotifications++;
+          }
+        }
+        this.setState({
+          notifications: res.notifications,
+          unseenNotifications,
+        });
+      })
       .catch((err) => console.log(err));
   }
 
@@ -346,6 +358,23 @@ class App extends React.Component {
       replyTweet: tweet,
     });
   }
+  readAllNotifications() {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.jwt,
+      },
+    };
+    fetch(
+      "/users/" + this.state.user._id + "/notifications/read",
+      requestOptions
+    )
+      .then((res) => res.json())
+      .then((res) => console.log(res))
+      .then(() => this.fetchUserNotifications())
+      .catch((err) => console.log(err));
+  }
 
   render() {
     if (this.state.showLoadingScreen) {
@@ -391,6 +420,7 @@ class App extends React.Component {
                 onClick={this.handleLogOut.bind(this)}
                 disable={this.state.showOverlay}
                 user={this.state.user}
+                unseenNotifications={this.state.unseenNotifications}
               />
               <Switch>
                 <Route exact path="/">
@@ -415,6 +445,7 @@ class App extends React.Component {
                       user={this.state.user}
                       onClick={this.handleFollowerChange.bind(this)}
                       onPathChange={this.handlePathChange.bind(this)}
+                      onMount={this.readAllNotifications.bind(this)}
                     />
                   )}
                 />
