@@ -22,14 +22,14 @@ class Sidebar extends React.Component {
     let selected = false;
     let path =
       title === "Profile"
-        ? "/" + this.props.username
+        ? "/" + this.props.user.username
         : "/" + title.toLowerCase();
     if (this.props.pathname === "/" + title.toLowerCase()) {
       selected = true;
     }
     if (
       title === "Profile" &&
-      this.props.pathname === "/" + this.props.username
+      this.props.pathname === "/" + this.props.user.username
     ) {
       selected = true;
     }
@@ -63,9 +63,9 @@ class Sidebar extends React.Component {
 
   render() {
     const formatName =
-      this.props.username.length > 14
-        ? this.props.username.slice(0, 13) + "..."
-        : this.props.username;
+      this.props.user.username.length > 14
+        ? this.props.user.username.slice(0, 13) + "..."
+        : this.props.user.username;
     return (
       <div className="sidebar">
         <Link to="/">
@@ -89,7 +89,7 @@ class Sidebar extends React.Component {
                 onClick={this.props.onClick}
                 className="popup-text-container"
               >
-                {"Log out @" + this.props.handle}
+                {"Log out @" + this.props.user.username}
               </div>
             </div>
           </ClickAwayListener>
@@ -101,7 +101,7 @@ class Sidebar extends React.Component {
           />
           <div className="id-container">
             <p className="profile-name">{formatName}</p>
-            <p className="profile-handle">{"@" + this.props.handle}</p>
+            <p className="profile-handle">{"@" + this.props.user.username}</p>
           </div>
           {renderGraphic(graphics.PROFILE_OPTIONS)}
         </div>
