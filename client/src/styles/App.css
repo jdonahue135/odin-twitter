@@ -308,6 +308,9 @@ textarea::placeholder {
   font-weight: 400;
   font-size: 15px;
 }
+.profile-bio {
+  padding-top: 10px;
+}
 .profile-graphic-container {
   display: inline-block;
   position: relative;
@@ -972,7 +975,48 @@ textarea::placeholder {
   padding-bottom: 11px;
   z-index: 999;
 }
-
+.tweet-form-photo {
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}
+.tweet-form-photo-container {
+  height: 280px;
+  text-align: center;
+  width: 100%;
+  border-radius: 25px;
+  background-color: rgb(146, 145, 145);
+}
+.tweet-photo {
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}
+.tweet-photo-container {
+  height: 280px;
+  text-align: center;
+  width: 100%;
+  border-radius: 25px;
+  background-color: rgb(146, 145, 145);
+  margin-top: 10px;
+}
+.tweet-form-photo-container .popup-graphic-container {
+  fill: white;
+  background-color: black;
+  height: 1.25rem;
+  width: 1.25rem;
+  padding: 4px;
+}
+.tweet-form-photo-container .popup-graphic {
+  fill: white;
+  opacity: 1;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+.overlay-form-container .tweet-form-photo-container {
+  position: relative;
+  right: 35px;
+}
 .profile-pic {
   border-radius: 25px;
   height: 100%;
