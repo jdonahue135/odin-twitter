@@ -85,7 +85,9 @@ class LogIn extends React.Component {
           onClick={this.props.handleSignUp}
         />
         {this.state.forgotPassword ? (
-          <div className="forgot-password">Try "guest"</div>
+          <div className="forgot-password">
+            Email reset not implemented yet, make a new account
+          </div>
         ) : (
           <button
             onClick={this.handleClick.bind(this)}
