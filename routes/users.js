@@ -1,9 +1,10 @@
 var express = require("express");
 var router = express.Router();
+
 var User = require("../models/User");
 const auth = require("../config/auth");
-
 var users_controller = require("../controllers/usersController");
+const file_upload = require("../config/file_upload");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -23,7 +24,12 @@ router.post("/signup", users_controller.signup);
 router.get("/:userid", users_controller.user_get);
 
 /* handle profile update on POST */
-router.post("/:userid/update", auth.verifyToken, users_controller.user_update);
+router.post(
+  "/:userid/update",
+  auth.verifyToken,
+  file_upload.upload.single("profilePicture"),
+  users_controller.user_update
+);
 
 /* handle GET request for user tweets */
 router.get("/:username/tweets", users_controller.get_tweets);
