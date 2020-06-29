@@ -222,30 +222,31 @@ class App extends React.Component {
       .catch((err) => console.error(err));
   }
 
-  handleTweetSubmit(text, replyTweet) {
-    if (!text || !this.state.user) return;
+  handleTweetSubmit(text, replyTweet, image) {
+    if (!this.state.user) return;
+    if (!image && !text) return;
 
-    const requestOptions = {
-      method: "POST",
+    const formData = new FormData();
+    formData.append("photo", image);
+    formData.append("text", text);
+    formData.append("replyTweet", JSON.stringify(replyTweet));
+    formData.append("user", JSON.stringify(this.state.user));
+
+    const headers = {
       headers: {
         "Content-Type": "application/json",
         authorization: "Bearer " + this.state.jwt,
       },
-      body: JSON.stringify({
-        user: this.state.user,
-        text: text,
-        replyTweet: replyTweet,
-      }),
     };
 
-    fetch("/tweets", requestOptions)
-      .then((res) => res.json())
+    axios
+      .post("/tweets", formData, headers)
       .then((res) => {
         console.log(res);
         this.setState({ showOverlay: false });
         this.fetchTweets();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   }
 
   toggleOverlay() {
