@@ -14,7 +14,17 @@ class TweetForm extends React.Component {
     this.state = {
       focused: false,
       text: "",
+      photo: null,
+      refreshFileInput: false,
     };
+  }
+
+  componentDidUpdate() {
+    if (this.state.refreshFileInput) {
+      this.setState({
+        refreshFileInput: false,
+      });
+    }
   }
 
   handleFocus(e) {
@@ -40,19 +50,50 @@ class TweetForm extends React.Component {
   }
 
   handleClick() {
-    //does not allow submissions of no characters, too many characters, or just whitespace
+    //does not allow submissions of no characters, too many characters, or just whitespace without a photo
     if (
-      this.state.text.length !== 0 &&
-      this.state.text.length < 280 &&
-      /\S/.test(this.state.text)
+      this.state.text.length === 0 ||
+      this.state.text.length > 280 ||
+      !/\S/.test(this.state.text)
     ) {
-      const handle = this.props.isReplyTo
-        ? "@" + this.props.isReplyTo.user.username + " "
-        : "";
-      this.props.onClick(handle + this.state.text, this.props.isReplyTo);
-      //clear form after submit
-      this.setState({ text: "" });
-    } else return;
+      if (!this.state.photo) return;
+    }
+    const handle = this.props.isReplyTo
+      ? "@" + this.props.isReplyTo.user.username + " "
+      : "";
+    this.props.onClick(
+      handle + this.state.text,
+      this.props.isReplyTo,
+      this.state.photo
+    );
+    //clear form after submit
+    this.setState({
+      text: "",
+      photo: null,
+      refreshFileInput: true,
+    });
+  }
+
+  handleFileUploadClick() {
+    this.refs.fileUploader.click();
+  }
+
+  handlePhotoUpload(e) {
+    const photo = e.target.files[0];
+    if (!photo) return;
+    if (
+      photo.type === "image/png" ||
+      photo.type === "image/jpg" ||
+      photo.type === "image/jpeg"
+    ) {
+      this.setState({ photo: e.target.files[0] });
+    }
+  }
+  handlePhotoDelete() {
+    this.setState({
+      photo: null,
+      refreshFileInput: true,
+    });
   }
 
   render() {
@@ -60,15 +101,18 @@ class TweetForm extends React.Component {
       ? "Tweet your reply"
       : "What's happening?";
 
-    let ButtonClass;
+    let buttonClass;
     if (
       this.state.text.length === 0 ||
       this.state.text.length > 280 ||
       !/\S/.test(this.state.text)
     ) {
-      ButtonClass = "btn-disabled";
+      buttonClass = "btn-disabled";
     } else {
-      ButtonClass = "";
+      buttonClass = "";
+    }
+    if (this.state.photo) {
+      buttonClass = "";
     }
     let rows = this.props.overlay ? 6 : 1;
 
@@ -86,13 +130,36 @@ class TweetForm extends React.Component {
           value={this.state.text}
         />
         {this.props.inline ? this.renderVisibilityContainer() : null}
+        {this.state.photo ? (
+          <div className="tweet-form-photo-container">
+            <img
+              className="tweet-form-photo"
+              src={URL.createObjectURL(this.state.photo)}
+              alt="upload"
+            />
+            {renderGraphic(graphics.X, null, this.handlePhotoDelete.bind(this))}
+          </div>
+        ) : null}
         <div className="tweet-compose-footer">
           <div className="tweet-compose-graphics">
-            {renderGraphic(graphics.PHOTO_UPLOAD)}
+            {renderGraphic(
+              graphics.PHOTO_UPLOAD,
+              null,
+              this.handleFileUploadClick.bind(this)
+            )}
+            {this.state.refreshFileInput ? null : (
+              <input
+                type="file"
+                id="file"
+                ref="fileUploader"
+                style={{ display: "none" }}
+                onChange={this.handlePhotoUpload.bind(this)}
+              />
+            )}
             {renderGraphic(graphics.GIF)}
           </div>
           <Button
-            class={ButtonClass}
+            class={buttonClass}
             size="sm"
             onClick={this.handleClick.bind(this)}
           />
