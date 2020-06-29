@@ -20,7 +20,10 @@ class Profile extends React.Component {
       tweets: null,
       user: null,
       popup: false,
+      showBioForm: false,
       profileInputText: "",
+      profilePic: null,
+      headerPic: null,
     };
   }
 
@@ -64,14 +67,32 @@ class Profile extends React.Component {
     }
   }
 
-  togglePopup() {
-    this.setState({ popup: !this.state.popup });
+  showPopup() {
+    this.setState({ popup: true, showBioForm: true });
   }
 
-  handleSubmit(bio) {
+  hidePopup() {
+    this.setState({
+      popup: false,
+      showBioForm: false,
+      profileInputText: "",
+    });
+  }
+
+  handleSubmit(image) {
     this.setState({ popup: false });
-    this.props.onProfileUpdate(bio);
+    this.props.onProfileUpdate(this.state.profileInputText, image);
     this.fetchUserTweets();
+  }
+
+  showBioForm() {
+    this.setState({ showBioForm: true });
+  }
+  handleNextClick() {
+    this.setState({ showBioForm: false });
+  }
+  handleTextInputChange(text) {
+    this.setState({ profileInputText: text });
   }
 
   render() {
@@ -86,6 +107,24 @@ class Profile extends React.Component {
       this.state.tweets.length === 1
         ? "1 Tweet"
         : this.state.tweets.length + " tweets";
+
+    let buttonText = "Set up profile";
+    if (this.state.user._id !== this.props.user._id) {
+      buttonText = this.props.user.following.includes(this.state.user._id)
+        ? "Following"
+        : "Follow";
+    }
+    let buttonClass = "follow-btn";
+    if (
+      this.state.user._id !== this.props.user._id &&
+      this.props.user.following.includes(this.state.user._id)
+    ) {
+      buttonClass = "unfollow-btn";
+    }
+    const buttonOnClick =
+      this.state.user._id !== this.props.user._id
+        ? this.props.onClick
+        : this.showPopup.bind(this);
     return (
       <div className="component">
         {this.state.popup ? (
@@ -94,8 +133,12 @@ class Profile extends React.Component {
         {this.state.popup ? (
           <Overlay
             onProfileSubmit={this.handleSubmit.bind(this)}
-            onXClick={this.togglePopup.bind(this)}
+            onXClick={this.hidePopup.bind(this)}
+            onBackClick={this.showBioForm.bind(this)}
+            onNext={this.handleNextClick.bind(this)}
+            onTextInputChange={this.handleTextInputChange.bind(this)}
             profile={true}
+            showBioForm={this.state.showBioForm}
           />
         ) : null}
         <div className="title-container profile-title-container">
@@ -113,12 +156,13 @@ class Profile extends React.Component {
               <div className="default-header-image" />
             )}
           </div>
-          <ProfilePic size="lg" />
+          <ProfilePic size="lg" photo={this.state.user.profilePicture} />
           <Button
-            textContent="Set up profile"
+            textContent={buttonText}
             size="med"
-            class="follow-btn"
-            onClick={this.togglePopup.bind(this)}
+            class={buttonClass}
+            onClick={buttonOnClick}
+            id={this.state.user._id}
           />
           <div className="profile-main-info-container">
             <p className="title profile-main-title">{this.state.user.name}</p>
