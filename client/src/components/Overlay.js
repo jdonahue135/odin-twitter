@@ -52,7 +52,11 @@ const Overlay = (props) => {
       {props.replyTweet ? (
         <div className="overlay-target-container">
           <div className="tweet-container" onClick={props.onXClick}>
-            <Tweet tweet={props.replyTweet} currentUser={props.user} />
+            <Tweet
+              tweet={props.replyTweet}
+              currentUser={props.user}
+              isOverlay={true}
+            />
             <div className="reply-label">
               {formatReplyLabel(props.replyTweet.user.username)}
             </div>
