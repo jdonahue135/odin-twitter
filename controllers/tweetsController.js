@@ -89,19 +89,19 @@ exports.tweet_post = function (req, res, next) {
         newTweet.inReplyTo = theTweet;
         theTweet.replies.push(newTweet);
         theTweet.save();
+
+        //add new notification for user
+        const newNotification = new Notification({
+          user: theTweet.user,
+          actionUsers: [user],
+          type: "reply",
+          tweet: theTweet,
+          reply: newTweet,
+        });
+
+        newNotification.save();
       }
     });
-
-    //add new notification for user
-    const newNotification = new Notification({
-      user: theTweet.user,
-      actionUsers: [user],
-      type: "reply",
-      tweet: theTweet,
-      reply: newTweet,
-    });
-
-    newNotification.save();
   }
 
   newTweet.save((err) => {
