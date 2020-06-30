@@ -385,6 +385,11 @@ textarea::placeholder {
   padding-left: 0;
 }
 
+.follow-title {
+  position: unset;
+  padding-left: 0;
+}
+
 .profile-main-title {
   position: unset;
   padding-left: 0;
@@ -408,6 +413,10 @@ textarea::placeholder {
   text-align: center;
   top: 33px;
   height: 50px;
+}
+.follow-options {
+  top: 0;
+  border-bottom: 1px solid rgb(230, 236, 240);
 }
 
 .option {
@@ -709,6 +718,9 @@ textarea::placeholder {
   border-bottom-width: 0;
   height: fit-content;
 }
+.follow-main {
+  border-top: 0;
+}
 .home-main {
   border-top-width: 9px;
   height: -webkit-fill-available;
@@ -932,6 +944,12 @@ textarea::placeholder {
   position: relative;
   bottom: 30px;
   z-index: 1;
+}
+.profile-char-count {
+  float: right;
+  margin-right: 65px;
+  margin-top: 5px;
+  opacity: 0.6;
 }
 .tweets-container {
   border-bottom: 1px solid rgb(230, 236, 240);
@@ -1166,6 +1184,9 @@ textarea::placeholder {
 .profile-title-container {
   border-bottom: 0;
 }
+.follow-title-container {
+  border-bottom: 0;
+}
 .messages-title-container {
   width: 390px;
   border-bottom: 0;
@@ -1346,6 +1367,8 @@ textarea::placeholder {
   text-decoration-color: black;
 }
 .follow-info-container {
+  position: relative;
+  margin-left: 75px;
   margin-top: 5px;
 }
 
