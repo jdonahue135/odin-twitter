@@ -20,6 +20,7 @@ import Profile from "./Profile";
 import Explore from "./Explore";
 import Overlay from "./Overlay";
 import TweetFocus from "./TweetFocus";
+import Follow from "./Follow";
 
 class App extends React.Component {
   constructor(props) {
@@ -471,7 +472,7 @@ class App extends React.Component {
                   )}
                 />
                 <Route
-                  path={"/:username/:tweetid"}
+                  path={"/status/:username/:tweetid"}
                   render={(props) => (
                     <TweetFocus
                       {...props}
@@ -482,6 +483,17 @@ class App extends React.Component {
                       onLike={this.handleLikeChange.bind(this)}
                       onRetweet={this.handleRetweetChange.bind(this)}
                       onReply={this.showReplyOverlay.bind(this)}
+                    />
+                  )}
+                />
+                <Route
+                  path={"/:username/:follow"}
+                  render={(props) => (
+                    <Follow
+                      {...props}
+                      user={this.state.user}
+                      onClick={this.handleFollowerChange.bind(this)}
+                      onPathChange={this.handlePathChange.bind(this)}
                     />
                   )}
                 />
