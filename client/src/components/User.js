@@ -49,13 +49,15 @@ class User extends React.Component {
             ) : null}
           </div>
         </Link>
-        <Button
-          textContent={buttonTextContent}
-          class={buttonClass}
-          size="sm"
-          onClick={this.props.onClick}
-          id={this.props.user._id}
-        />
+        {this.props.currentUser._id === this.props.user._id ? null : (
+          <Button
+            textContent={buttonTextContent}
+            class={buttonClass}
+            size="sm"
+            onClick={this.props.onClick}
+            id={this.props.user._id}
+          />
+        )}
       </div>
     );
   }
