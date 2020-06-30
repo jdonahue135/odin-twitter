@@ -84,7 +84,11 @@ class ProfileForm extends React.Component {
                 className="profile-input"
                 rows="2"
                 value={this.state.textInput}
+                maxLength={160}
               />
+            </div>
+            <div className="profile-char-count">
+              {this.state.textInput.length + "/160"}
             </div>
           </div>
         </div>
