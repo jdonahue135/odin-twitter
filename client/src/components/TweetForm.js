@@ -17,6 +17,7 @@ class TweetForm extends React.Component {
       photo: null,
       refreshFileInput: false,
     };
+    this.fileUploaderRef = React.createRef();
   }
 
   componentDidUpdate() {
@@ -75,7 +76,7 @@ class TweetForm extends React.Component {
   }
 
   handleFileUploadClick() {
-    this.refs.fileUploader.click();
+    this.fileUploaderRef.current.click();
   }
 
   handlePhotoUpload(e) {
@@ -119,7 +120,6 @@ class TweetForm extends React.Component {
     const charCount = this.props.isReplyTo
       ? this.state.text.length + this.props.isReplyTo.user.username.length
       : this.state.text.length;
-
     return (
       <div className="tweet-form-container">
         <TextareaAutosize
@@ -151,7 +151,7 @@ class TweetForm extends React.Component {
               <input
                 type="file"
                 id="file"
-                ref="fileUploader"
+                ref={this.fileUploaderRef}
                 style={{ display: "none" }}
                 onChange={this.handlePhotoUpload.bind(this)}
               />
