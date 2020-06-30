@@ -33,7 +33,9 @@ class Tweet extends React.Component {
       ? this.props.tweet.retweetOf
       : this.props.tweet;
     if (this.state.redirect) {
-      return <Redirect to={"/" + tweet.user.username + "/" + tweet._id} />;
+      return (
+        <Redirect to={"/status/" + tweet.user.username + "/" + tweet._id} />
+      );
     }
     let text = tweet.text;
     if (tweet.text.indexOf("#") !== -1 || tweet.text.indexOf("@") !== -1) {
@@ -122,7 +124,7 @@ class Tweet extends React.Component {
               <div className="tweet-name">{tweet.user.name}</div>
               <div className="tweet-username">{"@" + tweet.user.username}</div>
             </Link>
-            <Link to={"/" + tweet.user.username + "/" + tweet._id}>
+            <Link to={"/status/" + tweet.user.username + "/" + tweet._id}>
               <div className="divider">.</div>
               <div className="tweet-date">{formatDate(tweet.date)}</div>
             </Link>
@@ -142,7 +144,7 @@ class Tweet extends React.Component {
           >
             {text}
           </div>
-          {tweet.photo ? (
+          {tweet.photo && !this.props.isOverlay ? (
             <div className="tweet-photo-container">
               <img className="tweet-photo" src={tweet.photo} alt="upload" />
             </div>
