@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 import Button from "./Button";
 import ProfilePic from "./ProfilePic";
@@ -145,7 +146,9 @@ class Profile extends React.Component {
           />
         ) : null}
         <div className="title-container profile-title-container">
-          {renderGraphic(graphics.BACK)}
+          <Link to="/" onClick={this.props.onPathChange}>
+            {renderGraphic(graphics.BACK)}
+          </Link>
           <div className="profile-info-container">
             <p className="title profile-title">{this.state.user.name}</p>
             <p className="sub-title">{tweetCount}</p>
@@ -180,22 +183,26 @@ class Profile extends React.Component {
               <p className="calendar-detail">{"Joined " + joinDate}</p>
             </div>
             <div className="follow-info-container">
-              <div className="follow-count-item">
-                <p className="follow-count">
-                  {this.state.user.following
-                    ? this.state.user.following.length
-                    : 0}
-                </p>
-                <p className="follow-count-label">&nbsp;Following</p>
-              </div>
-              <div className="follow-count-item">
-                <p className="follow-count">
-                  {this.state.user.followers
-                    ? this.state.user.followers.length
-                    : 0}
-                </p>
-                <p className="follow-count-label">&nbsp;Followers</p>
-              </div>
+              <Link to={"/" + this.state.user.username + "/following"}>
+                <div className="follow-count-item">
+                  <p className="follow-count">
+                    {this.state.user.following
+                      ? this.state.user.following.length
+                      : 0}
+                  </p>
+                  <p className="follow-count-label">&nbsp;Following</p>
+                </div>
+              </Link>
+              <Link to={"/" + this.state.user.username + "/followers"}>
+                <div className="follow-count-item">
+                  <p className="follow-count">
+                    {this.state.user.followers
+                      ? this.state.user.followers.length
+                      : 0}
+                  </p>
+                  <p className="follow-count-label">&nbsp;Followers</p>
+                </div>
+              </Link>
             </div>
           </div>
           <Options
