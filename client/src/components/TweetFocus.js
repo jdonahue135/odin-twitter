@@ -105,7 +105,9 @@ class TweetFocus extends React.Component {
     return (
       <div className="component">
         <div className="title-container tweet-focus-title-container">
-          {renderGraphic(graphics.BACK)}
+          <Link to="/" onClick={this.props.onPathChange}>
+            {renderGraphic(graphics.BACK)}
+          </Link>
           <div className="profile-info-container">
             <p className="title">Tweet</p>
           </div>
@@ -161,6 +163,15 @@ class TweetFocus extends React.Component {
             </div>
             <div className="tweet-body">
               <div className="tweet-text tweet-focus-text">{text}</div>
+              {this.state.tweet.photo ? (
+                <div className="tweet-photo-container">
+                  <img
+                    className="tweet-photo"
+                    src={this.state.tweet.photo}
+                    alt="upload"
+                  />
+                </div>
+              ) : null}
               <div className="tweet-focus-date-container">
                 <div className="tweet-date">{time}</div>
                 <div className="divider">.</div>
