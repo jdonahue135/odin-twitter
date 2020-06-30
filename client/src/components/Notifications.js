@@ -27,16 +27,24 @@ class Notifications extends React.Component {
   }
 
   render() {
-    const sortedNotificationList = this.props.notifications
-      ? sortList(this.props.notifications)
-      : null;
-    if (!sortedNotificationList) {
+    if (!this.props.notifications) {
       return (
         <div className="component">
           <div className="spinning-loader" />
         </div>
       );
     }
+    let notificationList = [];
+    if (!this.state.showAll) {
+      for (let i = 0; i < this.props.notifications.length; i++) {
+        if (this.props.notifications[i].type === "reply") {
+          notificationList.push(this.props.notifications[i]);
+        }
+      }
+    } else {
+      notificationList = this.props.notifications;
+    }
+    let sortedNotificationList = sortList(notificationList);
     const subHeadlineText = this.state.showAll
       ? "From likes to Retweets and a whole lot more, this is where all the action happens."
       : "When someone mentions you, you’ll find it here.";
