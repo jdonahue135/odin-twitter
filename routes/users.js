@@ -23,6 +23,9 @@ router.post("/signup", users_controller.signup);
 /* handle GET request for user information */
 router.get("/:userid", users_controller.user_get);
 
+/* handle GET request for user following/followers */
+router.get("/:username/follow", users_controller.user_follow_get);
+
 /* handle profile update on POST */
 router.post(
   "/:userid/update",
