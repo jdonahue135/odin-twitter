@@ -116,6 +116,19 @@ exports.user_get = (req, res) => {
     });
 };
 
+//Send user following/followers on GET
+exports.user_follow_get = (req, res) => {
+  User.findOne({ username: req.params.username })
+    .select("-password")
+    .populate("followers following")
+    .exec((err, theUser) => {
+      if (err) res.json({ success: false, err });
+      else {
+        res.json(theUser);
+      }
+    });
+};
+
 exports.user_update = (req, res, next) => {
   User.findById(req.params.userid).exec((err, theUser) => {
     if (err) res.json({ success: false, message: "Error" });
@@ -233,7 +246,7 @@ exports.follow = (req, res) => {
         });
       if (!results.user)
         res.json({ success: false, message: "current user not found" });
-      if (results.user === results.targetUser)
+      if (results.user._id === results.targetUser._id)
         res.json({ success: false, message: "Cannot unfollow yourself" });
 
       //both users found, determine if request is follow or unfollow
