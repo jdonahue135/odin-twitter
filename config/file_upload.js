@@ -7,11 +7,9 @@ const DIR = "./public/images/";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    //works
     cb(null, DIR);
   },
   filename: (req, file, cb) => {
-    //works
     const fileName = file.originalname.toLowerCase().split(" ").join("-");
     cbValue = uuid() + "-" + fileName;
     cb(null, cbValue);
@@ -26,8 +24,6 @@ var upload = multer({
       file.mimetype == "image/jpg" ||
       file.mimetype == "image/jpeg"
     ) {
-      //works
-      console.log(file);
       cb(null, true);
     } else {
       cb(null, false);
