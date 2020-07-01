@@ -3,14 +3,12 @@ import { Link } from "react-router-dom";
 
 import ProfilePic from "./ProfilePic";
 import TweetForm from "./TweetForm";
-import ProfileForm from "./ProfileForm";
-import PhotoUpload from "./PhotoUpload";
 import Tweet from "./Tweet";
 
 import { graphics } from "../constants";
 import { renderGraphic } from "../helpers";
 
-const Overlay = (props) => {
+const TweetOverlay = (props) => {
   function formatReplyLabel(username) {
     return [
       "Replying to ",
@@ -22,24 +20,6 @@ const Overlay = (props) => {
         <span className="profile-link">{"@" + username}</span>
       </Link>,
     ];
-  }
-
-  if (props.profile) {
-    return (
-      <div>
-        <PhotoUpload
-          header={false}
-          onBackClick={props.onBackClick}
-          onSubmit={props.onProfileSubmit}
-        />
-        <ProfileForm
-          onTextInputChange={props.onTextInputChange}
-          onNext={props.onNext}
-          show={props.showBioForm}
-          onXClick={props.onXClick}
-        />
-      </div>
-    );
   }
 
   const isReply = props.replyTweet !== null ? props.replyTweet : null;
@@ -81,4 +61,4 @@ const Overlay = (props) => {
   );
 };
 
-export default Overlay;
+export default TweetOverlay;
