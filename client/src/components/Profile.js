@@ -7,7 +7,7 @@ import ProfilePic from "./ProfilePic";
 import Recommendations from "./Recommendations";
 import Options from "./Options";
 import TweetList from "./TweetList";
-import Overlay from "./Overlay";
+import ProfileOverlay from "./ProfileOverlay";
 import calendar from "../images/calendar.png";
 
 import { renderGraphic, addTextStyling } from "../helpers";
@@ -21,11 +21,7 @@ class Profile extends React.Component {
       tweetsSelected: true,
       tweets: null,
       user: null,
-      popup: false,
-      showBioForm: false,
-      profileInputText: "",
-      profilePic: null,
-      headerPic: null,
+      overlay: false,
     };
   }
 
@@ -35,6 +31,13 @@ class Profile extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.fetchUserTweets();
+    }
+
+    if (
+      !this.props.overlayStatus &&
+      prevProps.overlayStatus !== this.props.overlayStatus
+    ) {
       this.fetchUserTweets();
     }
   }
@@ -69,22 +72,20 @@ class Profile extends React.Component {
     }
   }
 
-  showPopup() {
-    this.setState({ popup: true, showBioForm: true });
+  showOverlay() {
+    this.setState({ overlay: true, showBioForm: true });
   }
 
-  hidePopup() {
+  hideOverlay() {
     this.setState({
-      popup: false,
-      showBioForm: false,
-      profileInputText: "",
+      overlay: false,
     });
   }
 
-  handleSubmit(image) {
-    this.setState({ popup: false });
-    this.props.onProfileUpdate(this.state.profileInputText, image);
-    window.location.reload();
+  handleSubmit(bio, profilePicture, header) {
+    \;
+    this.setState({ overlay: false });
+    this.props.onProfileUpdate(bio, profilePicture, header);
   }
 
   showBioForm() {
@@ -95,6 +96,36 @@ class Profile extends React.Component {
   }
   handleTextInputChange(text) {
     this.setState({ profileInputText: text });
+  }
+
+  renderProfileMessage() {
+    if (this.state.user._id === this.props.user._id) {
+      return (
+        <div className="tweetlist-info-container tweetlist-info-title-container">
+          <p className="headline message-info-item">You haven’t Tweeted yet</p>
+          <p className="sub-headline message-info-item">
+            When you post a Tweet, it’ll show up here.
+          </p>
+          <Button
+            size="med"
+            textContent="Tweet Now"
+            class="message-btn"
+            onClick={this.props.onButtonClick}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className="tweetlist-info-container tweetlist-info-title-container">
+          <p className="headline message-info-item">
+            {"@" + this.state.user.username + " hasn’t Tweeted yet"}
+          </p>
+          <p className="sub-headline message-info-item">
+            When they do, their Tweets will show up here.
+          </p>
+        </div>
+      );
+    }
   }
 
   render() {
@@ -128,16 +159,16 @@ class Profile extends React.Component {
     const buttonOnClick =
       this.state.user._id !== this.props.user._id
         ? this.props.onClick
-        : this.showPopup.bind(this);
+        : this.showOverlay.bind(this);
     return (
       <div className="component">
-        {this.state.popup ? (
+        {this.state.overlay ? (
           <div className="profile-backdrop backdrop" />
         ) : null}
-        {this.state.popup ? (
-          <Overlay
+        {this.state.overlay ? (
+          <ProfileOverlay
             onProfileSubmit={this.handleSubmit.bind(this)}
-            onXClick={this.hidePopup.bind(this)}
+            onXClick={this.hideOverlay.bind(this)}
             onBackClick={this.showBioForm.bind(this)}
             onNext={this.handleNextClick.bind(this)}
             onTextInputChange={this.handleTextInputChange.bind(this)}
@@ -156,8 +187,12 @@ class Profile extends React.Component {
         </div>
         <div className="main profile-main">
           <div className="header-image-container">
-            {this.state.user.headerImage ? (
-              <img src={this.state.user.headerImage} alt="header" />
+            {this.state.user.header ? (
+              <img
+                className="header-image"
+                src={this.state.user.header}
+                alt="header"
+              />
             ) : (
               <div className="default-header-image" />
             )}
@@ -225,20 +260,7 @@ class Profile extends React.Component {
               onReply={this.props.onReply}
             />
           ) : (
-            <div className="tweetlist-info-container tweetlist-info-title-container">
-              <p className="headline message-info-item">
-                You haven’t Tweeted yet
-              </p>
-              <p className="sub-headline message-info-item">
-                When you post a Tweet, it’ll show up here.
-              </p>
-              <Button
-                size="med"
-                textContent="Tweet Now"
-                class="message-btn"
-                onClick={this.props.onButtonClick}
-              />
-            </div>
+            <div>{this.renderProfileMessage()}</div>
           )}
         </div>
         <Recommendations
