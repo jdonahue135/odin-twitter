@@ -139,10 +139,30 @@ exports.user_update = (req, res, next) => {
         theUser.bio = req.body.bio;
         updates = updates + "bio ";
       }
-      if (req.file) {
-        const url = req.protocol + "://" + req.get("host");
-        theUser.profilePicture = url + "/public/images/" + req.file.filename;
-        updates = updates + "profilePicture ";
+      if (req.files) {
+        //verify photos uploaded and save
+        if (req.body.profilePictureID) {
+          updates = updates + "profilePicture ";
+          if (req.files[0].originalname === req.body.profilePictureID) {
+            const url = req.protocol + "://" + req.get("host");
+            theUser.profilePicture =
+              url + "/public/images/" + req.files[0].filename;
+          } else if (req.files[1].originalname === req.body.profilePictureID) {
+            const url = req.protocol + "://" + req.get("host");
+            theUser.profilePicture =
+              url + "/public/images/" + req.files[1].filename;
+          }
+        }
+        if (req.body.headerID) {
+          updates = updates + "header ";
+          if (req.files[0].originalname === req.body.headerID) {
+            const url = req.protocol + "://" + req.get("host");
+            theUser.header = url + "/public/images/" + req.files[0].filename;
+          } else if (req.files[1].originalname === req.body.headerID) {
+            const url = req.protocol + "://" + req.get("host");
+            theUser.header = url + "/public/images/" + req.files[1].filename;
+          }
+        }
       }
       theUser.save();
       res.json({
