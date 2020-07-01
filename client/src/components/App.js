@@ -18,7 +18,7 @@ import Notifications from "./Notifications";
 import Messages from "./Messages";
 import Profile from "./Profile";
 import Explore from "./Explore";
-import Overlay from "./Overlay";
+import TweetOverlay from "./TweetOverlay";
 import TweetFocus from "./TweetFocus";
 import Follow from "./Follow";
 
@@ -419,7 +419,7 @@ class App extends React.Component {
             {this.state.showOverlay ? (
               <div>
                 <div className="backdrop" />
-                <Overlay
+                <TweetOverlay
                   user={this.state.user}
                   onXClick={this.toggleOverlay.bind(this)}
                   onClick={this.handleTweetSubmit.bind(this)}
