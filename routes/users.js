@@ -30,7 +30,7 @@ router.get("/:username/follow", users_controller.user_follow_get);
 router.post(
   "/:userid/update",
   auth.verifyToken,
-  file_upload.upload.single("profilePicture"),
+  file_upload.upload.array("photos", 2),
   users_controller.user_update
 );
 
