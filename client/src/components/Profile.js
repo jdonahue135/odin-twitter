@@ -83,7 +83,6 @@ class Profile extends React.Component {
   }
 
   handleSubmit(bio, profilePicture, header) {
-    \;
     this.setState({ overlay: false });
     this.props.onProfileUpdate(bio, profilePicture, header);
   }
