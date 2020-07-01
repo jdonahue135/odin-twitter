@@ -9,32 +9,37 @@ class PhotoUpload extends React.Component {
     super(props);
 
     this.state = {
-      image: "",
-      isHidden: false,
+      photo: null,
     };
   }
 
   onFileChange(e) {
-    this.setState({ image: e.target.files[0] });
+    this.setState({ photo: e.target.files[0] });
   }
 
   onSubmit() {
-    const image = this.state.image === "" ? null : this.state.image;
-    this.props.handleSubmit(image);
+    this.props.onSubmit(this.state.photo);
   }
   onNext() {
-    this.props.onSubmit(this.state.image);
-    this.setState({ isHidden: true });
+    this.props.onNext(this.state.photo);
+    this.setState({ photo: null });
+  }
+
+  onBackClick() {
+    this.setState({ photo: null });
   }
 
   render() {
-    if (this.state.isHidden) {
+    if (!this.props.active) {
       return <div className="hidden" />;
     }
     const name = this.props.header ? "header" : "profile picture";
     const message = this.props.header
       ? "People who visit your profile will see it. Show your style."
       : "Have a favorite selfie? Upload it now.";
+    const onClick = this.props.header
+      ? this.onSubmit.bind(this)
+      : this.onNext.bind(this);
     return (
       <div className="overlay-form-container">
         <div
@@ -43,19 +48,19 @@ class PhotoUpload extends React.Component {
         >
           {renderGraphic(graphics.BACK, null, this.props.onBackClick)}
           <img className="logo profile-form-logo" src={logo} alt="logo" />
-          {this.state.image === "" ? (
+          {!this.state.photo ? (
             <Button
               class="profile-overlay-skip"
               textContent="Skip for now"
               size="med"
-              onClick={this.onNext.bind(this)}
+              onClick={onClick}
             />
           ) : (
             <Button
               class="profile-overlay-next"
               textContent="Next"
               size="sm"
-              onClick={this.onNext.bind(this)}
+              onClick={onClick}
             />
           )}
         </div>
