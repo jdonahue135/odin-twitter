@@ -41,12 +41,12 @@ const TweetList = (props) => {
         let threadLink;
         if (tweet.replies.length > 0 && props.home) {
           threadLink = (
-            <Link to={"/" + tweet.user.username + "/" + tweet._id}>
+            <Link to={"/status/" + tweet.user.username + "/" + tweet._id}>
               <div className="show-thread">Show this thread</div>
             </Link>
           );
         }
-        const isreply = tweet.inReplyTo ? true : false;
+        const isReply = tweet.inReplyTo ? true : false;
         return (
           <div className="tweet-container" key={tweet._id + " container"}>
             <div className="tweet">
@@ -56,7 +56,7 @@ const TweetList = (props) => {
                 tweet={tweet}
                 onClick={onClickProp}
                 onPathChange={props.onPathChange}
-                isReply={isreply}
+                isReply={isReply}
               />
               <TweetFooter
                 currentUser={props.user}
