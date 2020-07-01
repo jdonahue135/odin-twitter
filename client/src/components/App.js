@@ -216,10 +216,23 @@ class App extends React.Component {
     });
   }
 
-  handleProfileUpdate(bio, image) {
+  handleProfileUpdate(bio, profilePicture, header) {
+    if (!bio && !profilePicture && !header) return;
+
+    //create request object
     const formData = new FormData();
-    formData.append("profilePicture", image);
-    formData.append("bio", bio);
+    if (bio) {
+      formData.append("bio", bio);
+    }
+    if (profilePicture) {
+      //save profilePicture and name to formData
+      formData.append("photos", profilePicture);
+      formData.append("profilePictureID", profilePicture.name);
+    }
+    if (header) {
+      formData.append("photos", header);
+      formData.append("headerID", header.name);
+    }
 
     const url = "/users/" + this.state.user._id + "/update";
     const headers = {
@@ -232,6 +245,7 @@ class App extends React.Component {
     axios
       .post(url, formData, headers)
       .then((res) => console.log(res))
+      .then(() => window.location.reload())
       .catch((err) => console.error(err));
   }
 
@@ -507,7 +521,7 @@ class App extends React.Component {
                       onButtonClick={this.toggleOverlay.bind(this)}
                       onTweetDelete={this.handleTweetDelete.bind(this)}
                       onClick={this.handleFollowerChange.bind(this)}
-                      popupStatus={this.state.showOverlay}
+                      overlayStatus={this.state.showOverlay}
                       onPathChange={this.handlePathChange.bind(this)}
                       onLike={this.handleLikeChange.bind(this)}
                       onRetweet={this.handleRetweetChange.bind(this)}
