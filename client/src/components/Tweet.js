@@ -21,8 +21,10 @@ class Tweet extends React.Component {
     this.setState({ showPopup: !this.state.showPopup });
   }
 
-  handleTweetClick() {
-    this.setState({ redirect: true });
+  handleTweetClick(e) {
+    //do not redirect if a profile link was clicked
+    if (e.target.className === "handle") return;
+    else this.setState({ redirect: true });
   }
 
   render() {
@@ -37,10 +39,7 @@ class Tweet extends React.Component {
         <Redirect to={"/status/" + tweet.user.username + "/" + tweet._id} />
       );
     }
-    let text = tweet.text;
-    if (tweet.text.indexOf("#") !== -1 || tweet.text.indexOf("@") !== -1) {
-      text = addTextStyling(tweet.text);
-    }
+    const text = tweet.text ? addTextStyling(tweet.text) : "";
     let handle = ["Replying to "];
     if (this.props.notification) {
       handle.push(text[0]);
