@@ -220,8 +220,8 @@ class Profile extends React.Component {
               <Link to={"/" + this.state.user.username + "/following"}>
                 <div className="follow-count-item">
                   <p className="follow-count">
-                    {this.state.user.following
-                      ? this.state.user.following.length
+                    {this.state.user.following.length > 1
+                      ? this.state.user.following.length - 1
                       : 0}
                   </p>
                   <p className="follow-count-label">&nbsp;Following</p>
@@ -230,8 +230,8 @@ class Profile extends React.Component {
               <Link to={"/" + this.state.user.username + "/followers"}>
                 <div className="follow-count-item">
                   <p className="follow-count">
-                    {this.state.user.followers
-                      ? this.state.user.followers.length
+                    {this.state.user.followers.length > 1
+                      ? this.state.user.followers.length - 1
                       : 0}
                   </p>
                   <p className="follow-count-label">&nbsp;Followers</p>
