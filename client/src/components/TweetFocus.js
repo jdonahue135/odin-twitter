@@ -7,6 +7,7 @@ import { graphics } from "../constants";
 
 import ProfilePic from "./ProfilePic";
 import TweetList from "./TweetList";
+import TweetFooter from "./TweetFooter";
 
 class TweetFocus extends React.Component {
   constructor(props) {
@@ -97,10 +98,7 @@ class TweetFocus extends React.Component {
 
     const { time, date } = formatDate(this.state.tweet.date, true);
 
-    const text =
-      this.state.tweet.text.indexOf("#") !== -1
-        ? addTextStyling(this.state.tweet.text)
-        : this.state.tweet.text;
+    const text = addTextStyling(this.state.tweet.text);
 
     return (
       <div className="component">
@@ -154,7 +152,7 @@ class TweetFocus extends React.Component {
                   </div>
                 </Link>
                 <div
-                  className="popup-option-container"
+                  className="popup-option-container tweet-focus-option-container"
                   onClick={this.togglePopup.bind(this)}
                 >
                   {renderGraphic(graphics.TWEET_OPTIONS)}
@@ -178,25 +176,27 @@ class TweetFocus extends React.Component {
                 <div className="tweet-date">{date}</div>
               </div>
             </div>
-            <div className="tweet-footer tweet-focus-footer">
-              {renderGraphic(graphics.REPLY)}
-              {renderGraphic(graphics.RETWEET)}
-              {renderGraphic(graphics.LIKE)}
-              {renderGraphic(graphics.SHARE)}
-            </div>
+            <TweetFooter
+              currentUser={this.props.user}
+              key={this.state.tweet._id + "footer"}
+              tweet={this.state.tweet}
+              onLike={this.props.onLike}
+              onRetweet={this.props.onRetweet}
+              onReply={this.props.onReply}
+            />
           </div>
-        </div>
-        <div className="replies-container">
-          <TweetList
-            tweets={this.state.tweet.replies}
-            user={this.props.user}
-            deleteTweet={this.handleTweetDelete.bind(this)}
-            onFollowChange={this.handleFollowChange.bind(this)}
-            onLike={this.props.onLike}
-            onRetweet={this.handleRetweetChange.bind(this)}
-            onReply={this.props.onReply}
-            focus={true}
-          />
+          <div className="replies-container">
+            <TweetList
+              tweets={this.state.tweet.replies}
+              user={this.props.user}
+              deleteTweet={this.handleTweetDelete.bind(this)}
+              onFollowChange={this.handleFollowChange.bind(this)}
+              onLike={this.props.onLike}
+              onRetweet={this.handleRetweetChange.bind(this)}
+              onReply={this.props.onReply}
+              focus={true}
+            />
+          </div>
         </div>
       </div>
     );
