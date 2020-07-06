@@ -60,8 +60,8 @@ class Notifications extends React.Component {
             selected={this.state.showAll}
           />
         </div>
-        <div className="main">
-          {sortedNotificationList.length === 0 ? (
+        {sortedNotificationList.length === 0 ? (
+          <div className="main">
             <div className="notifications-info-container notifications-info-title-container">
               <p className="headline message-info-item">
                 Nothing to see here — yet
@@ -70,18 +70,24 @@ class Notifications extends React.Component {
                 {subHeadlineText}
               </p>
             </div>
-          ) : (
-            <div className="main">
-              {sortedNotificationList.map((notification) => (
-                <NotificationItem
-                  key={notification._id}
-                  notification={notification}
-                  user={this.props.user}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="main">
+            {sortedNotificationList.map((notification) => (
+              <NotificationItem
+                key={notification._id}
+                notification={notification}
+                user={this.props.user}
+                onLike={this.props.onLike}
+                onRetweet={this.props.onRetweet}
+                onReply={this.props.onReply}
+                onFollowChange={this.props.onFollowChange}
+                onPathChange={this.props.onPathChange}
+                deleteTweet={this.props.onTweetDelete}
+              />
+            ))}
+          </div>
+        )}
         <Recommendations
           user={this.props.user}
           onClick={this.props.onClick}
