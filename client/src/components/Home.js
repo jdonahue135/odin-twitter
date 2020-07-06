@@ -11,6 +11,13 @@ import { graphics } from "../constants";
 import { renderGraphic } from "../helpers";
 
 const Home = (props) => {
+  if (!props.tweets) {
+    return (
+      <div className="component">
+        <div className="spinning-loader" />
+      </div>
+    );
+  }
   return (
     <div className="component">
       <div className="title-container">
@@ -31,43 +38,37 @@ const Home = (props) => {
         />
       </div>
       <div className="main home-main">
-        {props.tweets === null ? (
-          <div className="spinning-loader" />
-        ) : (
-          <div>
-            {props.tweets.length === 0 ? (
-              <div className="tweetlist-info-container tweetlist-info-title-container welcome-message-container">
-                <p className="headline message-info-item">
-                  Welcome to Twitter!
-                </p>
-                <p className="sub-headline message-info-item">
-                  This is the best place to see what’s happening in your world.
-                  Find some people and topics to follow now.
-                </p>
-                <Link to="/explore">
-                  <Button
-                    size="med"
-                    textContent="Let's go!"
-                    class="message-btn"
-                    onClick={props.onPathChange}
-                  />
-                </Link>
-              </div>
-            ) : (
-              <TweetList
-                user={props.user}
-                tweets={props.tweets}
-                deleteTweet={props.onTweetDelete}
-                onFollowChange={props.onClick}
-                onPathChange={props.onPathChange}
-                onLike={props.onLike}
-                onRetweet={props.onRetweet}
-                onReply={props.onReply}
-                home={true}
-              />
-            )}
-          </div>
-        )}
+        <div>
+          {props.tweets.length === 0 ? (
+            <div className="tweetlist-info-container tweetlist-info-title-container welcome-message-container">
+              <p className="headline message-info-item">Welcome to Twitter!</p>
+              <p className="sub-headline message-info-item">
+                This is the best place to see what’s happening in your world.
+                Find some people and topics to follow now.
+              </p>
+              <Link to="/explore">
+                <Button
+                  size="med"
+                  textContent="Let's go!"
+                  class="message-btn"
+                  onClick={props.onPathChange}
+                />
+              </Link>
+            </div>
+          ) : (
+            <TweetList
+              user={props.user}
+              tweets={props.tweets}
+              deleteTweet={props.onTweetDelete}
+              onFollowChange={props.onClick}
+              onPathChange={props.onPathChange}
+              onLike={props.onLike}
+              onRetweet={props.onRetweet}
+              onReply={props.onReply}
+              home={true}
+            />
+          )}
+        </div>
       </div>
       <Recommendations
         user={props.user}
