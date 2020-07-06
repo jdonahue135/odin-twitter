@@ -1,6 +1,8 @@
 import React from "react";
-
+import Picker from "react-giphy-picker";
+import { ClickAwayListener } from "@material-ui/core";
 import TextareaAutosize from "react-autosize-textarea";
+
 import Button from "./Button";
 import CharacterCounter from "./CharacterCounter";
 
@@ -15,7 +17,9 @@ class TweetForm extends React.Component {
       focused: false,
       text: "",
       photo: null,
+      isGif: false,
       refreshFileInput: false,
+      showGifPicker: false,
     };
     this.fileUploaderRef = React.createRef();
   }
@@ -48,6 +52,15 @@ class TweetForm extends React.Component {
 
   handleTextChange(e) {
     this.setState({ text: e.target.value });
+  }
+
+  handleGifSelect(gif) {
+    console.log(gif);
+    this.setState({
+      photo: gif["original"]["url"],
+      isGif: true,
+      showGifPicker: false,
+    });
   }
 
   handleClick() {
@@ -87,13 +100,21 @@ class TweetForm extends React.Component {
       photo.type === "image/jpg" ||
       photo.type === "image/jpeg"
     ) {
-      this.setState({ photo: e.target.files[0] });
+      this.setState({
+        photo: e.target.files[0],
+        isGif: false,
+      });
     }
   }
   handlePhotoDelete() {
     this.setState({
       photo: null,
       refreshFileInput: true,
+    });
+  }
+  toggleGifPicker() {
+    this.setState({
+      showGifPicker: !this.state.showGifPicker,
     });
   }
 
@@ -120,8 +141,21 @@ class TweetForm extends React.Component {
     const charCount = this.props.isReplyTo
       ? this.state.text.length + this.props.isReplyTo.user.username.length
       : this.state.text.length;
+    let photoUrl;
+    if (this.state.photo) {
+      photoUrl = !this.state.isGif
+        ? URL.createObjectURL(this.state.photo)
+        : this.state.photo;
+    }
     return (
       <div className="tweet-form-container">
+        {this.state.showGifPicker ? (
+          <ClickAwayListener onClickAway={this.toggleGifPicker.bind(this)}>
+            <div className="overlay-form-container tweet-form-overlay">
+              <Picker onSelected={this.handleGifSelect.bind(this)} />
+            </div>
+          </ClickAwayListener>
+        ) : null}
         <TextareaAutosize
           rows={rows}
           placeholder={placeholder}
@@ -132,11 +166,7 @@ class TweetForm extends React.Component {
         {this.props.inline ? this.renderVisibilityContainer() : null}
         {this.state.photo ? (
           <div className="tweet-form-photo-container">
-            <img
-              className="tweet-form-photo"
-              src={URL.createObjectURL(this.state.photo)}
-              alt="upload"
-            />
+            <img className="tweet-form-photo" src={photoUrl} alt="upload" />
             {renderGraphic(graphics.X, null, this.handlePhotoDelete.bind(this))}
           </div>
         ) : null}
@@ -156,7 +186,7 @@ class TweetForm extends React.Component {
                 onChange={this.handlePhotoUpload.bind(this)}
               />
             )}
-            {renderGraphic(graphics.GIF)}
+            {renderGraphic(graphics.GIF, null, this.toggleGifPicker.bind(this))}
           </div>
           <Button
             class={buttonClass}
