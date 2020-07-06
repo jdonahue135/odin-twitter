@@ -32,7 +32,14 @@ class User extends React.Component {
     return (
       <div className="user-container">
         <Link to={"/" + this.props.user.username}>
-          <ProfilePic size="med" />
+          <ProfilePic
+            photo={
+              this.props.user.profilePicture
+                ? this.props.user.profilePicture
+                : null
+            }
+            size="med"
+          />
           <div className="profile-information-container">
             <div className="profile-name recommendations-profile-name">
               {name}
