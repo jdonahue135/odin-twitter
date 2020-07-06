@@ -112,7 +112,7 @@ exports.user_get = (req, res) => {
     .exec((err, theUser) => {
       if (err) res.json({ success: false, message: "Error" });
       if (!theUser) res.json({ success: false, message: "No user" });
-      res.json(theUser);
+      else res.json(theUser);
     });
 };
 
@@ -211,7 +211,7 @@ exports.get_notifications = (req, res) => {
   Notification.find({ user: req.params.userid })
     .populate("tweet")
     .populate({
-      path: "actionUsers",
+      path: "actionUser",
       populate: {
         path: "user",
         select: "name username profilePicture",
@@ -284,7 +284,7 @@ exports.follow = (req, res) => {
         //remove notification for unfollowed user
         var query = {
           user: results.targetUser,
-          actionUsers: [results.user._id],
+          actionUser: results.user._id,
           type: "follow",
         };
         Notification.findOneAndDelete(query).exec((err, result) => {
@@ -299,7 +299,7 @@ exports.follow = (req, res) => {
         //Create Notification for followed user
         const newNotification = new Notification({
           user: results.targetUser,
-          actionUsers: [results.user],
+          actionUser: results.user,
           type: "follow",
         });
         newNotification.save((err) => {
