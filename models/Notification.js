@@ -6,7 +6,7 @@ var NotificationSchema = new Schema({
   readStatus: { type: Boolean, required: true, default: false },
   date: { type: Date, default: Date.now },
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  actionUsers: [{ type: Schema.Types.ObjectId, ref: "User", required: true }],
+  actionUser: { type: Schema.Types.ObjectId, ref: "User", required: true },
   type: { type: String, required: true, max: 15 },
   tweet: { type: Schema.Types.ObjectId, ref: "Tweet" },
   reply: { type: Schema.Types.ObjectId, ref: "Tweet" },
