@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import axios from "axios";
 
 import "../styles/App.css";
@@ -254,7 +249,14 @@ class App extends React.Component {
     if (!image && !text) return;
 
     const formData = new FormData();
-    formData.append("photo", image);
+    if (image) {
+      //check if image is gif
+      if (typeof image === "string") {
+        formData.append("gif", image);
+      } else {
+        formData.append("photo", image);
+      }
+    }
     formData.append("text", text);
     formData.append("replyTweet", JSON.stringify(replyTweet));
     formData.append("user", JSON.stringify(this.state.user));
@@ -271,7 +273,7 @@ class App extends React.Component {
       .then((res) => {
         console.log(res);
         this.setState({ showOverlay: false });
-        this.fetchTweets();
+        setTimeout(this.fetchTweets.bind(this), 2000);
       })
       .catch((err) => console.error(err));
   }
@@ -414,125 +416,128 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <Router>
-          <div>
-            {this.state.showOverlay ? (
-              <div>
-                <div className="backdrop" />
-                <TweetOverlay
-                  user={this.state.user}
-                  onXClick={this.toggleOverlay.bind(this)}
-                  onClick={this.handleTweetSubmit.bind(this)}
-                  replyTweet={this.state.replyTweet}
-                />
-              </div>
-            ) : null}
+        <div>
+          {this.state.showOverlay ? (
             <div>
-              <Sidebar
-                onButtonClick={this.toggleOverlay.bind(this)}
-                pathname={this.state.pathname}
-                onPathChange={this.handlePathChange.bind(this)}
-                onClick={this.handleLogOut.bind(this)}
-                disable={this.state.showOverlay}
+              <div className="backdrop" />
+              <TweetOverlay
                 user={this.state.user}
-                unseenNotifications={this.state.unseenNotifications}
+                onXClick={this.toggleOverlay.bind(this)}
+                onClick={this.handleTweetSubmit.bind(this)}
+                replyTweet={this.state.replyTweet}
               />
-              <Switch>
-                <Route exact path="/">
-                  <Redirect to="/home" />
-                </Route>
-                <Route
-                  path="/explore"
-                  render={(props) => (
-                    <Explore
-                      {...props}
-                      user={this.state.user}
-                      onClick={this.handleFollowerChange.bind(this)}
-                    />
-                  )}
-                />
-                <Route
-                  path="/notifications"
-                  render={(props) => (
-                    <Notifications
-                      {...props}
-                      notifications={this.state.notifications}
-                      user={this.state.user}
-                      onClick={this.handleFollowerChange.bind(this)}
-                      onPathChange={this.handlePathChange.bind(this)}
-                      onMount={this.readAllNotifications.bind(this)}
-                    />
-                  )}
-                />
-                <Route
-                  path="/messages"
-                  render={(props) => <Messages {...props} />}
-                />
-                <Route
-                  path="/home"
-                  render={(props) => (
-                    <Home
-                      {...props}
-                      onTweetSubmit={this.handleTweetSubmit.bind(this)}
-                      tweets={this.state.tweets}
-                      onTweetDelete={this.handleTweetDelete.bind(this)}
-                      user={this.state.user}
-                      onClick={this.handleFollowerChange.bind(this)}
-                      onPathChange={this.handlePathChange.bind(this)}
-                      onLike={this.handleLikeChange.bind(this)}
-                      onRetweet={this.handleRetweetChange.bind(this)}
-                      onReply={this.showReplyOverlay.bind(this)}
-                    />
-                  )}
-                />
-                <Route
-                  path={"/status/:username/:tweetid"}
-                  render={(props) => (
-                    <TweetFocus
-                      {...props}
-                      user={this.state.user}
-                      onTweetDelete={this.handleTweetDelete.bind(this)}
-                      onClick={this.handleFollowerChange.bind(this)}
-                      onPathChange={this.handlePathChange.bind(this)}
-                      onLike={this.handleLikeChange.bind(this)}
-                      onRetweet={this.handleRetweetChange.bind(this)}
-                      onReply={this.showReplyOverlay.bind(this)}
-                    />
-                  )}
-                />
-                <Route
-                  path={"/:username/:follow"}
-                  render={(props) => (
-                    <Follow
-                      {...props}
-                      user={this.state.user}
-                      onClick={this.handleFollowerChange.bind(this)}
-                      onPathChange={this.handlePathChange.bind(this)}
-                    />
-                  )}
-                />
-                <Route
-                  path={"/:username"}
-                  render={(props) => (
-                    <Profile
-                      {...props}
-                      user={this.state.user}
-                      onProfileUpdate={this.handleProfileUpdate.bind(this)}
-                      onButtonClick={this.toggleOverlay.bind(this)}
-                      onTweetDelete={this.handleTweetDelete.bind(this)}
-                      onClick={this.handleFollowerChange.bind(this)}
-                      overlayStatus={this.state.showOverlay}
-                      onPathChange={this.handlePathChange.bind(this)}
-                      onLike={this.handleLikeChange.bind(this)}
-                      onRetweet={this.handleRetweetChange.bind(this)}
-                      onReply={this.showReplyOverlay.bind(this)}
-                    />
-                  )}
-                />
-              </Switch>
             </div>
+          ) : null}
+          <div>
+            <Sidebar
+              onButtonClick={this.toggleOverlay.bind(this)}
+              pathname={this.state.pathname}
+              onPathChange={this.handlePathChange.bind(this)}
+              onClick={this.handleLogOut.bind(this)}
+              disable={this.state.showOverlay}
+              user={this.state.user}
+              unseenNotifications={this.state.unseenNotifications}
+            />
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/home" />
+              </Route>
+              <Route
+                path="/explore"
+                render={(props) => (
+                  <Explore
+                    {...props}
+                    user={this.state.user}
+                    onClick={this.handleFollowerChange.bind(this)}
+                  />
+                )}
+              />
+              <Route
+                path="/notifications"
+                render={(props) => (
+                  <Notifications
+                    {...props}
+                    notifications={this.state.notifications}
+                    user={this.state.user}
+                    onClick={this.handleFollowerChange.bind(this)}
+                    onPathChange={this.handlePathChange.bind(this)}
+                    onMount={this.readAllNotifications.bind(this)}
+                    onLike={this.handleLikeChange.bind(this)}
+                    onRetweet={this.handleRetweetChange.bind(this)}
+                    onReply={this.showReplyOverlay.bind(this)}
+                    onFollowChange={this.handleFollowerChange.bind(this)}
+                    onTweetDelete={this.handleTweetDelete.bind(this)}
+                  />
+                )}
+              />
+              <Route
+                path="/messages"
+                render={(props) => <Messages {...props} />}
+              />
+              <Route
+                path="/home"
+                render={(props) => (
+                  <Home
+                    {...props}
+                    onTweetSubmit={this.handleTweetSubmit.bind(this)}
+                    tweets={this.state.tweets}
+                    onTweetDelete={this.handleTweetDelete.bind(this)}
+                    user={this.state.user}
+                    onClick={this.handleFollowerChange.bind(this)}
+                    onPathChange={this.handlePathChange.bind(this)}
+                    onLike={this.handleLikeChange.bind(this)}
+                    onRetweet={this.handleRetweetChange.bind(this)}
+                    onReply={this.showReplyOverlay.bind(this)}
+                  />
+                )}
+              />
+              <Route
+                path={"/status/:username/:tweetid"}
+                render={(props) => (
+                  <TweetFocus
+                    {...props}
+                    user={this.state.user}
+                    onTweetDelete={this.handleTweetDelete.bind(this)}
+                    onClick={this.handleFollowerChange.bind(this)}
+                    onPathChange={this.handlePathChange.bind(this)}
+                    onLike={this.handleLikeChange.bind(this)}
+                    onRetweet={this.handleRetweetChange.bind(this)}
+                    onReply={this.showReplyOverlay.bind(this)}
+                  />
+                )}
+              />
+              <Route
+                path={"/:username/:follow"}
+                render={(props) => (
+                  <Follow
+                    {...props}
+                    user={this.state.user}
+                    onClick={this.handleFollowerChange.bind(this)}
+                    onPathChange={this.handlePathChange.bind(this)}
+                  />
+                )}
+              />
+              <Route
+                path={"/:username"}
+                render={(props) => (
+                  <Profile
+                    {...props}
+                    user={this.state.user}
+                    onProfileUpdate={this.handleProfileUpdate.bind(this)}
+                    onButtonClick={this.toggleOverlay.bind(this)}
+                    onTweetDelete={this.handleTweetDelete.bind(this)}
+                    onClick={this.handleFollowerChange.bind(this)}
+                    overlayStatus={this.state.showOverlay}
+                    onPathChange={this.handlePathChange.bind(this)}
+                    onLike={this.handleLikeChange.bind(this)}
+                    onRetweet={this.handleRetweetChange.bind(this)}
+                    onReply={this.showReplyOverlay.bind(this)}
+                  />
+                )}
+              />
+            </Switch>
           </div>
-        </Router>
+        </div>
       </div>
     );
   }
