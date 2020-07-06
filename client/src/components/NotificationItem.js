@@ -11,12 +11,28 @@ import ProfilePic from "./ProfilePic";
 const NotificationItem = (props) => {
   if (props.notification.type === "reply") {
     const className = !props.notification.readStatus ? "unread" : "";
+    const onClickProp =
+      props.user._id === props.notification.reply.user._id
+        ? props.deleteTweet
+        : props.onFollowChange;
     return (
       <div className={"notification-item-container " + className}>
-        <Tweet tweet={props.notification.reply} notification={true} />
-        <TweetFooter
+        <Tweet
           tweet={props.notification.reply}
           currentUser={props.user}
+          key={props.notification.reply._id}
+          onClick={onClickProp}
+          onPathChange={props.onPathChange}
+          notification={true}
+          deleteTweet={props.deleteTweet}
+        />
+        <TweetFooter
+          tweet={props.notification.reply}
+          key={props.notification.reply._id + "footer"}
+          currentUser={props.user}
+          onLike={props.onLike}
+          onRetweet={props.onRetweet}
+          onReply={props.onReply}
         />
       </div>
     );
@@ -26,14 +42,19 @@ const NotificationItem = (props) => {
       message.push(
         <Link
           key={props.notification._id}
-          to={"/" + props.notification.actionUsers[0].username}
+          to={"/" + props.notification.actionUser.username}
         >
-          <span className="username">
-            {props.notification.actionUsers[0].name}
-          </span>
+          <span className="username">{props.notification.actionUser.name}</span>
         </Link>
       );
       let text;
+      const link =
+        type === "follow"
+          ? null
+          : "/status/" +
+            props.notification.tweet.user.username +
+            "/" +
+            props.notification.tweet._id;
       if (type === "follow") {
         text = " followed you";
       } else if (type === "retweet") {
@@ -57,9 +78,11 @@ const NotificationItem = (props) => {
           <div className="notification-main">
             <div className="notification-message">{message}</div>
             {props.notification.tweet ? (
-              <div className="notification-tweet-text">
-                {props.notification.tweet.text}
-              </div>
+              <Link to={link}>
+                <div className="notification-tweet-text">
+                  {props.notification.tweet.text}
+                </div>
+              </Link>
             ) : null}
           </div>
         </div>
@@ -67,7 +90,7 @@ const NotificationItem = (props) => {
     };
     const className = !props.notification.readStatus ? "unread" : "";
     return (
-      <div className={"notification-item-container " + className}>
+      <div className={"notification-item " + className}>
         {renderNotificationItem(props.notification.type)}
       </div>
     );
