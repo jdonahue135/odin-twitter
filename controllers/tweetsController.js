@@ -60,7 +60,7 @@ exports.tweet_post = function (req, res, next) {
   if (req.body.user == null) {
     res.json({ message: "user must be specified" });
   }
-  if (req.body.text == "" && !req.file) {
+  if (req.body.text == "" && !req.file && !req.body.gif) {
     res.json({ message: "text and/or photo must be specified" });
   }
 
@@ -78,22 +78,26 @@ exports.tweet_post = function (req, res, next) {
     newTweet.photo = url + "/public/images/" + req.file.filename;
   }
 
-  if (req.body.replyTweet !== "undefined" && req.body.replyTweet !== "null") {
+  if (req.body.gif) {
+    newTweet.photo = req.body.gif;
+  }
+
+  if (req.body.replyTweet !== "undefined") {
     //find the replyTweet and save new tweet as a reply
     const replyTweet = JSON.parse(req.body.replyTweet);
+    newTweet.inReplyTo = replyTweet;
     Tweet.findById(replyTweet._id).exec((err, theTweet) => {
       if (err) {
         console.log(err);
         return;
       } else {
-        newTweet.inReplyTo = theTweet;
         theTweet.replies.push(newTweet);
         theTweet.save();
 
         //add new notification for user
         const newNotification = new Notification({
           user: theTweet.user,
-          actionUsers: [user],
+          actionUser: user,
           type: "reply",
           tweet: theTweet,
           reply: newTweet,
@@ -117,13 +121,14 @@ exports.tweet_post = function (req, res, next) {
 
 exports.tweet_delete = function (req, res, next) {
   Tweet.findById(req.params.tweetid)
-    .populate("retweets inReplyTo replies")
+    .populate("retweets inReplyTo replies user")
     .exec(function (err, theTweet) {
       if (err) res.json({ success: false, err });
       if (!theTweet) res.json({ success: false, message: "tweet not found" });
       else {
         //delete all instances of the tweet
         while (theTweet.retweets.length > 0) {
+          //delete all retweets
           Tweet.findOneAndDelete({ retweetOf: theTweet._id }).exec((err) => {
             if (err) console.log(err);
           });
@@ -140,7 +145,6 @@ exports.tweet_delete = function (req, res, next) {
         }
         //if tweet is a reply, remove from target tweet "replies" and remove Notification of target user
         if (theTweet.inReplyTo !== undefined) {
-          console.log(theTweet.inReplyTo);
           Tweet.findById(theTweet.inReplyTo._id).exec((err, targetTweet) => {
             if (err) console.log(err);
             else {
@@ -158,6 +162,43 @@ exports.tweet_delete = function (req, res, next) {
             }
           );
         }
+        //if tweet is a retweet, remove from target tweet "retweet" and remove Notification of target user
+        if (theTweet.retweetOf !== undefined) {
+          Tweet.findById(theTweet.retweetOf._id).exec((err, targetTweet) => {
+            if (err) console.log(err);
+            else {
+              targetTweet.retweets.splice(
+                targetTweet.retweets.indexOf(theTweet._id),
+                1
+              );
+              targetTweet.save();
+
+              Notification.findOne({
+                tweet: targetTweet._id,
+                actionUser: theTweet.user._id,
+              }).exec((err, notification) => {
+                if (err) console.log(err);
+                notification.remove();
+              });
+            }
+          });
+        }
+
+        //remove all Notifications for theTweet
+        Notification.find({ tweet: theTweet._id }).exec(
+          (err, notifications) => {
+            if (err) console.log(err);
+            else if (!notifications) console.log("no notifications");
+            else {
+              for (let i = 0; i < notifications.length; i++) {
+                console.log(notifications);
+                Notification.findByIdAndRemove(
+                  notifications[i]._id
+                ).exec((err) => console.log(err));
+              }
+            }
+          }
+        );
         theTweet.remove();
         res.json({
           success: true,
@@ -184,7 +225,7 @@ exports.like = (req, res) => {
         //remove notification for unliked tweet
         var query = {
           user: theTweet.user,
-          actionUsers: [req.body.user._id],
+          actionUser: req.body.user._id,
           type: "like",
           tweet: theTweet._id,
         };
@@ -199,7 +240,7 @@ exports.like = (req, res) => {
         //create notification for tweet like
         const newNotification = new Notification({
           user: theTweet.user,
-          actionUsers: [req.body.user],
+          actionUser: req.body.user,
           type: "like",
           tweet: theTweet,
         });
@@ -229,7 +270,7 @@ exports.retweet = (req, res) => {
         //remove notification for retweet
         var query = {
           user: theTweet.user._id,
-          actionUsers: [req.body.user._id],
+          actionUser: req.body.user._id,
           type: "retweet",
           tweet: theTweet._id,
         };
@@ -266,7 +307,7 @@ exports.retweet = (req, res) => {
         //create notification for retweet
         const newNotification = new Notification({
           user: theTweet.user,
-          actionUsers: [req.body.user],
+          actionUser: req.body.user,
           type: "retweet",
           tweet: theTweet,
         });
