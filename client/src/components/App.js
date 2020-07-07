@@ -210,6 +210,7 @@ class App extends React.Component {
       jwt: null,
       tweets: null,
       notifications: null,
+      showLoginWarning: false,
     });
   }
 
