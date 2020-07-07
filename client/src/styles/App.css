@@ -755,6 +755,9 @@ textarea::placeholder {
 .large-vertical-break {
   height: 400px;
 }
+.overlay-vertical-break {
+  top: 100px;
+}
 
 .reply-label {
   position: relative;

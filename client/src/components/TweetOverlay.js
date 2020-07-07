@@ -40,7 +40,7 @@ const TweetOverlay = (props) => {
             <div className="reply-label">
               {formatReplyLabel(props.replyTweet.user.username)}
             </div>
-            <div className="break vertical-break" />
+            <div className="break vertical-break overlay-vertical-break" />
           </div>
         </div>
       ) : null}

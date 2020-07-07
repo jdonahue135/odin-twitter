@@ -57,15 +57,15 @@ class App extends React.Component {
               .then((res) => res.json())
               .then((user) => this.setState({ jwt, user }))
               .catch((err) => console.log(err)),
-          2000
+          1500
         );
       }
     }
     if (this.state.user) {
       //fetch tweets and notifications
       //this is set to wait 2 seconds if server needs to restart in development
-      setTimeout(this.fetchTweets(), 2000);
-      setTimeout(this.fetchUserNotifications(), 2000);
+      setTimeout(this.fetchTweets(), 1500);
+      setTimeout(this.fetchUserNotifications(), 1500);
     }
   }
 
@@ -128,7 +128,7 @@ class App extends React.Component {
   }
 
   renderAppLoadingGraphic() {
-    setTimeout(this.stopLoadingScreen.bind(this), 2000);
+    setTimeout(this.stopLoadingScreen.bind(this), 1500);
     return <img className="logo loading-logo" src={logo} alt="logo" />;
   }
 
@@ -276,7 +276,7 @@ class App extends React.Component {
       .then((res) => {
         console.log(res);
         this.setState({ showOverlay: false });
-        setTimeout(this.fetchTweets.bind(this), 2000);
+        setTimeout(this.fetchTweets.bind(this), 1500);
       })
       .catch((err) => console.error(err));
   }
