@@ -81,8 +81,9 @@ exports.tweet_post = function (req, res, next) {
   if (req.body.gif) {
     newTweet.photo = req.body.gif;
   }
+  console.log(req.body.replyTweet);
 
-  if (req.body.replyTweet !== "undefined") {
+  if (req.body.replyTweet !== "null" && req.body.replyTweet !== "undefined") {
     //find the replyTweet and save new tweet as a reply
     const replyTweet = JSON.parse(req.body.replyTweet);
     newTweet.inReplyTo = replyTweet;
