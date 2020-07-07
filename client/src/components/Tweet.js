@@ -27,6 +27,16 @@ class Tweet extends React.Component {
     else this.setState({ redirect: true });
   }
 
+  renderVerticalBreak() {
+    if (this.props.tweet.photo) {
+      return (
+        <div className="large-vertical-break vertical-break tweet-list-vertical-break" />
+      );
+    } else {
+      return <div className="vertical-break tweet-list-vertical-break" />;
+    }
+  }
+
   render() {
     if (!this.props.tweet) {
       return <div className="spinning-loader" />;
@@ -102,9 +112,7 @@ class Tweet extends React.Component {
             </div>
           </Link>
         ) : null}
-        {this.props.isReply ? (
-          <div className="vertical-break tweet-list-vertical-break" />
-        ) : null}
+        {this.props.tweet.replyStatus ? this.renderVerticalBreak() : null}
         <Link
           to={"/" + tweet.user.username}
           onClick={this.props.handlePathChange}
