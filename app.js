@@ -20,9 +20,10 @@ var app = express();
 //Set up mongoose connection
 var mongoose = require("mongoose");
 
-//TODO: install .env
 var mongoDB =
-  "mongodb+srv://user:user@cluster0-bjk1h.mongodb.net/test?retryWrites=true&w=majority";
+  "mongodb+srv://user:" +
+  process.env.MONGODB_PASSWORD +
+  "@cluster0-bjk1h.mongodb.net/test?retryWrites=true&w=majority";
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -43,6 +44,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(auth.getToken);
+app.use(express.static(path.join(__dirname, "client/build")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
