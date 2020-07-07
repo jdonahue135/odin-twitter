@@ -24,7 +24,7 @@ exports.login = function (req, res, next) {
         }
         if (result) {
           //success
-          jwt.sign({ theUser }, process.env.JWT_KEY, (err, token) => {
+          jwt.sign({ theUser }, secretkey, (err, token) => {
             if (err) return next(err);
             else {
               res.json({
