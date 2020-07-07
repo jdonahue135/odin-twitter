@@ -42,7 +42,9 @@ class App extends React.Component {
     if (storageAvailable("localStorage")) {
       if (
         localStorage.getItem("jwt") !== "null" &&
-        localStorage.getItem("user") !== null
+        localStorage.getItem("jwt") !== null &&
+        localStorage.getItem("user") !== null &&
+        localStorage.getItem("user") !== "null"
       ) {
         //update state with token and user
         const jwt = localStorage.getItem("jwt");
