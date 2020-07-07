@@ -24,7 +24,7 @@ exports.login = function (req, res, next) {
         }
         if (result) {
           //success
-          jwt.sign({ theUser }, secretkey, (err, token) => {
+          jwt.sign({ theUser }, "secretkey", (err, token) => {
             if (err) return next(err);
             else {
               res.json({
@@ -91,7 +91,7 @@ exports.signup = (req, res, next) => {
           if (err) return next(err);
         });
         //get token for user
-        jwt.sign({ new_user }, secretkey, (err, token) => {
+        jwt.sign({ new_user }, "secretkey", (err, token) => {
           if (err) return next(err);
           else {
             res.json({
