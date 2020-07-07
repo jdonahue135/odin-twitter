@@ -38,7 +38,6 @@ class ProfileOverlay extends React.Component {
   }
 
   handleSubmit(header) {
-    console.log(header);
     this.props.onProfileSubmit(
       this.state.bio,
       this.state.profilePicture,
