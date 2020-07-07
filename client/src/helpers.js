@@ -109,7 +109,6 @@ export const removeReplies = (tweetList) => {
 };
 
 export const addFormattedReplies = (tweetList) => {
-  console.log(tweetList);
   let formattedTweetList = [];
   for (let i = 0; i < tweetList.length; i++) {
     //check if tweet is already in array
@@ -120,6 +119,7 @@ export const addFormattedReplies = (tweetList) => {
       if (!tweetList[i].inReplyTo) {
         formattedTweetList.push(tweetList[i]);
       } else {
+        tweetList[i].inReplyTo.replyStatus = true;
         formattedTweetList.push(tweetList[i].inReplyTo);
         formattedTweetList.push(tweetList[i]);
       }
