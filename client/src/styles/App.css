@@ -742,17 +742,18 @@ textarea::placeholder {
   height: 15%;
   background-color: rgb(202, 205, 206);
   position: absolute;
-  top: 120px;
-  left: 25px;
   display: inline-block;
+  left: 25px;
 }
 .tweet-list-vertical-break {
   left: 33px;
-  top: 55px;
-  height: 75px;
+  height: 150px;
 }
 .replies-container .tweet-list-vertical-break {
   display: none;
+}
+.large-vertical-break {
+  height: 400px;
 }
 
 .reply-label {
@@ -1136,6 +1137,7 @@ textarea::placeholder {
 .tweet-text {
   padding-left: 3px;
   padding-top: 3px;
+  overflow-wrap: anywhere;
 }
 .tweet-focus-text {
   font-size: 23px;
@@ -1341,6 +1343,9 @@ textarea::placeholder {
 .notifications-info-container {
   text-align: -webkit-center;
   margin-top: 75px;
+}
+.overlay-target-container .tweet-container {
+  border-top: 0;
 }
 .notification-item-container {
   border-bottom: 1px solid rgb(230, 236, 240);
