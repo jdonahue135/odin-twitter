@@ -1403,7 +1403,6 @@ textarea::placeholder {
 }
 .follow-info-container {
   position: relative;
-  margin-left: 75px;
   margin-top: 5px;
 }
 
