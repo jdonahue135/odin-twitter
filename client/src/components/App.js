@@ -185,8 +185,7 @@ class App extends React.Component {
     };
 
     fetch("/users/login", requestOptions)
-      .then((res) => res.text())
-      .then((res) => console.log(res))
+      .then((res) => res.json())
       .then((res) => {
         if (res.success === false) {
           this.setState({ showLoginWarning: true });
