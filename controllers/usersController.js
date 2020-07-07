@@ -13,18 +13,17 @@ var async = require("async");
 exports.login = function (req, res, next) {
   User.findOne({ username: req.body.username }, (err, theUser) => {
     if (err) {
-      res.json(err);
+      res.json({ success: false, err });
     }
     if (!theUser) {
       res.json({ success: false, message: "username does not exist" });
     } else {
       bcrypt.compare(req.body.password, theUser.password, (err, result) => {
         if (err) {
-          res.json(err);
+          res.json({ success: false, err });
         }
         if (result) {
           //success
-          console.log(result);
           jwt.sign({ theUser }, process.env.JWT_KEY, (err, token) => {
             if (err) return next(err);
             else {

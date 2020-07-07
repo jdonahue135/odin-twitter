@@ -11,9 +11,9 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var tweetsRouter = require("./routes/tweets");
 
-const auth = require("./config/auth");
-
 dotenv.config();
+
+const auth = require("./config/auth");
 
 var app = express();
 
