@@ -219,7 +219,7 @@ class App extends React.Component {
 
     //create request object
     const formData = new FormData();
-    if (bio) {
+    if (bio !== undefined && bio !== "") {
       formData.append("bio", bio);
     }
     if (profilePicture) {
@@ -373,9 +373,10 @@ class App extends React.Component {
   }
 
   showReplyOverlay(tweet) {
+    const replyTweet = tweet.retweetOf ? tweet.retweetOf : tweet;
     this.setState({
       showOverlay: true,
-      replyTweet: tweet,
+      replyTweet: replyTweet,
     });
   }
   readAllNotifications() {
