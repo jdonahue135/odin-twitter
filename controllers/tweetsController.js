@@ -41,6 +41,13 @@ exports.tweet_get = function (req, res) {
         select: "name username profilePicture",
       },
     })
+    .populate({
+      path: "retweetOf",
+      populate: {
+        path: "user",
+        select: "name username profilePicture",
+      },
+    })
     .exec((err, tweet) => {
       if (err) res.json({ success: false, err });
       if (!tweet) res.json({ success: false, message: "tweet not found" });

@@ -135,7 +135,7 @@ exports.user_update = (req, res, next) => {
     if (!theUser) res.json({ success: false, message: "No user" });
     else {
       let updates = "";
-      if (req.body.bio !== "") {
+      if (req.body.bio && req.body.bio !== undefined && req.body.bio !== "") {
         theUser.bio = req.body.bio;
         updates = updates + "bio ";
       }
@@ -195,6 +195,16 @@ exports.get_tweets = (req, res, next) => {
             populate: {
               path: "user",
               select: "name username profilePicture",
+            },
+          })
+          .populate({
+            path: "inReplyTo",
+            populate: {
+              path: "retweetOf",
+              populate: {
+                path: "user",
+                select: "name username profilePicture",
+              },
             },
           })
           .exec(function (err, theTweets) {
