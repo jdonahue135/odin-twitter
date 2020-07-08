@@ -1256,6 +1256,7 @@ textarea::placeholder {
 .profile-information-container {
   display: inline-block;
   margin-top: 10px;
+  max-width: 400px;
 }
 .profile-info-container {
   position: relative;
