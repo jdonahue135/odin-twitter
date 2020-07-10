@@ -9,8 +9,14 @@ class LogIn extends React.Component {
 
     this.state = {
       isFocused: null,
-      forgotPassword: false,
+      signUpClicked: false,
     };
+  }
+  componentWillUnmount() {
+    this.setState({
+      isFocused: null,
+      signUpClicked: false,
+    });
   }
 
   handleFocus(e) {
@@ -25,10 +31,13 @@ class LogIn extends React.Component {
     });
   }
   handleClick() {
-    this.setState({ forgotPassword: !this.state.forgotPassword });
+    this.setState({ signUpClicked: !this.state.signUpClicked });
   }
 
   render() {
+    const message = this.state.signUpClicked
+      ? "Sign up for Twitter"
+      : "Log in to Twitter";
     const usernameClasslist =
       this.state.isFocused === "username"
         ? "input-overlay input-overlay-focused"
@@ -37,11 +46,18 @@ class LogIn extends React.Component {
       this.state.isFocused === "password"
         ? "input-overlay input-overlay-focused"
         : "input-overlay";
-    let buttonClass = !this.props.buttonStatus ? "btn-disabled" : "";
+    let buttonClass = "sign-in-btn ";
+    buttonClass = !this.props.buttonStatus
+      ? buttonClass + "btn-disabled"
+      : buttonClass;
+    const buttonText = this.state.signUpClicked ? "Sign up" : "Log in";
+    const onClick = this.state.signUpClicked
+      ? this.props.handleSignUp
+      : this.props.handleLogIn;
     return (
       <div className="login-container">
         <img className="static-logo" src={logo} alt="logo" />
-        <h1>Log in to Twitter</h1>
+        <h1>{message}</h1>
         {this.props.showWarning ? (
           <span className="warning">
             The username and password you entered did not match our records.
@@ -74,26 +90,13 @@ class LogIn extends React.Component {
         </div>
         <Button
           size="lg"
-          textContent="Log In"
+          textContent={buttonText}
           class={buttonClass}
-          onClick={this.props.handleLogIn}
+          onClick={onClick}
         />
-        <Button
-          size="lg"
-          textContent="Sign Up"
-          class={buttonClass}
-          onClick={this.props.handleSignUp}
-        />
-        {this.state.forgotPassword ? (
-          <div className="forgot-password">
-            Email reset not implemented yet, make a new account
-          </div>
-        ) : (
-          <button
-            onClick={this.handleClick.bind(this)}
-            className="forgot-password"
-          >
-            Forgot password?
+        {this.state.signUpClicked ? null : (
+          <button onClick={this.handleClick.bind(this)} className="sign-up">
+            Sign up for Twitter
           </button>
         )}
       </div>
