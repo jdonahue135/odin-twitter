@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
 
 import "../styles/App.css";
@@ -30,14 +30,16 @@ class App extends React.Component {
       showLoginWarning: false,
       tweets: null,
       notifications: null,
-      pathname: "/home",
+      pathname: null,
       showOverlay: false,
       replyTweet: null,
       unseenNotifications: null,
+      previousPathname: null,
     };
   }
 
   componentDidMount() {
+    this.setState({ pathname: this.props.history.location.pathname });
     //configure localStorage
     if (storageAvailable("localStorage")) {
       if (
@@ -73,8 +75,11 @@ class App extends React.Component {
     if (prevState.user !== this.state.user) {
       this.fetchUserNotifications();
     }
-    if (window.location.pathname !== this.state.pathname) {
-      this.setState({ pathname: window.location.pathname });
+    if (this.props.history.location.pathname !== this.state.pathname) {
+      this.setState({
+        previousPathname: this.state.pathname,
+        pathname: window.location.pathname,
+      });
     }
     if (prevState.jwt !== this.state.jwt) {
       //save jwt and user to local storage
@@ -507,6 +512,7 @@ class App extends React.Component {
                     onLike={this.handleLikeChange.bind(this)}
                     onRetweet={this.handleRetweetChange.bind(this)}
                     onReply={this.showReplyOverlay.bind(this)}
+                    prevPath={this.state.previousPathname}
                   />
                 )}
               />
@@ -536,6 +542,7 @@ class App extends React.Component {
                     onLike={this.handleLikeChange.bind(this)}
                     onRetweet={this.handleRetweetChange.bind(this)}
                     onReply={this.showReplyOverlay.bind(this)}
+                    prevPath={this.state.previousPathname}
                   />
                 )}
               />
@@ -547,4 +554,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);
