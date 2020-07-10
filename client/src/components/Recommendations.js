@@ -49,7 +49,7 @@ class Recommendations extends React.Component {
       );
     }
     const userList = this.props.main
-      ? this.state.users.slice(0, 15)
+      ? this.state.users
       : this.state.users.slice(0, 5);
     return (
       <div className={classList}>
