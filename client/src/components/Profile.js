@@ -10,7 +10,13 @@ import TweetList from "./TweetList";
 import ProfileOverlay from "./ProfileOverlay";
 import calendar from "../images/calendar.png";
 
-import { renderGraphic, addTextStyling } from "../helpers";
+import {
+  renderGraphic,
+  addTextStyling,
+  removeReplies,
+  addFormattedReplies,
+  sortList,
+} from "../helpers";
 import { graphics } from "../constants";
 
 class Profile extends React.Component {
@@ -159,6 +165,14 @@ class Profile extends React.Component {
       this.state.user._id !== this.props.user._id
         ? this.props.onClick
         : this.showOverlay.bind(this);
+    //const tweets = this.state.tweetsSelected ? removeReplies(this.state.tweets) : addFormattedReplies(this.state.tweets);
+
+    const sortedTweets = sortList(this.state.tweets);
+    let tweets = sortedTweets;
+    tweets = this.state.tweetsSelected
+      ? removeReplies(sortedTweets)
+      : addFormattedReplies(sortedTweets);
+    const backPath = this.props.prevPath ? this.props.prevPath : "/home";
     return (
       <div className="component">
         {this.state.overlay ? (
@@ -176,9 +190,7 @@ class Profile extends React.Component {
           />
         ) : null}
         <div className="title-container profile-title-container">
-          <Link to="/" onClick={this.props.onPathChange}>
-            {renderGraphic(graphics.BACK)}
-          </Link>
+          <Link to={backPath}>{renderGraphic(graphics.BACK)}</Link>
           <div className="profile-info-container">
             <p className="title profile-title">{this.state.user.name}</p>
             <p className="sub-title">{tweetCount}</p>
@@ -246,7 +258,7 @@ class Profile extends React.Component {
             selected={this.state.tweetsSelected}
             onClick={this.handleClick.bind(this)}
           />
-          {this.state.tweets.length > 0 ? (
+          {tweets.length > 0 ? (
             <TweetList
               user={this.props.user}
               tweets={this.state.tweets}
