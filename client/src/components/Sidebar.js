@@ -1,6 +1,6 @@
 import React from "react";
 import { ClickAwayListener } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import ProfilePic from "./ProfilePic";
 import Button from "./Button";
@@ -24,12 +24,12 @@ class Sidebar extends React.Component {
       title === "Profile"
         ? "/" + this.props.user.username
         : "/" + title.toLowerCase();
-    if (this.props.pathname === "/" + title.toLowerCase()) {
+    if (this.props.location.pathname === "/" + title.toLowerCase()) {
       selected = true;
     }
     if (
       title === "Profile" &&
-      this.props.pathname === "/" + this.props.user.username
+      this.props.location.pathname === "/" + this.props.user.username
     ) {
       selected = true;
     }
@@ -115,4 +115,4 @@ class Sidebar extends React.Component {
   }
 }
 
-export default Sidebar;
+export default withRouter(Sidebar);
