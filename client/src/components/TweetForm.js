@@ -20,6 +20,7 @@ class TweetForm extends React.Component {
       isGif: false,
       refreshFileInput: false,
       showGifPicker: false,
+      showWarning: false,
     };
     this.fileUploaderRef = React.createRef();
   }
@@ -103,7 +104,10 @@ class TweetForm extends React.Component {
       this.setState({
         photo: e.target.files[0],
         isGif: false,
+        showWarning: false,
       });
+    } else {
+      this.setState({ showWarning: true });
     }
   }
   handlePhotoDelete() {
@@ -187,6 +191,11 @@ class TweetForm extends React.Component {
               />
             )}
             {renderGraphic(graphics.GIF, null, this.toggleGifPicker.bind(this))}
+            {this.state.showWarning ? (
+              <div className="error-message">
+                Warning: photo type must be jpg, jpeg, or png
+              </div>
+            ) : null}
           </div>
           <Button
             class={buttonClass}
