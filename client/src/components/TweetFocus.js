@@ -8,6 +8,7 @@ import { graphics } from "../constants";
 import ProfilePic from "./ProfilePic";
 import TweetList from "./TweetList";
 import TweetFooter from "./TweetFooter";
+import Recommendations from "./Recommendations";
 
 class TweetFocus extends React.Component {
   constructor(props) {
@@ -99,13 +100,12 @@ class TweetFocus extends React.Component {
     const { time, date } = formatDate(this.state.tweet.date, true);
 
     const text = addTextStyling(this.state.tweet.text);
+    const backPath = this.props.prevPath ? this.props.prevPath : "/home";
 
     return (
       <div className="component">
         <div className="title-container tweet-focus-title-container">
-          <Link to="/" onClick={this.props.onPathChange}>
-            {renderGraphic(graphics.BACK)}
-          </Link>
+          <Link to={backPath}>{renderGraphic(graphics.BACK)}</Link>
           <div className="profile-info-container">
             <p className="title">Tweet</p>
           </div>
@@ -198,6 +198,11 @@ class TweetFocus extends React.Component {
             />
           </div>
         </div>
+        <Recommendations
+          user={this.props.user}
+          onClick={this.handleFollowChange.bind(this)}
+          onPathChange={this.props.onPathChange}
+        />
       </div>
     );
   }
