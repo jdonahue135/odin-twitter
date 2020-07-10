@@ -141,7 +141,7 @@ textarea::placeholder {
   margin: 25px 0px;
 }
 
-.forgot-password {
+.sign-up {
   color: rgb(27, 149, 224);
 }
 
@@ -721,6 +721,7 @@ textarea::placeholder {
   border-bottom: 0;
   border-top: 0;
   min-height: 100%;
+  padding-bottom: 10px;
 }
 .follow-main {
   border-top: 0;
@@ -802,8 +803,9 @@ textarea::placeholder {
   padding: 25px 10px 10px 0;
 }
 .overlay-form-container .tweet-compose-graphics {
-  position: relative;
-  right: 200px;
+  text-align: left;
+  float: left;
+  padding-bottom: 10px;
 }
 .overlay-form-container .btn {
   left: unset;
@@ -881,6 +883,7 @@ textarea::placeholder {
   padding-left: 10px;
   background-color: rgb(245, 248, 250);
   width: 90%;
+  cursor: default;
 }
 
 .selected {
@@ -1018,6 +1021,15 @@ textarea::placeholder {
   width: 100%;
   border-radius: 25px;
   background-color: rgb(146, 145, 145);
+}
+.photo-upload {
+  margin-left: 20px;
+  padding-top: 10px;
+}
+.error-message {
+  color: red;
+  padding-top: 10px;
+  font-size: 14px;
 }
 .tweet-photo {
   height: 100%;
@@ -1285,6 +1297,7 @@ textarea::placeholder {
 }
 .show-more:hover {
   background-color: rgb(240, 242, 243);
+  border-radius: 0 0 10px 10px;
 }
 .recommendations-profile-name:hover {
   text-decoration: underline;
@@ -1346,10 +1359,12 @@ textarea::placeholder {
 }
 .notifications-info-container {
   text-align: -webkit-center;
-  margin-top: 75px;
 }
 .overlay-target-container .tweet-container {
   border-top: 0;
+}
+.sign-in-btn {
+  width: 550px;
 }
 .notification-item-container {
   border-bottom: 1px solid rgb(230, 236, 240);
