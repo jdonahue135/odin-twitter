@@ -16,6 +16,8 @@ class ProfileForm extends React.Component {
   }
 
   handleTextareaClick() {
+    //focuses on textarea if label is clicked
+    document.querySelector(".profile-input").focus();
     this.setState({ selected: true });
   }
 
@@ -68,7 +70,12 @@ class ProfileForm extends React.Component {
               </div>
             </div>
             <div className={"profile-input-container " + selected}>
-              <div className={"label " + selected}>Your bio</div>
+              <div
+                className={"label " + selected}
+                onClick={this.handleTextareaClick.bind(this)}
+              >
+                Your bio
+              </div>
               <textarea
                 onClick={this.handleTextareaClick.bind(this)}
                 onChange={this.handleTextInputChange.bind(this)}
