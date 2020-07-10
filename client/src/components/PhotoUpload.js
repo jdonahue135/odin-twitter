@@ -10,11 +10,21 @@ class PhotoUpload extends React.Component {
 
     this.state = {
       photo: null,
+      showWarning: null,
     };
   }
 
   onFileChange(e) {
-    this.setState({ photo: e.target.files[0] });
+    if (
+      e.target.files[0].type !== "image/png" &&
+      e.target.files[0].type !== "image/jpg" &&
+      e.target.files[0].type !== "image/jpeg"
+    ) {
+      console.log("unsupported file type");
+      this.setState({ showWarning: true });
+    } else {
+      this.setState({ photo: e.target.files[0] });
+    }
   }
 
   onSubmit() {
@@ -79,6 +89,11 @@ class PhotoUpload extends React.Component {
                       onChange={this.onFileChange.bind(this)}
                     />
                   </div>
+                  {this.state.showWarning ? (
+                    <div className="error-message">
+                      Warning: photo type must be jpg, jpeg, or png
+                    </div>
+                  ) : null}
                 </form>
               </div>
             </div>
