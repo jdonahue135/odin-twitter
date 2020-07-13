@@ -46,7 +46,10 @@ class Tweet extends React.Component {
       : this.props.tweet;
     if (this.state.redirect) {
       return (
-        <Redirect to={"/status/" + tweet.user.username + "/" + tweet._id} />
+        <Redirect
+          push
+          to={"/status/" + tweet.user.username + "/" + tweet._id}
+        />
       );
     }
     const text = tweet.text ? addTextStyling(tweet.text) : "";
