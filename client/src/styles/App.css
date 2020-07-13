@@ -1467,3 +1467,58 @@ textarea::placeholder {
   border: 0 !important;
   margin: 0 !important;
 }
+.sidebar-compose-graphic-container {
+  cursor: pointer;
+  background-color: rgba(29, 161, 242, 1);
+  fill: white;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 15px;
+  border-radius: 30px;
+  margin: 10px;
+  display: none;
+}
+.sidebar-compose-graphic-container:hover {
+  background-color: rgb(26, 145, 218);
+}
+.sidebar-compose-graphic {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+@media screen and (max-width: 1300px) {
+  .sidebar-label {
+    display: none;
+  }
+  .sidebar {
+    width: 9vw;
+  }
+  .component {
+    left: 15vw;
+  }
+  .sidebar-compose-graphic-container {
+    display: inline-block;
+  }
+  .sidebar-tweet-button {
+    display: none;
+  }
+  .id-container {
+    display: none;
+  }
+  .profile-graphic-container {
+    display: none;
+  }
+  .profile {
+    width: fit-content;
+    border-radius: 30px;
+    margin-left: 10px;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .recommendations-container {
+    display: none;
+  }
+  .main .recommendations-container {
+    display: block;
+  }
+}
