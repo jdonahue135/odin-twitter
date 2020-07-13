@@ -452,6 +452,7 @@ class App extends React.Component {
                 <Redirect to="/home" />
               </Route>
               <Route
+                exact
                 path="/explore"
                 render={(props) => (
                   <Explore
@@ -462,6 +463,7 @@ class App extends React.Component {
                 )}
               />
               <Route
+                exact
                 path="/notifications"
                 render={(props) => (
                   <Notifications
@@ -480,10 +482,12 @@ class App extends React.Component {
                 )}
               />
               <Route
+                exact
                 path="/messages"
                 render={(props) => <Messages {...props} />}
               />
               <Route
+                exact
                 path="/home"
                 render={(props) => (
                   <Home
@@ -501,6 +505,7 @@ class App extends React.Component {
                 )}
               />
               <Route
+                exact
                 path={"/status/:username/:tweetid"}
                 render={(props) => (
                   <TweetFocus
@@ -517,6 +522,7 @@ class App extends React.Component {
                 )}
               />
               <Route
+                exact
                 path={"/:username/:follow"}
                 render={(props) => (
                   <Follow
@@ -528,6 +534,7 @@ class App extends React.Component {
                 )}
               />
               <Route
+                exact
                 path={"/:username"}
                 render={(props) => (
                   <Profile
