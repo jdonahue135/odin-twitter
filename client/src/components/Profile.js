@@ -141,7 +141,7 @@ class Profile extends React.Component {
         </div>
       );
     }
-    const joinDate = moment(this.state.user.joinDate).format("MMM YYYY");
+    const joinDate = moment(this.state.user.joinDate).format("MMMM YYYY");
 
     const tweetCount =
       this.state.tweets.length === 1
