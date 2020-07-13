@@ -1012,6 +1012,8 @@ textarea::placeholder {
 }
 .tweet-form-photo {
   height: 100%;
+  max-width: 400px;
+  max-height: 280px;
   object-fit: cover;
   overflow: hidden;
 }
@@ -1035,6 +1037,8 @@ textarea::placeholder {
   height: 100%;
   object-fit: cover;
   overflow: hidden;
+  max-width: 400px;
+  max-height: 280px;
 }
 .tweet-photo-container {
   height: 280px;
@@ -1446,27 +1450,23 @@ textarea::placeholder {
   border-radius: 25px;
   top: 120px;
 }
-.sc-bwzfXH {
+.image-picker {
   width: 500px !important;
-  border: 0;
-  box-shadow: none;
-  border-radius: 15px !important;
-}
-.cwIxDu {
-  display: block !important;
-}
-.hNdwup {
-  display: inline-block !important;
-}
-.sc-bxivhb {
-  width: 500px;
-}
-.fGONoI {
-  width: 500px !important;
-  box-shadow: none !important;
   border: 0 !important;
-  margin: 0 !important;
+  box-shadow: none !important;
+  border-radius: 15px !important;
+  height: 400px !important;
 }
+.hnwFJm {
+  width: 450px !important;
+}
+.close-picker {
+  display: none;
+}
+.giphy-gif {
+  width: 200px !important;
+}
+
 .sidebar-compose-graphic-container {
   cursor: pointer;
   background-color: rgba(29, 161, 242, 1);
