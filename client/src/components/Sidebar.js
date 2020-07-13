@@ -86,7 +86,12 @@ class Sidebar extends React.Component {
         {this.renderSidebarItem("Notifications")}
         {this.renderSidebarItem("Messages")}
         {this.renderSidebarItem("Profile")}
-        <Button size="lg" onClick={this.props.onButtonClick} />
+        <Button
+          size="lg"
+          onClick={this.props.onButtonClick}
+          class="sidebar-tweet-button"
+        />
+        {renderGraphic(graphics.TWEET_COMPOSE, null, this.props.onButtonClick)}
         {this.state.isClicked ? (
           <ClickAwayListener onClickAway={this.handleClickAway.bind(this)}>
             <div className="popup profile-popup">
