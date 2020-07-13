@@ -1,6 +1,6 @@
 import React from "react";
-import Picker from "react-giphy-picker";
 import { ClickAwayListener } from "@material-ui/core";
+import Picker from "react-giphy-picker-advanced";
 import TextareaAutosize from "react-autosize-textarea";
 
 import Button from "./Button";
@@ -156,7 +156,10 @@ class TweetForm extends React.Component {
         {this.state.showGifPicker ? (
           <ClickAwayListener onClickAway={this.toggleGifPicker.bind(this)}>
             <div className="overlay-form-container tweet-form-overlay">
-              <Picker onSelected={this.handleGifSelect.bind(this)} />
+              <Picker
+                apiKey="gNeeahb4mbm1jdBjyi6GYN4GSGMzBt4U"
+                onSelected={this.handleGifSelect.bind(this)}
+              />
             </div>
           </ClickAwayListener>
         ) : null}
