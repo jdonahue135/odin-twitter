@@ -1515,7 +1515,7 @@ textarea::placeholder {
   }
 }
 
-@media screen and (max-width: 1150px) {
+@media screen and (max-width: 1205px) {
   .recommendations-container {
     display: none;
   }
