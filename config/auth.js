@@ -17,7 +17,7 @@ const getToken = (req, res, next) => {
 
 const verifyToken = (req, res, next) => {
   //verify token
-  jwt.verify(req.token, "secretkey", (err, authData) => {
+  jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
     if (err) return next(err);
   });
   next();
