@@ -24,7 +24,7 @@ exports.login = function (req, res, next) {
         }
         if (result) {
           //success
-          jwt.sign({ theUser }, "secretkey", (err, token) => {
+          jwt.sign({ theUser }, process.env.SECRET_KEY, (err, token) => {
             if (err) return next(err);
             else {
               res.json({
@@ -148,23 +148,17 @@ exports.user_update = (req, res, next) => {
         if (req.body.profilePictureID) {
           updates = updates + "profilePicture ";
           if (req.files[0].originalname === req.body.profilePictureID) {
-            const url = req.protocol + "://" + req.get("host");
-            theUser.profilePicture =
-              url + "/public/images/" + req.files[0].filename;
+            theUser.profilePicture = req.files[0].location;
           } else if (req.files[1].originalname === req.body.profilePictureID) {
-            const url = req.protocol + "://" + req.get("host");
-            theUser.profilePicture =
-              url + "/public/images/" + req.files[1].filename;
+            theUser.profilePicture = req.files[1].location;
           }
         }
         if (req.body.headerID) {
           updates = updates + "header ";
           if (req.files[0].originalname === req.body.headerID) {
-            const url = req.protocol + "://" + req.get("host");
-            theUser.header = url + "/public/images/" + req.files[0].filename;
+            theUser.header = req.files[0].location;
           } else if (req.files[1].originalname === req.body.headerID) {
-            const url = req.protocol + "://" + req.get("host");
-            theUser.header = url + "/public/images/" + req.files[1].filename;
+            theUser.header = req.files[1].location;
           }
         }
       }

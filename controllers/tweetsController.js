@@ -80,15 +80,12 @@ exports.tweet_post = function (req, res, next) {
   });
 
   if (req.file) {
-    //save image
-    const url = req.protocol + "://" + req.get("host");
-    newTweet.photo = url + "/public/images/" + req.file.filename;
+    newTweet.photo = req.file.location;
   }
 
   if (req.body.gif) {
     newTweet.photo = req.body.gif;
   }
-  console.log(req.body.replyTweet);
 
   if (req.body.replyTweet !== "null" && req.body.replyTweet !== "undefined") {
     //find the replyTweet and save new tweet as a reply
