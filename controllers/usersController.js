@@ -75,32 +75,36 @@ exports.signup = (req, res, next) => {
     }
     if (!user) {
       //Save new user
-      bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
-        if (err) {
-          console.log(err);
-          return next(err);
-        }
-        const new_user = new User({
-          name: req.body.username,
-          username: req.body.username,
-          password: hashedPassword,
-        });
-        new_user.following.push(new_user);
-        new_user.followers.push(new_user);
-        new_user.save((err) => {
-          if (err) return next(err);
-        });
-        //get token for user
-        jwt.sign({ new_user }, "secretkey", (err, token) => {
-          if (err) return next(err);
-          else {
-            res.json({
-              token: token,
-              user: new_user,
-            });
+      bcrypt.hash(
+        req.body.password,
+        parseInt(process.env.SALT, 10),
+        (err, hashedPassword) => {
+          if (err) {
+            console.log(err);
+            return next(err);
           }
-        });
-      });
+          const new_user = new User({
+            name: req.body.username,
+            username: req.body.username,
+            password: hashedPassword,
+          });
+          new_user.following.push(new_user);
+          new_user.followers.push(new_user);
+          new_user.save((err) => {
+            if (err) return next(err);
+          });
+          //get token for user
+          jwt.sign({ new_user }, process.env.SECRET_KEY, (err, token) => {
+            if (err) return next(err);
+            else {
+              res.json({
+                token: token,
+                user: new_user,
+              });
+            }
+          });
+        }
+      );
     }
   });
 };
