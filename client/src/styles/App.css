@@ -518,6 +518,7 @@ textarea::placeholder {
   height: 1.5rem;
 }
 .profile-header-graphic-container {
+  margin-right: 25px;
   height: 1.5rem;
   float: left;
   position: relative;
@@ -1521,4 +1522,10 @@ textarea::placeholder {
   .main .recommendations-container {
     display: block;
   }
+}
+.follow-main .users-container {
+  border-bottom: 0;
+}
+.follow-main .user-container {
+  border-bottom: 1px solid rgb(230, 236, 240);
 }
