@@ -30,16 +30,13 @@ class App extends React.Component {
       showLoginWarning: false,
       tweets: null,
       notifications: null,
-      pathname: null,
       showOverlay: false,
       replyTweet: null,
       unseenNotifications: null,
-      previousPathname: null,
     };
   }
 
   componentDidMount() {
-    this.setState({ pathname: this.props.history.location.pathname });
     //configure localStorage
     if (storageAvailable("localStorage")) {
       if (
@@ -74,12 +71,6 @@ class App extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.user !== this.state.user) {
       this.fetchUserNotifications();
-    }
-    if (this.props.history.location.pathname !== this.state.pathname) {
-      this.setState({
-        previousPathname: this.state.pathname,
-        pathname: window.location.pathname,
-      });
     }
     if (prevState.jwt !== this.state.jwt) {
       //save jwt and user to local storage
@@ -331,10 +322,6 @@ class App extends React.Component {
       .catch((err) => console.log(err));
   }
 
-  handlePathChange() {
-    this.setState({ pathname: window.location.pathname });
-  }
-
   handleLikeChange(tweetID) {
     //configure fetch request
     const requestOptions = {
@@ -440,8 +427,6 @@ class App extends React.Component {
           <div>
             <Sidebar
               onButtonClick={this.toggleOverlay.bind(this)}
-              pathname={this.state.pathname}
-              onPathChange={this.handlePathChange.bind(this)}
               onClick={this.handleLogOut.bind(this)}
               disable={this.state.showOverlay}
               user={this.state.user}
@@ -471,7 +456,6 @@ class App extends React.Component {
                     notifications={this.state.notifications}
                     user={this.state.user}
                     onClick={this.handleFollowerChange.bind(this)}
-                    onPathChange={this.handlePathChange.bind(this)}
                     onMount={this.readAllNotifications.bind(this)}
                     onLike={this.handleLikeChange.bind(this)}
                     onRetweet={this.handleRetweetChange.bind(this)}
@@ -497,7 +481,6 @@ class App extends React.Component {
                     onTweetDelete={this.handleTweetDelete.bind(this)}
                     user={this.state.user}
                     onClick={this.handleFollowerChange.bind(this)}
-                    onPathChange={this.handlePathChange.bind(this)}
                     onLike={this.handleLikeChange.bind(this)}
                     onRetweet={this.handleRetweetChange.bind(this)}
                     onReply={this.showReplyOverlay.bind(this)}
@@ -513,11 +496,9 @@ class App extends React.Component {
                     user={this.state.user}
                     onTweetDelete={this.handleTweetDelete.bind(this)}
                     onClick={this.handleFollowerChange.bind(this)}
-                    onPathChange={this.handlePathChange.bind(this)}
                     onLike={this.handleLikeChange.bind(this)}
                     onRetweet={this.handleRetweetChange.bind(this)}
                     onReply={this.showReplyOverlay.bind(this)}
-                    prevPath={this.state.previousPathname}
                   />
                 )}
               />
@@ -529,7 +510,6 @@ class App extends React.Component {
                     {...props}
                     user={this.state.user}
                     onClick={this.handleFollowerChange.bind(this)}
-                    onPathChange={this.handlePathChange.bind(this)}
                   />
                 )}
               />
@@ -545,11 +525,9 @@ class App extends React.Component {
                     onTweetDelete={this.handleTweetDelete.bind(this)}
                     onClick={this.handleFollowerChange.bind(this)}
                     overlayStatus={this.state.showOverlay}
-                    onPathChange={this.handlePathChange.bind(this)}
                     onLike={this.handleLikeChange.bind(this)}
                     onRetweet={this.handleRetweetChange.bind(this)}
                     onReply={this.showReplyOverlay.bind(this)}
-                    prevPath={this.state.previousPathname}
                   />
                 )}
               />

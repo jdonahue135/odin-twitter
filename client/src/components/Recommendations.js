@@ -69,7 +69,7 @@ class Recommendations extends React.Component {
             />
           ))}
           {!this.props.main ? (
-            <Link to="/explore" onClick={this.props.onPathChange}>
+            <Link to="/explore">
               <p className="show-more">Show more</p>
             </Link>
           ) : null}

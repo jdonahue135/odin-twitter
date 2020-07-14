@@ -172,7 +172,6 @@ class Profile extends React.Component {
     tweets = this.state.tweetsSelected
       ? removeReplies(sortedTweets)
       : addFormattedReplies(sortedTweets);
-    const backPath = this.props.prevPath ? this.props.prevPath : "/home";
     return (
       <div className="component">
         {this.state.overlay ? (
@@ -190,7 +189,9 @@ class Profile extends React.Component {
           />
         ) : null}
         <div className="title-container profile-title-container">
-          <Link to={backPath}>{renderGraphic(graphics.BACK)}</Link>
+          {renderGraphic(graphics.BACK, null, () =>
+            this.props.history.goBack()
+          )}
           <div className="profile-info-container">
             <p className="title profile-title">{this.state.user.name}</p>
             <p className="sub-title">{tweetCount}</p>
@@ -274,11 +275,7 @@ class Profile extends React.Component {
             <div>{this.renderProfileMessage()}</div>
           )}
         </div>
-        <Recommendations
-          user={this.props.user}
-          onClick={this.props.onClick}
-          onPathChange={this.props.onPathChange}
-        />
+        <Recommendations user={this.props.user} onClick={this.props.onClick} />
       </div>
     );
   }

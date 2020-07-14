@@ -103,13 +103,10 @@ class Follow extends React.Component {
     return (
       <div className="component">
         <div className="title-container follow-title-container">
-          <Link
-            to={"/" + this.state.user.username}
-            onClick={this.props.onPathChange}
-          >
-            {renderGraphic(graphics.BACK)}
-          </Link>
           <div className="follow-info-container">
+            {renderGraphic(graphics.BACK, null, () =>
+              this.props.history.goBack()
+            )}
             <p className="title follow-title">{this.state.user.name}</p>
             <p className="sub-title">{"@" + this.state.user.username}</p>
           </div>

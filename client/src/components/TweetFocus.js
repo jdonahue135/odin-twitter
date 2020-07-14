@@ -100,12 +100,12 @@ class TweetFocus extends React.Component {
     const { time, date } = formatDate(this.state.tweet.date, true);
 
     const text = addTextStyling(this.state.tweet.text);
-    const backPath = this.props.prevPath ? this.props.prevPath : "/home";
-
     return (
       <div className="component">
         <div className="title-container tweet-focus-title-container">
-          <Link to={backPath}>{renderGraphic(graphics.BACK)}</Link>
+          {renderGraphic(graphics.BACK, null, () =>
+            this.props.history.goBack()
+          )}
           <div className="profile-info-container">
             <p className="title">Tweet</p>
           </div>
@@ -201,7 +201,6 @@ class TweetFocus extends React.Component {
         <Recommendations
           user={this.props.user}
           onClick={this.handleFollowChange.bind(this)}
-          onPathChange={this.props.onPathChange}
         />
       </div>
     );

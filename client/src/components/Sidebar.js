@@ -37,7 +37,6 @@ class Sidebar extends React.Component {
       <div>
         <Link to={path}>
           <div
-            onClick={this.props.onPathChange}
             className={
               selected
                 ? "sidebar-item-container graphic-selected"
