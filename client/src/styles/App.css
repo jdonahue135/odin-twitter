@@ -1272,6 +1272,9 @@ textarea::placeholder {
 .user-container:hover {
   background-color: rgb(240, 242, 243);
 }
+.user-container .btn {
+  margin-left: 0;
+}
 .profile-information-container {
   display: inline-block;
   margin-top: 10px;
