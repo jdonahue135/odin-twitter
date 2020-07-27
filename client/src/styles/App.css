@@ -287,6 +287,7 @@ textarea::placeholder {
 .bio {
   font-size: 15px;
   margin: 10px 0;
+  overflow-wrap: anywhere;
 }
 
 .profile:hover {
@@ -311,6 +312,7 @@ textarea::placeholder {
 }
 .profile-bio {
   padding-top: 10px;
+  overflow-wrap: anywhere;
 }
 .profile-graphic-container {
   display: inline-block;
