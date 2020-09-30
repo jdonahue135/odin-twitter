@@ -4,8 +4,6 @@
 
 <img src="./public/images/twitter.png" width="100%">
 
-_You do not have to sign up/log in to use the demo._
-
 ## Description
 
 A build of Twitter's core functionality from the ground up. Using Express/NodeJS for the back end, MongoDB for storing data, and ReactJS for client side views. Deployed on Heroku, using AWS S3 to save uploaded photos.
